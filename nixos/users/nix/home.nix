@@ -16,7 +16,7 @@
     enable = true;
     # Use Hyprland and xdg-desktop-portal-hyprland from NixOS module
     package = null;
-    portalPackage = null;
+    # portalPackage = null;
     # Load custom configuration
     # This assumes hyprland.conf is in the same directory as home.nix
     extraConfig = builtins.readFile ./hyprland.conf;
