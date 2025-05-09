@@ -69,4 +69,11 @@ in
   services.openssh.enable = true;
   networking.firewall.allowedTCPPorts = [ 22 ];
   system.stateVersion = "24.11";
+  security.sudo.enable = true;
+  security.sudo.extraConfig = ''
+    # require password again after 1 minute
+    Defaults        timestamp_timeout = 180
+
+    # per-user override (only for user “nix”):
+    Defaults:nix   timestamp_timeout = 0
 }
