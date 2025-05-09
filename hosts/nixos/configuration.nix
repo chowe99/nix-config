@@ -71,10 +71,11 @@
     brave lunarvim oh-my-posh wl-clipboard wl-clipboard-rs
   ];
 
+  programs.waybar.enable = true;
   fonts.packages = with pkgs; [
-    (nerdfonts.override { fonts = [ "FiraCode" "JetBrainsMono" ]; })
-    fira-code
+    (nerdfonts.override { fonts = [ "JetBrainsMono" "FiraCode" ]; })
     jetbrains-mono
+    fira-code
   ];
 
   xdg.portal.enable = true;
