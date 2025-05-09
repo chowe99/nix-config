@@ -76,4 +76,5 @@ in
 
     # per-user override (only for user “nix”):
     Defaults:nix   timestamp_timeout = 0
+    '';
 }
