@@ -46,10 +46,10 @@
 
   # Enable the SDDM display manager.
   services.xserver.displayManager.sddm.enable = true;
-  services.xserver.displayManager.sddm.wayland.enable = true; # Important for Hyprland
+  services.xserver.displayManager.sddm.wayland.enable = true; # Important for HyprlandA
+  services.xserver.displayManager.sddm.autoLogin.relogin = true;
+  # services.xserver.displayManager.sddm.user = "nix";
   # services.xserver.displayManager.sddm.theme = "sddm-astronaut-theme";
-  services.xserver.displayManager.sddm.autoLogin.enable = true;
-  services.xserver.displayManager.sddm.autoLogin.user = "nix";
 
   # ————————————————————————————————————————————
   # Define the user 'nix' to match home-manager.users.nix
