@@ -3,11 +3,13 @@
 
 {
   home.stateVersion = "24.11";
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   home.packages = with pkgs; [
     vim git htop zsh
     neofetch btop
-    tree home-manager
+    tree
+    docker
   ];
 
   programs.zsh = {
