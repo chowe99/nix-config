@@ -10,7 +10,15 @@
     neofetch btop
     tree
     docker
+    hyprland
   ];
+
+  programs.hyprland = {
+    enable     = true;
+    # either point at a file in your flake:
+    configFile = ./hyprland.conf;
+  };
+
 
   programs.zsh = {
     enable = true;
