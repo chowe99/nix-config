@@ -55,17 +55,17 @@ in
   };
   programs.zsh.enable = true;
   nixpkgs.config.allowUnfree = true;
-  programs.hyprland.enable = true;
+  # programs.hyprland.enable = true;
   services.tailscale.enable = true;
   environment.systemPackages = with pkgs; [
     vim wget git
-    hyprland waybar wofi swaylock swayidle
-    xdg-desktop-portal-hyprland kitty dolphin hyprshot
+     waybar wofi swaylock swayidle
+     kitty dolphin hyprshot
     iwgtk blueman pipewire wireplumber pavucontrol helvum
     brave lunarvim oh-my-posh wl-clipboard wl-clipboard-rs
   ];
-  xdg.portal.enable = true;
-  xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-hyprland ];
+  # xdg.portal.enable = true;
+  # xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-hyprland ];
   services.openssh.enable = true;
   networking.firewall.allowedTCPPorts = [ 22 ];
   system.stateVersion = "24.11";
