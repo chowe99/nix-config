@@ -68,6 +68,7 @@
     iwgtk blueman pipewire wireplumber pavucontrol helvum
     brave lunarvim oh-my-posh wl-clipboard wl-clipboard-rs
     sddm-astronaut
+    killall
   ];
 
   services.displayManager.sddm.theme = "sddm-astronaut";
