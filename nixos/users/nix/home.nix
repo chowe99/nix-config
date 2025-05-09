@@ -16,7 +16,7 @@
     enable = true;
     oh-my-zsh = {
       enable = true;
-      theme = "simple";
+      theme = "1_shell";
     };
     plugins = [
       {
@@ -47,6 +47,7 @@
   home.file.".zshrc".text = ''
     export EDITOR=vim
     export PATH=$HOME/bin:$PATH
+    alias vim=lvim
   '';
 }
 
