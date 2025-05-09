@@ -69,6 +69,7 @@
     brave lunarvim oh-my-posh wl-clipboard wl-clipboard-rs
     sddm-astronaut
     killall
+    gtk3 gtk4
   ];
 
   services.displayManager.sddm.theme = "sddm-astronaut";
