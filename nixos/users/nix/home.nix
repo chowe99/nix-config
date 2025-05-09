@@ -10,7 +10,6 @@
     neofetch btop
     tree
     docker
-    hyprland
   ];
 
   programs.hyprland = {
