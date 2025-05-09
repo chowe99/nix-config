@@ -9,6 +9,7 @@
     zsh-syntax-highlighting
     zsh-fast-syntax-highlighting
     neofetch btop
+    tree
   ];
 
   programs.zsh = {
@@ -35,6 +36,13 @@
       }
     ];
   };
+
+  programs.git = {
+    enable = true;
+    userName = "chowe99";
+    userEmail = "chowej99@gmail.com";
+  };
+
 
   home.file.".zshrc".text = ''
     export EDITOR=vim
