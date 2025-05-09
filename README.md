@@ -5,7 +5,7 @@ This repository contains a flake-based configuration for NixOS, including system
 
 ## Setting Up on a New Machine
 
-### 0. Run the setup script `setup_nixos.sh`, or follow the instructions below
+### 0. Run `chmod +x setup_nixos.sh` and run the setup script `./setup_nixos.sh`, or follow the instructions below
 
 ### 1. Clone the Flake Repo to the New Machine
 
