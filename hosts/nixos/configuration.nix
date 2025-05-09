@@ -67,9 +67,13 @@
     iwgtk blueman pipewire wireplumber pavucontrol helvum
     brave lunarvim oh-my-posh wl-clipboard wl-clipboard-rs
   ];
+
   fonts.packages = with pkgs; [
-    nerd-fonts.jetbrains-mono
+    (nerdfonts.override { fonts = [ "FiraCode" "JetBrainsMono" ]; })
+    fira-code
+    jetbrains-mono
   ];
+
   xdg.portal.enable = true;
   xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-hyprland ];
   services.openssh.enable = true;
