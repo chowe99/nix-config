@@ -16,7 +16,7 @@
     enable = true;
     oh-my-zsh = {
       enable = true;
-      theme = "1_shell";
+      theme = "simple";
     };
     plugins = [
       {
@@ -48,6 +48,8 @@
     export EDITOR=vim
     export PATH=$HOME/bin:$PATH
     alias vim=lvim
+    eval "$(oh-my-posh init zsh --config $HOME/themes/1_shell.omp.json)"
+
   '';
 }
 
