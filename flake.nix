@@ -54,9 +54,9 @@
         {
           wayland.windowManager.hyprland = {
             enable        = true;
-            package       = hyprland.packages.${system}.hyprland;
-            portalPackage = hyprland.packages.${system}.xdg-desktop-portal-hyprland;
-            extraConfig = (builtins.readFile ./nixos/users/nix/hyprland.conf);
+            # package       = pkgs.hyprland;
+            # portalPackage = hyprland.packages.${system}.xdg-desktop-portal-hyprland;
+            extraConfig = (builtins.readFile /home/nix/nix-config/nixos/users/nix/hyprland.conf);
           };
         }
       ];
