@@ -12,11 +12,11 @@
     docker
   ];
 
-  programs.hyprland = {
-    enable     = true;
+  # programs.hyprland = {
+  #   enable     = true;
   #   # either point at a file in your flake:
   #   configFile = ./hyprland.conf;
-  };
+  # };
 
 
   programs.zsh = {
