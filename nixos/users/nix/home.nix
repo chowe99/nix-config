@@ -25,7 +25,7 @@
   };
 
   programs.waybar.enable = true;
-  xdg.configFile."waybar".source = ./waybar;
+  xdg.configFile."waybar".source = ./waybar/eDP-1.jsonc;
 
   # age.secrets = {
   #   "gemini-api-key".file = ./secrets/gemini-api-key.age;
