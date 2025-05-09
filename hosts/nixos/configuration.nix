@@ -2,20 +2,15 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 { config, pkgs, ... }:
-let
-  # pull in the matching Home Manager NixOS module
-  hm = builtins.fetchTarball {
-    url = "https://github.com/nix-community/home-manager/archive/release-24.11.tar.gz";
-    sha256 = "0gjfa3bv0m0kymxqla9iih11gjb6czyj942v34pyc7xy4qsx898k";
-  };
-in
+
 {
   imports =
     [
       # hardware scan
       ./hardware-configuration.nix
       # Home Manager as a NixOS module
-      "${hm}/nixos"
+      # "${hm}/nixos"
+
     ];
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -52,6 +47,7 @@ in
   # Enable the SDDM display manager.
   services.xserver.displayManager.sddm.enable = true;
   services.xserver.displayManager.sddm.wayland.enable = true; # Important for Hyprland
+  # services.xserver.displayManager.sddm.theme = "sddm-astronaut-theme";
   # ————————————————————————————————————————————
   # Define the user 'nix' to match home-manager.users.nix
   users.users.nix = {

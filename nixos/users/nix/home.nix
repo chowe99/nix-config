@@ -59,8 +59,8 @@
 
   home.file.".zshrc".text = ''
     export EDITOR=vim
-    export PATH=$HOME/bin:$PATH
     alias vim=lvim
+    alias age=agenix
     eval "$(oh-my-posh init zsh --config 'https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/1_shell.omp.json')"
   '';
 }
