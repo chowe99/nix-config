@@ -2,53 +2,32 @@
 {
     "reload_style_on_change": true,
     "margin-top": 4,
+    "padding": 16,
+    // "width": 1820, // Waybar width
+    "margin": 16,
+    "margin-right": 20,
+    "margin-left": 20,
     "spacing": 4, // Gaps between modules (4px)
-
-    // Configuration for the primary display (eDP-1)
-    "output#eDP-1": {
-        "width": 1920, // Waybar width for eDP-1
-        "modules-left": [
-            "cpu",
-            "temperature",
-            "memory"
-        ],
-        "modules-center": [
-            "mpris"
-        ],
-        "modules-right": [
-            "pulseaudio",
-            // "network", // Keep commented out as in original eDP-1
-            "power-profiles-daemon",
-            "backlight",
-            "keyboard-state",
-            "sway/language",
-            "battery",
-            "battery#bat2",
-            "clock",
-            "tray"
-        ]
-    },
-
-    // Configuration for the secondary display (DP-1)
-    "output#DP-1": {
-        "width": 2560, // Waybar width for DP-1
-        "modules-left": [
-            "cpu",
-            "temperature",
-            "memory",
-            "tray" // Tray is on the left in DP-1
-        ],
-        "modules-center": [
-            "mpris"
-        ],
-        "modules-right": [
-            "pulseaudio",
-            "network", // Network is included in DP-1
-            "clock"
-        ]
-    },
-
-    // Shared module definitions (or overridden if needed per output)
+    "modules-left": [
+        "cpu",
+        "temperature",
+        "memory",
+    ],
+    "modules-center": [
+        "mpris"
+    ],
+    "modules-right": [
+        "pulseaudio",
+        // "network",
+        "power-profiles-daemon",
+        "backlight",
+        "keyboard-state",
+        "sway/language",
+        "battery",
+        "battery#bat2",
+        "clock",
+        "tray"
+    ],
     "keyboard-state": {
         "numlock": true,
         "capslock": true,
@@ -69,6 +48,7 @@
         "tooltip-format": " ",
         "tooltip-format-disconnected": ""
     },
+
     "tray": {
         // "icon-size": 21,
         "spacing": 10
@@ -91,7 +71,7 @@
         "critical-threshold": 80,
         // "format-critical": "{temperatureC}°C {icon}",
         "format": "{icon} {temperatureC}°C",
-        "format-icons": ["", "", ""] // Using icons from eDP-1
+        "format-icons": ["", "", ""]
     },
     "network": {
         // "interface": "wlp2*", // (Optional) To force the use of this interface
@@ -101,7 +81,7 @@
         "format-linked": "{ifname} (No IP) ",
         "format-disconnected": "⚠ ",
         "format-icons": ["󰤟 ", "󰤢 ", "󰤥 ", "󰤨 "],
-        "on-click": "iwgtk" // Using on-click from eDP-1
+        "on-click": "iwgtk"
     },
     "pulseaudio": {
         // "scroll-step": 1, // %, can be a float
@@ -120,10 +100,5 @@
         },
         "on-click": "pavucontrol"
     },
-    // Placeholder definitions for modules used only in eDP-1's list
-    "power-profiles-daemon": {},
-    "backlight": {},
-    "sway/language": {},
-    "battery": {},
-    "battery#bat2": {}
 }
+
