@@ -1,0 +1,92 @@
+// -*- mode: jsonc -*-
+{
+    "reload_style_on_change": true,
+    "margin-top": 4,
+    "width": 2460, // Waybar width
+    "spacing": 4, // Gaps between modules (4px)
+    "modules-left": [
+        "cpu",
+        "temperature",
+        "memory",
+        "tray"
+    ],
+    "modules-center": [
+        "mpris"
+    ],
+    "modules-right": [
+        "pulseaudio",
+        "network",
+        "clock",
+    ],
+    "keyboard-state": {
+        "numlock": true,
+        "capslock": true,
+        "format": "{name} {icon}",
+        "format-icons": {
+            "locked": "",
+            "unlocked": ""
+        }
+    },
+    "mpris": {
+        "format-playing": "{status_icon} {title}",
+        "format-paused": "{status_icon} {title}",
+        "format-stopped": "Nothing Playing",
+        "status-icons": {
+            "paused": " ",
+            "playing": " "
+        },
+        "tooltip-format": " ",
+        "tooltip-format-disconnected": ""
+    },
+
+    "tray": {
+        // "icon-size": 21,
+        "spacing": 10
+    },
+    "clock": {
+        // "timezone": "America/New_York",
+        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+        "format-alt": "{:%Y-%m-%d}"
+    },
+    "cpu": {
+        "format": "  {usage}%",
+        "tooltip": false
+    },
+    "memory": {
+        "format": "  {}%"
+    },
+    "temperature": {
+        "interval": 1,
+        "thermal-zone": 2,
+        "critical-threshold": 80,
+        "format": "{icon} {temperatureC}°C",
+        "format-icons": [""]
+    },
+    "network": {
+        // "interface": "wlp2*", // (Optional) To force the use of this interface
+        "format-wifi": "{icon}",
+        "format-ethernet": "{ipaddr}/{cidr} ",
+        "tooltip-format": "{ifname} via {gwaddr} ",
+        "format-linked": "{ifname} (No IP) ",
+        "format-disconnected": "⚠ ",
+        "format-icons": ["󰤟 ", "󰤢 ", "󰤥 ", "󰤨 "]
+    },
+    "pulseaudio": {
+        // "scroll-step": 1, // %, can be a float
+        "format": "{icon} {volume}%",
+        "format-bluetooth": "{volume}% {icon}",
+        "format-muted": " ",
+        "format-source": "{volume}% ",
+        "format-source-muted": "",
+        "format-icons": {
+            "hands-free": "",
+            "headset": "",
+            "phone": "",
+            "portable": "",
+            "car": "",
+            "default": [" ", " ", " "]
+        },
+        "on-click": "pavucontrol"
+    },
+}
+

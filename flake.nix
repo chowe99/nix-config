@@ -82,7 +82,7 @@
             enable        = true;
             # package       = pkgs.hyprland;
             # portalPackage = hyprland.packages.${system}.xdg-desktop-portal-hyprland;
-            extraConfig = (builtins.readFile /home/nix/nix-config/nixos/users/nix/hyprland.conf);
+            extraConfig = (builtins.readFile ./nixos/users/nix/hyprland.conf);
           };
         }
       ];

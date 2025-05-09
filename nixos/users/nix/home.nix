@@ -24,6 +24,12 @@
     # systemd.variables = ["--all"];
   };
 
+  programs.waybar.enable = true;
+  xdg.configFile."waybar".source = ./waybar;
+
+  # age.secrets = {
+  #   "gemini-api-key".file = ./secrets/gemini-api-key.age;
+  # };
 
   programs.zsh = {
     enable = true;
@@ -57,12 +63,12 @@
     userEmail = "chowej99@gmail.com";
   };
 
+
   home.file.".zshrc".text = ''
     export EDITOR=vim
     alias vim=lvim
     alias age=agenix
     eval "$(oh-my-posh init zsh --config 'https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/1_shell.omp.json')"
-    export GEMINI_API_KEY="$(<${config.age.secrets.gemini-api-key.path})"
   '';
 }
 
