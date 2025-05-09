@@ -45,11 +45,9 @@
   # services.xserver.enable = true; # This might be automatically enabled by sddm
 
   # Enable the SDDM display manager.
-  services.xserver.displayManager.sddm.enable = true;
-  services.xserver.displayManager.sddm.wayland.enable = true; # Important for HyprlandA
-  services.xserver.displayManager.sddm.autoLogin.relogin = true;
+  services.displayManager.sddm.enable = true;
+  services.displayManager.sddm.autoLogin.relogin = true;
   # services.xserver.displayManager.sddm.user = "nix";
-  # services.xserver.displayManager.sddm.theme = "sddm-astronaut-theme";
 
   # ————————————————————————————————————————————
   # Define the user 'nix' to match home-manager.users.nix
@@ -69,7 +67,11 @@
     xdg-desktop-portal-hyprland kitty dolphin hyprshot
     iwgtk blueman pipewire wireplumber pavucontrol helvum
     brave lunarvim oh-my-posh wl-clipboard wl-clipboard-rs
+    sddm-astronaut
   ];
+
+  services.displayManager.sddm.theme = "sddm-astronaut";
+  # services.displayManager.sddm.package = pkgs.sddm-astronaut;
 
   programs.waybar.enable = true;
   fonts.packages = with pkgs; [
