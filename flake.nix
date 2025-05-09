@@ -43,7 +43,7 @@
     };
 
     ### 2) standalone Home-Manager flake ###
-    homeConfigurations."nix@<host>" = home-manager.lib.homeManagerConfiguration {
+    homeConfigurations."nix@nixos" = home-manager.lib.homeManagerConfiguration {
       inherit pkgs;
 
       modules = [
