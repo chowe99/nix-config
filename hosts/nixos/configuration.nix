@@ -55,7 +55,7 @@ in
   };
   programs.zsh.enable = true;
   nixpkgs.config.allowUnfree = true;
-  # programs.hyprland.enable = true;
+  programs.hyprland.enable = true;
   services.tailscale.enable = true;
   environment.systemPackages = with pkgs; [
     vim wget git
