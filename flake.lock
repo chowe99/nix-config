@@ -160,7 +160,9 @@
         "hyprlang": "hyprlang",
         "hyprutils": "hyprutils",
         "hyprwayland-scanner": "hyprwayland-scanner",
-        "nixpkgs": "nixpkgs",
+        "nixpkgs": [
+          "nixpkgs"
+        ],
         "pre-commit-hooks": "pre-commit-hooks",
         "systems": "systems",
         "xdph": "xdph"
@@ -353,22 +355,6 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1746461020,
-        "narHash": "sha256-7+pG1I9jvxNlmln4YgnlW4o+w0TZX24k688mibiFDUE=",
-        "owner": "NixOS",
-        "repo": "nixpkgs",
-        "rev": "3730d8a308f94996a9ba7c7138ede69c1b9ac4ae",
-        "type": "github"
-      },
-      "original": {
-        "owner": "NixOS",
-        "ref": "nixos-unstable",
-        "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
-    "nixpkgs_2": {
-      "locked": {
         "lastModified": 1746557022,
         "narHash": "sha256-QkNoyEf6TbaTW5UZYX0OkwIJ/ZMeKSSoOMnSDPQuol0=",
         "owner": "NixOS",
@@ -410,7 +396,24 @@
       "inputs": {
         "home-manager": "home-manager",
         "hyprland": "hyprland",
-        "nixpkgs": "nixpkgs_2"
+        "nixpkgs": "nixpkgs",
+        "sddm-astronaut-theme-src": "sddm-astronaut-theme-src"
+      }
+    },
+    "sddm-astronaut-theme-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1744667262,
+        "narHash": "sha256-JMCG7oviLqwaymfgxzBkpCiNi18BUzPGvd3AF9BYSeo=",
+        "owner": "keyitdev",
+        "repo": "sddm-astronaut-theme",
+        "rev": "bf4d01732084be29cedefe9815731700da865956",
+        "type": "github"
+      },
+      "original": {
+        "owner": "keyitdev",
+        "repo": "sddm-astronaut-theme",
+        "type": "github"
       }
     },
     "systems": {

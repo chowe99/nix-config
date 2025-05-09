@@ -45,6 +45,13 @@ in
     LC_TIME            = "en_AU.UTF-8";
   };
   services.displayManager.sddm.wayland.enable = true;
+
+  # Enable the X11 windowing system.
+  # services.xserver.enable = true; # This might be automatically enabled by sddm
+
+  # Enable the SDDM display manager.
+  services.xserver.displayManager.sddm.enable = true;
+  services.xserver.displayManager.sddm.wayland.enable = true; # Important for Hyprland
   # ————————————————————————————————————————————
   # Define the user 'nix' to match home-manager.users.nix
   users.users.nix = {

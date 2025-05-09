@@ -15,7 +15,7 @@
   wayland.windowManager.hyprland = {
     enable = true;
     # Use Hyprland and xdg-desktop-portal-hyprland from NixOS module
-    package = null;
+    package = pkgs.hyprland;
     # portalPackage = null;
     # Load custom configuration
     # This assumes hyprland.conf is in the same directory as home.nix

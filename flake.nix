@@ -38,6 +38,8 @@
               imports = [ ./nixos/users/nix/home.nix ];
             };
           };
+          home-manager.backupFileExtension = "bak"; # Automatically back up conflicting files"""
+
         }
       ];
     };
