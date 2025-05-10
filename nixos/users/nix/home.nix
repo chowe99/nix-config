@@ -13,6 +13,13 @@ let
     if config ? age && config.age ? secrets && config.age.secrets ? "openai-api-key" && config.age.secrets."openai-api-key" ? path
     then ''export OPENAI_API_KEY="$(<${config.age.secrets."openai-api-key".path})"''
     else "";
+
+  # Helper for Anthropic API Key
+  anthropicApiKeyExport =
+    if config ? age && config.age ? secrets && config.age.secrets ? "anthropic-api-key" && config.age.secrets."anthropic-api-key" ? path
+    then ''export ANTHROPIC_API_KEY="$(<${config.age.secrets."anthropic-api-key".path})"''
+    else "";
+
 in
 {
   home.stateVersion = "24.11";
@@ -76,9 +83,9 @@ in
 
       # Export the Gemini API Key
       # The file path comes from the NixOS configuration `config.age.secrets...`
-      export GEMINI_API_KEY="$(<${config.age.secrets.gemini-api-key.path})"
-      export ANTHROPIC_API_KEY="$(<${config.age.secrets.anthropic-api-key.path})"
-      export OPENAI_API_KEY="$(<${config.age.secrets.openai-api-key.path})"
+      ${geminiApiKeyExport}
+      ${anthropicApiKeyExport}
+      ${openaiApiKeyExport}
     '';
   };
 
