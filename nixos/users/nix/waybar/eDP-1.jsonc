@@ -23,7 +23,7 @@
         "backlight",
         "keyboard-state",
         "sway/language",
-        "battery",
+        "battery2",
         "clock",
         "tray"
     ],
@@ -48,7 +48,7 @@
         "tooltip-format-disconnected": ""
     },
     "battery": {
-      "bat": "BAT",
+      "bat": "BAT2",
       "interval": 60,
       "states": {
         "warning": 30,
