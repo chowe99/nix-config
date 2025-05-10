@@ -24,7 +24,6 @@
     pulse.enable = true;
     jack.enable  = true;
   };
-  hardware.system76.enable.all = true;
   powerManagement.enable = true;
   networking.networkmanager.enable = true;
   time.timeZone = "Australia/Perth";
