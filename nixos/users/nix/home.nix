@@ -62,6 +62,8 @@
       # Export the Gemini API Key
       # The file path comes from the NixOS configuration `config.age.secrets...`
       export GEMINI_API_KEY="$(<${config.age.secrets.gemini-api-key.path})"
+      export ANTHROPIC_API_KEY="$(<${config.age.secrets.anthropic-api-key.path})"
+      export OPENAI_API_KEY="$(<${config.age.secrets.openai-api-key.path})"
     '';
   };
 
