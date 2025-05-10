@@ -28,6 +28,8 @@
     enable = true;
     power.enable = true;
   }
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+
   powerManagement.enable = true;
   networking.networkmanager.enable = true;
   time.timeZone = "Australia/Perth";
