@@ -75,7 +75,7 @@
   services.displayManager.sddm.theme = "sddm-astronaut";
   # services.displayManager.sddm.package = pkgs.sddm-astronaut;
 
-  programs.waybar.enable = true;
+  # programs.waybar.enable = true;
   fonts.packages = with pkgs; [
     (nerdfonts.override { fonts = [ "JetBrainsMono" "FiraCode" ]; })
     jetbrains-mono
