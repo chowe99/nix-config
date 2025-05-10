@@ -24,17 +24,7 @@
     pulse.enable = true;
     jack.enable  = true;
   };
-  services.system76 = {
-    enable = true;
-    power.enable = true;
-  }
-  nix = {
-  settings = {
-    experimental-features = [ "nix-command" "flakes" ];
-  };
-};
-
-
+  hardware.system76.enable.all = true;
   powerManagement.enable = true;
   networking.networkmanager.enable = true;
   time.timeZone = "Australia/Perth";
