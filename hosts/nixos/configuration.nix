@@ -41,7 +41,9 @@
   };
   services.displayManager.sddm.wayland.enable = true;
 
-  # Enable the X11 windowing system.
+  hardware.system76.kernel-modules.enable = true;
+  hardware.system76.enableAll = true;
+# Enable the X11 windowing system.
   # services.xserver.enable = true; # This might be automatically enabled by sddm
 
   # Enable the SDDM display manager.
@@ -57,6 +59,15 @@
     extraGroups = [ "networkmanager" "wheel" "video" ];
     shell = pkgs.zsh;
   };
+
+  age.secrets.gemini-api-key = {
+    file = ../../secrets/gemini-api-key.age; # Path relative to this configuration.nix
+    # The user 'nix' needs to read this for their .zshrc
+    # Default owner is root, default mode is "0400"
+    owner = "nix"; # Set this to your username
+    mode = "0400"; # User read-only
+  };
+
   programs.zsh.enable = true;
   nixpkgs.config.allowUnfree = true;
   programs.hyprland.enable = true;
@@ -85,6 +96,8 @@
   xdg.portal.enable = true;
   xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-hyprland ];
   services.openssh.enable = true;
+
+
   networking.firewall.allowedTCPPorts = [ 22 ];
   system.stateVersion = "24.11";
   security.sudo.enable = true;

@@ -52,6 +52,17 @@
         file = "share/zsh/site-functions/fast-syntax-highlighting.plugin.zsh";
       }
     ];
+    initExtra = ''
+      # Aliases and other shell settings from your flake
+      alias vim=lvim
+      alias age=agenix # This will use the agenix from systemPackages
+      eval "$(oh-my-posh init zsh --config 'https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/1_shell.omp.json')"
+      alias rebuild="sudo nixos-rebuild switch --flake ~/nix-config#nixos"
+
+      # Export the Gemini API Key
+      # The file path comes from the NixOS configuration `config.age.secrets...`
+      export GEMINI_API_KEY="$(<${config.age.secrets.gemini-api-key.path})"
+    '';
   };
 
   programs.git = {
@@ -181,12 +192,5 @@
   #   ];
   # };
 
-  home.file.".zshrc".text = ''
-    export EDITOR=vim
-    alias vim=lvim
-    alias age=agenix
-    eval "$(oh-my-posh init zsh --config 'https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/1_shell.omp.json')"
-    alias rebuild="sudo nixos-rebuild switch --flake ~/nix-config#nixos"
-  '';
 }
 
