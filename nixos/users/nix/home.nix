@@ -1,8 +1,23 @@
 # ~/nix-config/nixos/users/nix/home.nix
 { config, pkgs, lib, ... }:
 
+let
+  # Helper to safely construct the export line for Gemini API Key
+  geminiApiKeyExport =
+    if config ? age && config.age ? secrets && config.age.secrets ? "gemini-api-key" && config.age.secrets."gemini-api-key" ? path
+    then ''export GEMINI_API_KEY="$(<${config.age.secrets."gemini-api-key".path})"''
+    else ""; # Or lib.warn "Gemini API Key path not found" ""
+
+  # Helper for OpenAI API Key
+  openaiApiKeyExport =
+    if config ? age && config.age ? secrets && config.age.secrets ? "openai-api-key" && config.age.secrets."openai-api-key" ? path
+    then ''export OPENAI_API_KEY="$(<${config.age.secrets."openai-api-key".path})"''
+    else "";
+in
 {
   home.stateVersion = "24.11";
+  home.username = "nix";
+  home.homeDirectory = "/home/nix";
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   home.packages = with pkgs; [
