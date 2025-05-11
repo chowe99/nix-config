@@ -1,5 +1,5 @@
 {
-  description = "Flake-based NixOS + Home Manager config";
+  description = "Flake-based NixOS";
 
   inputs = {
     # your channels
@@ -10,20 +10,6 @@
     agenix.inputs.nixpkgs.follows = "nixpkgs";
 
   };
-
-#   sddmAstronautThemePkg = pkgs.stdenv.mkDerivation {
-#     pname = "sddm-astronaut-theme";
-#     version = sddm-astronaut-theme-src.lastModifiedDate or "master";
-#     src = sddm-astronaut-theme-src;
-
-#     installPhase = ''
-# # ... (copying files to $out/share/sddm/themes/sddm-astronaut-theme) ...
-# # ... (modifying metadata.desktop to select hyprland_kath.conf) ...
-# # ... (installing fonts) ...
-#       '';
-# # ...
-#   };
-
 
   outputs = { self, nixpkgs, hyprland, agenix, ... }@inputs:
   let
@@ -44,8 +30,6 @@
             inputs.agenix.packages.${system}.default # Add agenix CLI tool
           ];
         }
-
-
       ];
     };
 

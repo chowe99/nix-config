@@ -20,6 +20,22 @@ let
     then ''export ANTHROPIC_API_KEY="$(<${config.age.secrets."anthropic-api-key".path})"''
     else "";
 
+  configDir = ./config; # Path to the config directory relative to this file
+  configEntries = builtins.readDir configDir; # Read contents of the directory
+  lib = pkgs.lib; # Make lib available in this let block
+
+  # Filter for directories and map them to environment.etc attributes with correct keys
+  generatedEtcAttrs = lib.mapAttrs' (name: type:
+    if type == "directory" then
+      {
+        # New key is the target path
+        name = "home/nix/.config/${name}";
+        # Value is the source attribute set
+        value = { source = configDir + "/${name}"; };
+      }
+    else
+      null # Skip non-directories
+  ) configEntries;
 in
 {
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
@@ -54,7 +70,7 @@ in
     package = pkgs.hyprland;
     # portalPackage = null;
     # Load custom configuration
-    extraConfig = builtins.readFile ./hyprland.conf;
+    extraConfig = builtins.readFile ./config/hypr/hyprland.conf;
     # Optional: If you have issues with systemd services not finding programs
     # systemd.variables = ["--all"];
   };
@@ -99,6 +115,9 @@ in
       ${openaiApiKeyExport}
     '';
   };
+
+  # Dynamically generate environment.etc entries for config directories
+  environment.etc = generatedEtcAttrs;
 
   programs.git = {
     enable = true;

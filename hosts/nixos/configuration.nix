@@ -6,9 +6,7 @@
 {
   imports =
     [
-      # hardware scan
       ./hardware-configuration.nix
-
     ];
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -48,8 +46,13 @@
 
   # Enable the SDDM display manager.
   services.displayManager.sddm.enable = true;
-  services.displayManager.sddm.autoLogin.relogin = true;
-  # services.xserver.displayManager.sddm.user = "nix";
+
+  fonts.packages = with pkgs; [
+    (nerdfonts.override { fonts = [ "JetBrainsMono" "FiraCode" ]; })
+    jetbrains-mono
+    fira-code
+  ];
+
 
   # ————————————————————————————————————————————
   # Define the user 'nix' to match home-manager.users.nix
@@ -58,7 +61,7 @@
     description = "nix";
     extraGroups = [ "networkmanager" "wheel" "video" "plugdev" "input" "audio" "storage" ];
     shell = pkgs.zsh;
-  } // import ../users/nix/nix.nix;
+  }; 
 
   age.secrets.gemini-api-key = {
     file = ../../secrets/gemini-api-key.age; # Path relative to this configuration.nix
