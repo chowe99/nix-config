@@ -6,8 +6,10 @@
 {
   imports =
     [
+      # hardware scan
       ./hardware-configuration.nix
-      ../../nixos/users/nix/nix.nix
+      # Home Manager as a NixOS module
+
     ];
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -47,13 +49,17 @@
 
   # Enable the SDDM display manager.
   services.displayManager.sddm.enable = true;
+  services.displayManager.sddm.autoLogin.relogin = true;
+  # services.xserver.displayManager.sddm.user = "nix";
 
-  fonts.packages = with pkgs; [
-    (nerdfonts.override { fonts = [ "JetBrainsMono" "FiraCode" ]; })
-    jetbrains-mono
-    fira-code
-  ];
-
+  # ————————————————————————————————————————————
+  # Define the user 'nix' to match home-manager.users.nix
+  users.users.nix = {
+    isNormalUser = true;
+    description = "nix";
+    extraGroups = [ "networkmanager" "wheel" "video" "plugdev" "input" "audio" "storage" ];
+    shell = pkgs.zsh;
+  };
 
   age.secrets.gemini-api-key = {
     file = ../../secrets/gemini-api-key.age; # Path relative to this configuration.nix
@@ -103,6 +109,13 @@
 
   services.displayManager.sddm.theme = "sddm-astronaut";
   # services.displayManager.sddm.package = pkgs.sddm-astronaut;
+
+  # programs.waybar.enable = true;
+  fonts.packages = with pkgs; [
+    (nerdfonts.override { fonts = [ "JetBrainsMono" "FiraCode" ]; })
+    jetbrains-mono
+    fira-code
+  ];
 
   xdg.portal.enable = true;
   xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-hyprland ];
