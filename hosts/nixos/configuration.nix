@@ -1,22 +1,13 @@
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
-{ config, pkgs, hm, ... }:
+{ config, pkgs, ... }:
 
-let
-  # pull in the matching Home Manager NixOS module
-  hm = builtins.fetchTarball {
-    url = "https://github.com/nix-community/home-manager/archive/release-24.11.tar.gz";
-    sha256 = "0gjfa3bv0m0kymxqla9iih11gjb6czyj942v34pyc7xy4qsx898k";
-  };
-in
 {
   imports =
     [
       # hardware scan
       ./hardware-configuration.nix
-      # Home Manager as a NixOS module
-      "${hm}/nixos"
 
     ];
   boot.loader.systemd-boot.enable = true;
@@ -101,13 +92,12 @@ in
     vim wget git
     hyprland waybar wofi swaylock swayidle
     hyprpolkitagent
-    xdg-desktop-portal-hyprland kitty dolphin hyprshot
+    xdg-desktop-portal-hyprland kitty hyprshot
     iwgtk blueman pipewire wireplumber pavucontrol helvum
     brave lunarvim oh-my-posh wl-clipboard wl-clipboard-rs
     sddm-astronaut
     killall
     gtk3 gtk4
-    superfile
   ];
 
     # Set environment variables for Wayland and Qt
@@ -116,16 +106,8 @@ in
     QT_QPA_PLATFORM = "wayland";
   };
 
-
   services.displayManager.sddm.theme = "sddm-astronaut";
   # services.displayManager.sddm.package = pkgs.sddm-astronaut;
-
-  # programs.waybar.enable = true;
-  fonts.packages = with pkgs; [
-    (nerdfonts.override { fonts = [ "JetBrainsMono" "FiraCode" ]; })
-    jetbrains-mono
-    fira-code
-  ];
 
   xdg.portal.enable = true;
   xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-hyprland ];
