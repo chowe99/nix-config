@@ -7,6 +7,7 @@
   imports =
     [
       ./hardware-configuration.nix
+      ../../nixos/users/nix/nix.nix
     ];
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -53,15 +54,6 @@
     fira-code
   ];
 
-
-  # ————————————————————————————————————————————
-  # Define the user 'nix' to match home-manager.users.nix
-  users.users.nix = {
-    isNormalUser = true;
-    description = "nix";
-    extraGroups = [ "networkmanager" "wheel" "video" "plugdev" "input" "audio" "storage" ];
-    shell = pkgs.zsh;
-  }; 
 
   age.secrets.gemini-api-key = {
     file = ../../secrets/gemini-api-key.age; # Path relative to this configuration.nix
