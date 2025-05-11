@@ -36,7 +36,6 @@
       modules = [
         ./hosts/nixos/hardware-configuration.nix
         ./hosts/nixos/configuration.nix
-        ./nixos/users/nix/nix.nix
         agenix.nixosModules.default
 
         # Add agenix to environment.systemPackages

@@ -1,4 +1,4 @@
-# ~/nix-config/nixos/users/nix/home.nix
+# ~/nix-config/nixos/users/nix/nix.nix
 { config, pkgs, lib, ... }:
 
 let

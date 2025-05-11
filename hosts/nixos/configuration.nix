@@ -58,7 +58,7 @@
     description = "nix";
     extraGroups = [ "networkmanager" "wheel" "video" "plugdev" "input" "audio" "storage" ];
     shell = pkgs.zsh;
-  };
+  } // import ../users/nix/nix.nix;
 
   age.secrets.gemini-api-key = {
     file = ../../secrets/gemini-api-key.age; # Path relative to this configuration.nix
