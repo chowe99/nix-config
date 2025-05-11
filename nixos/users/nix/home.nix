@@ -33,6 +33,15 @@ in
     tree 
     docker
   ];
+  services.polkit.enable = true;
+
+  # Start polkit-kde-agent as a user service
+  systemd.user.services.polkit-kde-agent = {
+    Unit.Description = "Polkit KDE Agent";
+    Service.ExecStart = "${pkgs.polkit-kde-agent}/libexec/polkit-kde-authentication-agent-1";
+    Install.WantedBy = [ "graphical-session.target" ];
+  };
+
 
   wayland.windowManager.hyprland = {
     enable = true;

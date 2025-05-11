@@ -1,15 +1,22 @@
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
-{ config, pkgs, ... }:
+{ config, pkgs, hm, ... }:
 
+let
+  # pull in the matching Home Manager NixOS module
+  hm = builtins.fetchTarball {
+    url = "https://github.com/nix-community/home-manager/archive/release-24.11.tar.gz";
+    sha256 = "0gjfa3bv0m0kymxqla9iih11gjb6czyj942v34pyc7xy4qsx898k";
+  };
+in
 {
   imports =
     [
       # hardware scan
       ./hardware-configuration.nix
       # Home Manager as a NixOS module
-      # "${hm}/nixos"
+      "${hm}/nixos"
 
     ];
   boot.loader.systemd-boot.enable = true;
@@ -24,6 +31,10 @@
     pulse.enable = true;
     jack.enable  = true;
   };
+
+  services.udisks2.enable = true;
+  security.polkit.enable = true;
+
   powerManagement.enable = true;
   networking.networkmanager.enable = true;
   time.timeZone = "Australia/Perth";
