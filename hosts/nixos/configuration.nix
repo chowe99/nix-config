@@ -31,10 +31,8 @@ in
     pulse.enable = true;
     jack.enable  = true;
   };
-
   services.udisks2.enable = true;
   security.polkit.enable = true;
-
   powerManagement.enable = true;
   networking.networkmanager.enable = true;
   time.timeZone = "Australia/Perth";
@@ -67,7 +65,7 @@ in
   users.users.nix = {
     isNormalUser = true;
     description = "nix";
-    extraGroups = [ "networkmanager" "wheel" "video" ];
+    extraGroups = [ "networkmanager" "wheel" "video" "plugdev" "input" "audio" "storage" ];
     shell = pkgs.zsh;
   };
 
@@ -102,13 +100,22 @@ in
   environment.systemPackages = with pkgs; [
     vim wget git
     hyprland waybar wofi swaylock swayidle
+    hyprpolkitagent
     xdg-desktop-portal-hyprland kitty dolphin hyprshot
     iwgtk blueman pipewire wireplumber pavucontrol helvum
     brave lunarvim oh-my-posh wl-clipboard wl-clipboard-rs
     sddm-astronaut
     killall
     gtk3 gtk4
+    superfile
   ];
+
+    # Set environment variables for Wayland and Qt
+  environment.variables = {
+    WAYLAND_DISPLAY = "wayland-0";
+    QT_QPA_PLATFORM = "wayland";
+  };
+
 
   services.displayManager.sddm.theme = "sddm-astronaut";
   # services.displayManager.sddm.package = pkgs.sddm-astronaut;
