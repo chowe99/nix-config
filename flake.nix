@@ -56,10 +56,14 @@
           ./hosts/nixos-server/hardware-configuration.nix
           ./hosts/nixos-server/configuration.nix
           agenix.nixosModules.default
+          home-manager.nixosModules.home-manager
           {
             environment.systemPackages = with pkgs; [
               inputs.agenix.packages.${system}.default
             ];
+            home-manager.users.server = import ./nixos/users/server/home.nix;
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
           }
         ];
       };
