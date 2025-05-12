@@ -84,7 +84,6 @@
     fira-code
   ];
   xdg.portal.enable = true;
-  xdg.portal.extraPortals = [ inputs.hyprland.packages.${pkgs.system}.xdg-desktop-portal-hyprland ];
   services.openssh.enable = true;
   networking.firewall.enable = true;
   networking.firewall.allowedTCPPorts = [ 22 ];
