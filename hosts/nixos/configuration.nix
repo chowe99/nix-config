@@ -56,8 +56,8 @@
   services.displayManager.sddm.wayland.enable = true;
   services.displayManager.sddm.enable = true;
   services.displayManager.sddm.autoLogin.relogin = true;
-  services.displayManager.autoLogin.enable = true;
-  services.displayManager.sddm.autoLogin.user = "nix";
+  # services.displayManager.autoLogin.enable = true;
+  # services.displayManager.sddm.autoLogin.user = "nix";
 
   users.users.nix = {
     isNormalUser = true;
@@ -67,12 +67,12 @@
   };
   programs.zsh.enable = true;
   nixpkgs.config.allowUnfree = true;
-  # programs.hyprland.enable = true;
+  programs.hyprland.enable = true;
   services.tailscale.enable = true;
   environment.systemPackages = with pkgs; [
     vim wget git
     waybar wofi swaylock swayidle
-    kitty dolphin hyprshot
+    xdg-desktop-portal-hyprland kitty dolphin hyprshot
     iwgtk blueman pipewire wireplumber pavucontrol helvum
     brave lunarvim oh-my-posh wl-clipboard wl-clipboard-rs
     sddm-astronaut
@@ -87,7 +87,7 @@
   ];
   xdg.portal.enable = true;
   # xdg.portal.extraPortals = [ inputs.hyprland.packages.${pkgs.system}.xdg-desktop-portal-hyprland ];
-  xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-hyprland ]; # Use pkgs instead of inputs.hyprland
+  xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-hyprland ];
   services.openssh.enable = true;
   networking.firewall.enable = true;
   networking.firewall.allowedTCPPorts = [ 22 ];
