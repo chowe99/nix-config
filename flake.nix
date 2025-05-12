@@ -10,9 +10,12 @@
     hyprland.url = "github:hyprwm/Hyprland";
     agenix.url = "github:ryantm/agenix";
     agenix.inputs.nixpkgs.follows = "nixpkgs";
+    hypr-config   = "github:chowe99/hypr";
+    waybar-config = "github:chowe99/waybar";
+    lvim-config   = "github:chowe99/lvim-conf";
   };
 
-  outputs = { self, nixpkgs, home-manager, hyprland, agenix, ... }@inputs:
+  outputs = { self, nixpkgs, home-manager, hyprland, agenix, hypr-config, waybar-config, lvim-config, ... }@inputs:
   let
     system = "x86_64-linux";
     pkgs = nixpkgs.legacyPackages.${system};
