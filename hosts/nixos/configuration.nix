@@ -20,7 +20,8 @@
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  boot.kernelPackages = pkgs.linuxPackages_latest; # Latest kernel
+  #boot.kernelPackages = pkgs.linuxPackages_latest; # Latest kernel
+  boot.kernelPackages = pkgs.linuxPackages;
   boot.initrd.luks.devices."luks-1e8804fe-b173-49f8-a93e-2064fecdc501".device = "/dev/disk/by-uuid/1e8804fe-b173-49f8-a93e-2064fecdc501";
   networking.hostName = "nixos";
   hardware.bluetooth.enable = true;
@@ -46,10 +47,12 @@
     LC_TIME = "en_AU.UTF-8";
   };
   services.getty.autologinUser = "nix";
-  services.displayManager.sddm.wayland.enable = true;
+
   services.displayManager.sddm.enable = true;
-  services.displayManager.sddm.autoLogin.relogin = true;
-  services.displayManager.sddm.autoLogin.user = "nix";
+  services.displayManager.sddm.wayland = true; # not .wayland.enable
+  services.displayManager.autoLogin.enable = true;
+  services.displayManager.autoLogin.user = "nix";
+
   users.users.nix = {
     isNormalUser = true;
     description = "nix";
@@ -80,7 +83,7 @@
     fira-code
   ];
   xdg.portal.enable = true;
-  xdg.portal.extraPortals = [ inputs.hyprland.packages.${pkgs.system}.xdg-desktop-portal-hyprland ];
+  # xdg.portal.extraPortals = [ inputs.hyprland.packages.${pkgs.system}.xdg-desktop-portal-hyprland ];
   services.openssh.enable = true;
   networking.firewall.enable = true;
   networking.firewall.allowedTCPPorts = [ 22 ];

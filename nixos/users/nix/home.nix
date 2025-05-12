@@ -2,7 +2,6 @@
 { config, pkgs, lib, inputs, ... }:
 
 {
-  nix.package = pkgs.nix;
   home.stateVersion = "24.11";
   home.username = "nix"; # Set the username
   home.homeDirectory = "/home/nix"; # Set the home directory
@@ -23,15 +22,15 @@
     # portalPackage = null;
     # Load custom configuration
     # This assumes hyprland.conf is in the same directory as home.nix
- #   extraConfig = builtins.readFile ./hyprland.conf;
+    extraConfig = builtins.readFile ./config/hypr/hyprland.conf;
     # Optional: If you have issues with systemd services not finding programs
     # systemd.variables = ["--all"];
   };
 
-  home.file.".config/hypr/hyprland.conf" = {
-    source = ./hyprland.conf;
-    force = true;
-  };
+#  home.file.".config/hypr/hyprland.conf" = {
+#    source = ./hyprland.conf;
+#    force = true;
+#  };
 
   # age.secrets = {
   #   "gemini-api-key".file = ./secrets/gemini-api-key.age;
@@ -77,6 +76,16 @@
       eval "$(oh-my-posh init zsh --config 'https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/1_shell.omp.json')"
       alias rebuild="sudo nixos-rebuild switch --flake ~/nix-config#nixos"
     '';
+    force = true;
+  };
+
+  home.file.".config/lvim/config.lua" = {
+    text = builtins.readFile ./config/lvim/config.lua;
+    force = true;
+  };
+
+  home.file.".config/lvim/lazy-lock.json" = {
+    text = builtins.readFile ./config/lvim/lazy-lock.json;
     force = true;
   };
 }

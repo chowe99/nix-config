@@ -23,7 +23,6 @@
       modules = [
         ./hosts/nixos/hardware-configuration.nix
         ./hosts/nixos/configuration.nix
-        home-manager.nixosModules.home-manager
         agenix.nixosModules.default
         {
           environment.systemPackages = with pkgs; [
