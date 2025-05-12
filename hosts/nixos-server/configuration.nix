@@ -1,37 +1,36 @@
-# Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running ‘nixos-help’).
-
-{ config, pkgs, ... }:
+{ config, pkgs, inputs, ... }:
 
 {
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-    ];
+  imports = [
+    ./hardware-configuration.nix
+    ../../secrets/secrets.nix
+    inputs.home-manager.nixosModules.home-manager
+  ];
 
-  # Bootloader.
+  # Home Manager configuration
+  home-manager = {
+    useGlobalPkgs = true;
+    useUserPackages = true;
+    users.server = import ../../nixos/users/server/home.nix;
+    backupFileExtension = "backup";
+    extraSpecialArgs = { inherit inputs; };
+  };
+
+  # Bootloader
   boot.loader.grub.enable = true;
   boot.loader.grub.device = "/dev/vda";
-  boot.loader.grub.useOSProber = true;
+  boot.loader.grub.useOSProber = false; # No dual-boot in VM
+  boot.kernelPackages = pkgs.linuxPackages_latest; # Latest kernel for VM
 
-  networking.hostName = "nixos-server"; # Define your hostname.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
-
-  # Enable networking
+  # Networking
+  networking.hostName = "nixos-server";
   networking.networkmanager.enable = true;
+  services.tailscale.enable = true;
 
-  # Set your time zone.
+  # Time and locale
   time.timeZone = "Australia/Perth";
-
-  # Select internationalisation properties.
   i18n.defaultLocale = "en_AU.UTF-8";
-
   i18n.extraLocaleSettings = {
     LC_ADDRESS = "en_AU.UTF-8";
     LC_IDENTIFICATION = "en_AU.UTF-8";
@@ -44,60 +43,94 @@
     LC_TIME = "en_AU.UTF-8";
   };
 
-  # Configure keymap in X11
-  services.xserver.xkb = {
-    layout = "au";
-    variant = "";
-  };
-
-  # Define a user account. Don't forget to set a password with ‘passwd’.
+  # User configuration
   users.users.server = {
     isNormalUser = true;
     description = "server";
-    extraGroups = [ "networkmanager" "wheel" ];
-    packages = with pkgs; [];
+    extraGroups = [ "networkmanager" "wheel" "video" "docker" ];
+    shell = pkgs.zsh;
   };
 
-  # Enable automatic login for the user.
+  # Auto-login
   services.getty.autologinUser = "server";
+
+  # Graphical environment
+  programs.hyprland = {
+    enable = true;
+    package = inputs.hyprland.packages.${pkgs.system}.hyprland;
+  };
+  services.displayManager.sddm = {
+    enable = true;
+    wayland.enable = true;
+    theme = "sddm-astronaut";
+  };
+  xdg.portal = {
+    enable = true;
+    extraPortals = [ inputs.hyprland.packages.${pkgs.system}.xdg-desktop-portal-hyprland ];
+  };
+
+  # Proxmox VM support
+  services.qemuGuest.enable = true;
+  services.spice-vdagentd.enable = true;
+
+  # Audio (optional, for compatibility with nixos config)
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    pulse.enable = true;
+    jack.enable = true;
+  };
+
+  # Bluetooth (optional)
+  hardware.bluetooth.enable = true;
+
+  # Power management
+  powerManagement.enable = true;
+
+  # Shell
+  programs.zsh.enable = true;
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
+  # System packages
   environment.systemPackages = with pkgs; [
-    vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-    wget
-    git
-    neofetch
+    vim wget git
+    waybar wofi swaylock swayidle
+    kitty dolphin hyprshot
+    iwgtk blueman pipewire wireplumber pavucontrol helvum
+    brave lunarvim oh-my-posh wl-clipboard wl-clipboard-rs
+    sddm-astronaut
+    killall
+    gtk3 gtk4
+    wlr-randr weston # For Wayland testing
   ];
 
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
+  # Fonts
+  fonts.packages = with pkgs; [
+    (nerdfonts.override { fonts = [ "JetBrainsMono" "FiraCode" ]; })
+    jetbrains-mono
+    fira-code
+  ];
 
-  # List services that you want to enable:
-
-  # Enable the OpenSSH daemon.
+  # Services
   services.openssh.enable = true;
+  networking.firewall = {
+    enable = true;
+    allowedTCPPorts = [ 22 ];
+  };
 
-  # Open ports in the firewall.
-  networking.firewall.allowedTCPPorts = [ 22 ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  networking.firewall.enable = true;
-  
-  # This value determines the NixOS release from which the default
-  # settings for stateful data, like file locations and database versions
-  # on your system were taken. It‘s perfectly fine and recommended to leave
-  # this value at the release version of the first install of this system.
-  # Before changing this value read the documentation for this option
-  # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "24.11"; # Did you read the comment?
+  # Sudo configuration
+  security.sudo = {
+    enable = true;
+    extraConfig = ''
+      Defaults timestamp_timeout = 180
+    '';
+  };
 
+  # Docker
+  virtualisation.docker.enable = true;
+
+  # System state
+  system.stateVersion = "24.11";
 }
