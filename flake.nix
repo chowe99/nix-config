@@ -3,16 +3,33 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
+
     home-manager = {
       url = "github:nix-community/home-manager/release-24.11";
+      # make sure HM uses the same nixpkgs
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
     hyprland.url = "github:hyprwm/Hyprland";
-    agenix.url = "github:ryantm/agenix";
-    agenix.inputs.nixpkgs.follows = "nixpkgs";
-    hypr-config.url   = "github:chowe99/hypr";
-    waybar-config.url = "github:chowe99/waybar";
-    lvim-config.url   = "github:chowe99/lvim-conf";
+
+    agenix = {
+      url = "github:ryantm/agenix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    # Your three config repos, pulled as plain checkouts:
+    hypr-config = {
+      url   = "github:chowe99/hypr-config";
+      flake = false;
+    };
+    waybar-config = {
+      url   = "github:chowe99/waybar-config";
+      flake = false;
+    };
+    lvim-config = {
+      url   = "github:chowe99/lvim-config";
+      flake = false;
+    };
   };
 
   outputs = { self, nixpkgs, home-manager, hyprland, agenix, hypr-config, waybar-config, lvim-config, ... }@inputs:
