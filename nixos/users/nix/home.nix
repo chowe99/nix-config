@@ -22,7 +22,7 @@
     # portalPackage = null;
     # Load custom configuration
     # This assumes hyprland.conf is in the same directory as home.nix
-    # extraConfig = builtins.readFile ./hypr/hyprland.conf;
+    extraConfig = builtins.readFile ./hyprland.conf;
     # Optional: If you have issues with systemd services not finding programs
     # systemd.variables = ["--all"];
   };

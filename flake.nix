@@ -18,10 +18,10 @@
     };
 
     # Your three config repos, pulled as plain checkouts:
-    hypr-config = {
-      url   = "github:chowe99/hypr";
-      flake = false;
-    };
+    # hypr-config = {
+    #   url   = "github:chowe99/hypr";
+    #   flake = false;
+    # };
     waybar-config = {
       url   = "github:chowe99/waybar";
       flake = false;
@@ -32,7 +32,7 @@
     };
   };
 
-  outputs = { self, nixpkgs, home-manager, hyprland, agenix, hypr-config, waybar-config, lvim-config, ... }@inputs:
+  outputs = { self, nixpkgs, home-manager, hyprland, agenix, waybar-config, lvim-config, ... }@inputs:
   let
     system = "x86_64-linux";
     pkgs = nixpkgs.legacyPackages.${system};
