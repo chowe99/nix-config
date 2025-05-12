@@ -75,11 +75,6 @@
     force = true;
   };
 
-  home.file.".config/hypr" = {
-    source = inputs.hypr-config;
-    recursive = true;
-    force = true;
-  };
   home.file.".config/waybar" = {
     source    = inputs.waybar-config;
     recursive = true;

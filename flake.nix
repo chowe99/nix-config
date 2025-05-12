@@ -18,10 +18,6 @@
     };
 
     # Your three config repos, pulled as plain checkouts:
-    # hypr-config = {
-    #   url   = "github:chowe99/hypr";
-    #   flake = false;
-    # };
     waybar-config = {
       url   = "github:chowe99/waybar";
       flake = false;

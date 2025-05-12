@@ -158,22 +158,6 @@
         "type": "github"
       }
     },
-    "hypr-config": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1747068538,
-        "narHash": "sha256-39o+pYGcgaVEifZyLgmUufikFwjJxZtoFi5dDUU0YlI=",
-        "owner": "chowe99",
-        "repo": "hypr",
-        "rev": "82766154fcc0c19c3ad0669fa569a6638834632c",
-        "type": "github"
-      },
-      "original": {
-        "owner": "chowe99",
-        "repo": "hypr",
-        "type": "github"
-      }
-    },
     "hyprcursor": {
       "inputs": {
         "hyprlang": [
@@ -508,7 +492,6 @@
       "inputs": {
         "agenix": "agenix",
         "home-manager": "home-manager_2",
-        "hypr-config": "hypr-config",
         "hyprland": "hyprland",
         "lvim-config": "lvim-config",
         "nixpkgs": "nixpkgs_2",

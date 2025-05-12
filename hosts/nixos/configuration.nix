@@ -70,7 +70,7 @@
   environment.systemPackages = with pkgs; [
     vim wget git
     waybar wofi swaylock swayidle
-    xdg-desktop-portal-hyprland kitty dolphin hyprshot
+    kitty dolphin hyprshot
     iwgtk blueman pipewire wireplumber pavucontrol helvum
     brave lunarvim oh-my-posh wl-clipboard wl-clipboard-rs
     sddm-astronaut
