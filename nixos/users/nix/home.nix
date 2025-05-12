@@ -15,6 +15,7 @@
     superfile
   ];
 
+  programs.kitty.enable = true;
   wayland.windowManager.hyprland = {
     enable = true;
     # Use Hyprland and xdg-desktop-portal-hyprland from NixOS module

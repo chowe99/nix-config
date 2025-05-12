@@ -18,6 +18,11 @@
     extraSpecialArgs = { inherit inputs; };
   };
 
+  environment.variables = {
+    WAYLAND_DISPLAY = "wayland-0";
+    QT_QPA_PLATFORM = "wayland";
+  };
+
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.kernelPackages = pkgs.linuxPackages_latest; # Latest kernel
@@ -50,25 +55,19 @@
 
   services.displayManager.sddm.wayland.enable = true;
   services.displayManager.sddm.enable = true;
-  # services.displayManager.sddm.autoLogin.relogin = true;
-  # services.displayManager.autoLogin.enable = true;
-  # services.displayManager.sddm.autoLogin.user = "nix";
+  services.displayManager.sddm.autoLogin.relogin = true;
+  services.displayManager.autoLogin.enable = true;
+  services.displayManager.sddm.autoLogin.user = "nix";
 
   users.users.nix = {
     isNormalUser = true;
     description = "nix";
-    extraGroups = [ "networkmanager" "wheel" "video" "docker" ];
+    extraGroups = [ "networkmanager" "wheel" "video" "docker" "input" "render" ];
     shell = pkgs.zsh;
   };
   programs.zsh.enable = true;
   nixpkgs.config.allowUnfree = true;
-  programs.hyprland = {
-    enable = true;
-    # set the flake package
-    package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
-    # make sure to also set the portal package, so that they are in sync
-    portalPackage = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
-  };
+  # programs.hyprland.enable = true;
   services.tailscale.enable = true;
   environment.systemPackages = with pkgs; [
     vim wget git
@@ -87,6 +86,8 @@
     fira-code
   ];
   xdg.portal.enable = true;
+  # xdg.portal.extraPortals = [ inputs.hyprland.packages.${pkgs.system}.xdg-desktop-portal-hyprland ];
+  xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-hyprland ]; # Use pkgs instead of inputs.hyprland
   services.openssh.enable = true;
   networking.firewall.enable = true;
   networking.firewall.allowedTCPPorts = [ 22 ];
