@@ -33,19 +33,36 @@
     system = "x86_64-linux";
     pkgs = nixpkgs.legacyPackages.${system};
   in {
-    nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
-      inherit system;
-      specialArgs = { inherit inputs; };
-      modules = [
-        ./hosts/nixos/hardware-configuration.nix
-        ./hosts/nixos/configuration.nix
-        agenix.nixosModules.default
-        {
-          environment.systemPackages = with pkgs; [
-            inputs.agenix.packages.${system}.default
-          ];
-        }
-      ];
+    nixosConfigurations = {
+      nixos = nixpkgs.lib.nixosSystem {
+        inherit system;
+        specialArgs = { inherit inputs; };
+        modules = [
+          ./hosts/nixos/hardware-configuration.nix
+          ./hosts/nixos/configuration.nix
+          agenix.nixosModules.default
+          {
+            environment.systemPackages = with pkgs; [
+              inputs.agenix.packages.${system}.default
+            ];
+          }
+        ];
+      };
+
+      server = nixpkgs.lib.nixosSystem {
+        inherit system;
+        specialArgs = { inherit inputs; };
+        modules = [
+          ./hosts/nixos-server/hardware-configuration.nix
+          ./hosts/nixos-server/configuration.nix
+          agenix.nixosModules.default
+          {
+            environment.systemPackages = with pkgs; [
+              inputs.agenix.packages.${system}.default
+            ];
+          }
+        ];
+      };
     };
   };
 }
