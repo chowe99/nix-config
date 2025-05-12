@@ -1,3 +1,6 @@
 [submodule "dotfiles"]
 	path = dotfiles
 	url = git@github.com:chowe99/dotfiles.git
+[submodule "nixos/users/nix/config"]
+	path = nixos/users/nix/config
+	url = git@github.com:chowe99/config.git
