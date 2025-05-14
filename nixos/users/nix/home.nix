@@ -1,6 +1,42 @@
 # ~/nix-config/nixos/users/nix/home.nix
 { config, pkgs, lib, inputs, ... }:
 
+let
+  # Helper to safely construct the export line for Gemini API Key
+  geminiApiKeyExport =
+    if config ? age && config.age ? secrets && config.age.secrets ? "gemini-api-key" && config.age.secrets."gemini-api-key" ? path
+    then ''export GEMINI_API_KEY="$(<${config.age.secrets."gemini-api-key".path})"''
+    else ""; # Or lib.warn "Gemini API Key path not found" ""
+
+  # Helper for OpenAI API Key
+  openaiApiKeyExport =
+    if config ? age && config.age ? secrets && config.age.secrets ? "openai-api-key" && config.age.secrets."openai-api-key" ? path
+    then ''export OPENAI_API_KEY="$(<${config.age.secrets."openai-api-key".path})"''
+    else "";
+
+  # Helper for Anthropic API Key
+  anthropicApiKeyExport =
+    if config ? age && config.age ? secrets && config.age.secrets ? "anthropic-api-key" && config.age.secrets."anthropic-api-key" ? path
+    then ''export ANTHROPIC_API_KEY="$(<${config.age.secrets."anthropic-api-key".path})"''
+    else "";
+
+  # configDir = ./config; # Path to the config directory relative to this file
+  # configEntries = builtins.readDir configDir; # Read contents of the directory
+  # lib = pkgs.lib; # Make lib available in this let block
+
+  # # Filter for directories and map them to environment.etc attributes with correct keys
+  # generatedEtcAttrs = lib.mapAttrs' (name: type:
+  #   if type == "directory" then
+  #     {
+  #       # New key is the target path
+  #       name = "home/nix/.config/${name}";
+  #       # Value is the source attribute set
+  #       value = { source = configDir + "/${name}"; };
+  #     }
+  #   else
+  #     null # Skip non-directories
+  # ) configEntries;
+in
 {
   home.stateVersion = "24.11";
   home.username = "nix"; # Set the username
@@ -14,6 +50,17 @@
     docker
     superfile
   ];
+
+  xdg.desktopEntries."superfile" = {
+    name = "Superfile (TUI)";
+    genericName = "TUI File Manager";
+    comment = "Fast and modern TUI file manager";
+    exec = "kitty -e \'zsh -c superfile\;\$SHELL\'"; # Adjust binary name if needed
+    icon = "utilities-terminal"; # Or "superfile-fm" if icon provided
+    terminal = false; # <<<--- THIS IS THE CRUCIAL CHANGE
+    categories = ["Utility" "FileTools" "ConsoleOnly" "System"];
+    mimeType = ["inode/directory"];
+  };
 
   programs.kitty.enable = true;
   wayland.windowManager.hyprland = {
@@ -73,6 +120,9 @@
       alias age=agenix
       eval "$(oh-my-posh init zsh --config 'https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/1_shell.omp.json')"
       alias rebuild="sudo nixos-rebuild switch --flake ~/nix-config#nix"
+      ${geminiApiKeyExport}
+      ${anthropicApiKeyExport}
+      ${openaiApiKeyExport}
     '';
     force = true;
   };
@@ -87,6 +137,9 @@
     recursive = true;
     force = true;
   };
+
+  # Dynamically generate environment.etc entries for config directories
+  # environment.etc = generatedEtcAttrs;
 
 }
 

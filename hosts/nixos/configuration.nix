@@ -36,6 +36,8 @@
     pulse.enable = true;
     jack.enable = true;
   };
+  services.udisks2.enable = true;
+  security.polkit.enable = true;
   powerManagement.enable = true;
   networking.networkmanager.enable = true;
   time.timeZone = "Australia/Perth";
@@ -53,6 +55,12 @@
   };
   services.getty.autologinUser = "nix";
 
+  # hardware.system76.kernel-modules.enable = true;
+  # hardware.system76.enableAll = true;
+# Enable the X11 windowing system.
+  # services.xserver.enable = true; # This might be automatically enabled by sddm
+
+  # Enable the SDDM display manager.
   services.displayManager.sddm.enable = true;
   services.displayManager.sddm.wayland.enable = true;
   services.displayManager.sddm.autoLogin.relogin = true;
@@ -62,9 +70,34 @@
   users.users.nix = {
     isNormalUser = true;
     description = "nix";
-    extraGroups = [ "networkmanager" "wheel" "video" "docker" "input" "render" ];
+    extraGroups = [ "networkmanager" "wheel" "video" "docker" "plugdev" "input" "audio" "storage" "render" ];
     shell = pkgs.zsh;
   };
+
+  age.secrets.gemini-api-key = {
+    file = ../../secrets/gemini-api-key.age; # Path relative to this configuration.nix
+    # The user 'nix' needs to read this for their .zshrc
+    # Default owner is root, default mode is "0400"
+    owner = "nix"; # Set this to your username
+    mode = "0400"; # User read-only
+  };
+
+  age.secrets.openai-api-key = {
+    file = ../../secrets/openai-api-key.age; # Path relative to this configuration.nix
+    # The user 'nix' needs to read this for their .zshrc
+    # Default owner is root, default mode is "0400"
+    owner = "nix"; # Set this to your username
+    mode = "0400"; # User read-only
+  };
+
+  age.secrets.anthropic-api-key = {
+    file = ../../secrets/anthropic-api-key.age; # Path relative to this configuration.nix
+    # The user 'nix' needs to read this for their .zshrc
+    # Default owner is root, default mode is "0400"
+    owner = "nix"; # Set this to your username
+    mode = "0400"; # User read-only
+  };
+
   programs.zsh.enable = true;
   nixpkgs.config.allowUnfree = true;
   programs.hyprland.enable = true;
@@ -72,19 +105,22 @@
   environment.systemPackages = with pkgs; [
     vim wget git
     waybar wofi swaylock swayidle
-    xdg-desktop-portal-hyprland kitty dolphin hyprshot
+    hyprpolkitagent
+    xdg-desktop-portal-hyprland kitty hyprshot
     iwgtk blueman pipewire wireplumber pavucontrol helvum
     brave lunarvim oh-my-posh wl-clipboard wl-clipboard-rs
     sddm-astronaut
     killall
     gtk3 gtk4
   ];
+
   services.displayManager.sddm.theme = "sddm-astronaut";
   fonts.packages = with pkgs; [
     (nerdfonts.override { fonts = [ "JetBrainsMono" "FiraCode" ]; })
     jetbrains-mono
     fira-code
   ];
+
   xdg.portal.enable = true;
   # xdg.portal.extraPortals = [ inputs.hyprland.packages.${pkgs.system}.xdg-desktop-portal-hyprland ];
   xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-hyprland ];
