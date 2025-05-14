@@ -53,8 +53,8 @@
   };
   services.getty.autologinUser = "nix";
 
-  services.displayManager.sddm.wayland.enable = true;
   services.displayManager.sddm.enable = true;
+  services.displayManager.sddm.wayland.enable = true;
   services.displayManager.sddm.autoLogin.relogin = true;
   # services.displayManager.autoLogin.enable = true;
   # services.displayManager.sddm.autoLogin.user = "nix";
