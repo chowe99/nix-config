@@ -54,19 +54,15 @@
   # Auto-login
   services.getty.autologinUser = "server";
 
-  # Graphical environment
-  programs.hyprland = {
-    enable = true;
-    package = inputs.hyprland.packages.${pkgs.system}.hyprland;
-  };
   services.displayManager.sddm = {
     enable = true;
     wayland.enable = true;
     theme = "sddm-astronaut";
   };
+
   xdg.portal = {
     enable = true;
-    extraPortals = [ inputs.hyprland.packages.${pkgs.system}.xdg-desktop-portal-hyprland ];
+    extraPortals = [ pkgs.xdg-desktop-portal-hyprland ];
   };
 
   # Proxmox VM support
