@@ -1,5 +1,5 @@
-# ~/nix-config/nixos/users/nix/nix.nix
-{ config, pkgs, lib, ... }:
+# ~/nix-config/nixos/users/nix/home.nix
+{ config, pkgs, lib, inputs, ... }:
 
 let
   # Helper to safely construct the export line for Gemini API Key
@@ -20,38 +20,36 @@ let
     then ''export ANTHROPIC_API_KEY="$(<${config.age.secrets."anthropic-api-key".path})"''
     else "";
 
-  configDir = ./config; # Path to the config directory relative to this file
-  configEntries = builtins.readDir configDir; # Read contents of the directory
-  lib = pkgs.lib; # Make lib available in this let block
+  # configDir = ./config; # Path to the config directory relative to this file
+  # configEntries = builtins.readDir configDir; # Read contents of the directory
+  # lib = pkgs.lib; # Make lib available in this let block
 
-  # Filter for directories and map them to environment.etc attributes with correct keys
-  generatedEtcAttrs = lib.mapAttrs' (name: type:
-    if type == "directory" then
-      {
-        # New key is the target path
-        name = "home/nix/.config/${name}";
-        # Value is the source attribute set
-        value = { source = configDir + "/${name}"; };
-      }
-    else
-      null # Skip non-directories
-  ) configEntries;
+  # # Filter for directories and map them to environment.etc attributes with correct keys
+  # generatedEtcAttrs = lib.mapAttrs' (name: type:
+  #   if type == "directory" then
+  #     {
+  #       # New key is the target path
+  #       name = "home/nix/.config/${name}";
+  #       # Value is the source attribute set
+  #       value = { source = configDir + "/${name}"; };
+  #     }
+  #   else
+  #     null # Skip non-directories
+  # ) configEntries;
 in
 {
+  home.stateVersion = "24.11";
+  home.username = "nix"; # Set the username
+  home.homeDirectory = "/home/nix"; # Set the home directory
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
-  packages = with pkgs; [
-    (nerdfonts.override { fonts = [ "JetBrainsMono" "FiraCode" ]; })
-    jetbrains-mono
-    fira-code
-
+  home.packages = with pkgs; [
     vim git htop zsh
     neofetch btop
-    tree 
+    tree home-manager
     docker
     superfile
   ];
-
 
   xdg.desktopEntries."superfile" = {
     name = "Superfile (TUI)";
@@ -64,18 +62,24 @@ in
     mimeType = ["inode/directory"];
   };
 
+  programs.kitty.enable = true;
   wayland.windowManager.hyprland = {
     enable = true;
     # Use Hyprland and xdg-desktop-portal-hyprland from NixOS module
+    # package = inputs.hyprland.packages.${pkgs.system}.hyprland;
     package = pkgs.hyprland;
     # portalPackage = null;
     # Load custom configuration
-    extraConfig = builtins.readFile ./config/hypr/hyprland.conf;
+    # This assumes hyprland.conf is in the same directory as home.nix
+    extraConfig = builtins.readFile ./hyprland.conf;
     # Optional: If you have issues with systemd services not finding programs
     # systemd.variables = ["--all"];
   };
 
 
+  # age.secrets = {
+  #   "gemini-api-key".file = ./secrets/gemini-api-key.age;
+  # };
 
   programs.zsh = {
     enable = true;
@@ -101,29 +105,41 @@ in
         file = "share/zsh/site-functions/fast-syntax-highlighting.plugin.zsh";
       }
     ];
-    initExtra = ''
-      # Aliases and other shell settings from your flake
-      alias vim=lvim
-      alias age=agenix # This will use the agenix from systemPackages
-      eval "$(oh-my-posh init zsh --config 'https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/1_shell.omp.json')"
-      alias rebuild="sudo nixos-rebuild switch --flake ~/nix-config#nixos"
-
-      # Export the Gemini API Key
-      # The file path comes from the NixOS configuration `config.age.secrets...`
-      ${geminiApiKeyExport}
-      ${anthropicApiKeyExport}
-      ${openaiApiKeyExport}
-    '';
   };
-
-  # Dynamically generate environment.etc entries for config directories
-  environment.etc = generatedEtcAttrs;
 
   programs.git = {
     enable = true;
     userName = "chowe99";
     userEmail = "chowej99@gmail.com";
   };
+
+  home.file.".zshrc" = {
+    text = ''
+      export EDITOR=vim
+      alias vim=lvim
+      alias age=agenix
+      eval "$(oh-my-posh init zsh --config 'https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/1_shell.omp.json')"
+      alias rebuild="sudo nixos-rebuild switch --flake ~/nix-config#nix"
+      ${geminiApiKeyExport}
+      ${anthropicApiKeyExport}
+      ${openaiApiKeyExport}
+    '';
+    force = true;
+  };
+
+  home.file.".config/waybar" = {
+    source    = inputs.waybar-config;
+    recursive = true;
+    force = true;
+  };
+  home.file.".config/lvim" = {
+    source    = inputs.lvim-config;
+    recursive = true;
+    force = true;
+  };
+
+  # Dynamically generate environment.etc entries for config directories
+  # environment.etc = generatedEtcAttrs;
 
 }
 
