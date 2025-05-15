@@ -68,11 +68,11 @@ in
     name = "Superfile (TUI)";
     genericName = "TUI File Manager";
     comment = "Fast and modern TUI file manager";
-    exec = "kitty -e \'zsh -c superfile\;\$SHELL\'"; # Adjust binary name if needed
-    icon = "utilities-terminal"; # Or "superfile-fm" if icon provided
-    terminal = false; # <<<--- THIS IS THE CRUCIAL CHANGE
-    categories = ["Utility" "FileTools" "ConsoleOnly" "System"];
-    mimeType = ["inode/directory"];
+    exec = "superfile";
+    icon = "utilities-terminal";
+    terminal = true;
+    categories = [ "Utility" "FileTools" ];
+    mimeType = [ "inode/directory" ];
   };
 
   programs.kitty.enable = true;
