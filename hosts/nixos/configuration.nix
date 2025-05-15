@@ -74,29 +74,29 @@
     shell = pkgs.zsh;
   };
 
-  age.secrets.gemini-api-key = {
-    file = ../../secrets/gemini-api-key.age; # Path relative to this configuration.nix
-    # The user 'nix' needs to read this for their .zshrc
-    # Default owner is root, default mode is "0400"
-    owner = "nix"; # Set this to your username
-    mode = "0400"; # User read-only
-  };
+  # age.secrets.gemini-api-key = {
+  #   file = ../../secrets/gemini-api-key.age; # Path relative to this configuration.nix
+  #   # The user 'nix' needs to read this for their .zshrc
+  #   # Default owner is root, default mode is "0400"
+  #   owner = "nix"; # Set this to your username
+  #   mode = "0400"; # User read-only
+  # };
 
-  age.secrets.openai-api-key = {
-    file = ../../secrets/openai-api-key.age; # Path relative to this configuration.nix
-    # The user 'nix' needs to read this for their .zshrc
-    # Default owner is root, default mode is "0400"
-    owner = "nix"; # Set this to your username
-    mode = "0400"; # User read-only
-  };
+  # age.secrets.openai-api-key = {
+  #   file = ../../secrets/openai-api-key.age; # Path relative to this configuration.nix
+  #   # The user 'nix' needs to read this for their .zshrc
+  #   # Default owner is root, default mode is "0400"
+  #   owner = "nix"; # Set this to your username
+  #   mode = "0400"; # User read-only
+  # };
 
-  age.secrets.anthropic-api-key = {
-    file = ../../secrets/anthropic-api-key.age; # Path relative to this configuration.nix
-    # The user 'nix' needs to read this for their .zshrc
-    # Default owner is root, default mode is "0400"
-    owner = "nix"; # Set this to your username
-    mode = "0400"; # User read-only
-  };
+  # age.secrets.anthropic-api-key = {
+  #   file = ../../secrets/anthropic-api-key.age; # Path relative to this configuration.nix
+  #   # The user 'nix' needs to read this for their .zshrc
+  #   # Default owner is root, default mode is "0400"
+  #   owner = "nix"; # Set this to your username
+  #   mode = "0400"; # User read-only
+  # };
 
   programs.zsh.enable = true;
   nixpkgs.config.allowUnfree = true;

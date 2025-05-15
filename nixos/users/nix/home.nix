@@ -50,18 +50,30 @@ in
     docker
     superfile
     signal-desktop
+    wineWowPackages.waylandFull
+    # Helper tool to pull in common dlls
+    winetricks
+    dpkg
+    libcanberra
+
+    # Opptional: native wget so dpkg-query --find returns something
+    wget
+    # replace libcanberra-gtk_module, libnss3 etc with Nix packages:
+    libcanberra
+    nss
+    gtk2
   ];
 
-  xdg.desktopEntries."superfile" = {
-    name = "Superfile (TUI)";
-    genericName = "TUI File Manager";
-    comment = "Fast and modern TUI file manager";
-    exec = "kitty -e \'zsh -c superfile\;\$SHELL\'"; # Adjust binary name if needed
-    icon = "utilities-terminal"; # Or "superfile-fm" if icon provided
-    terminal = false; # <<<--- THIS IS THE CRUCIAL CHANGE
-    categories = ["Utility" "FileTools" "ConsoleOnly" "System"];
-    mimeType = ["inode/directory"];
-  };
+  # xdg.desktopEntries."superfile" = {
+  #   name = "Superfile (TUI)";
+  #   genericName = "TUI File Manager";
+  #   comment = "Fast and modern TUI file manager";
+  #   exec = "kitty -e \'zsh -c superfile\;\$SHELL\'"; # Adjust binary name if needed
+  #   icon = "utilities-terminal"; # Or "superfile-fm" if icon provided
+  #   terminal = false; # <<<--- THIS IS THE CRUCIAL CHANGE
+  #   categories = ["Utility" "FileTools" "ConsoleOnly" "System"];
+  #   mimeType = ["inode/directory"];
+  # };
 
   programs.kitty.enable = true;
   wayland.windowManager.hyprland = {
@@ -121,6 +133,7 @@ in
       alias age=agenix
       eval "$(oh-my-posh init zsh --config 'https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/1_shell.omp.json')"
       alias rebuild="sudo nixos-rebuild switch --flake ~/nix-config#nix"
+      alias ssf2='wine "$HOME/.wine/drive_c/Program Files (x86)/Super Smash Flash 2 Beta/SSF2.exe"'
       ${geminiApiKeyExport}
       ${anthropicApiKeyExport}
       ${openaiApiKeyExport}
