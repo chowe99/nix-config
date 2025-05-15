@@ -49,6 +49,7 @@ in
     tree home-manager
     docker
     superfile
+    signal-desktop
   ];
 
   xdg.desktopEntries."superfile" = {
