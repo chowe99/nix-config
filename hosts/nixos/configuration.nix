@@ -78,8 +78,6 @@
     options = "--delete-older-than 7d";
   };
 
-  programs.waybar.package = inputs.hyprland.packages.${pkgs.system}.waybar-hyprland;
-  programs.waybar.enable = true;
 
 
   users.users.nix = {
