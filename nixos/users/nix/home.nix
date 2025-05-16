@@ -161,7 +161,7 @@ in
       eval "$(oh-my-posh init zsh --config 'https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/1_shell.omp.json')"
       alias rebuild="sudo nixos-rebuild switch --flake ~/nix-config#nix"
       alias ssf2='wine "$HOME/.wine/drive_c/Program Files (x86)/Super Smash Flash 2 Beta/SSF2.exe"'
-      alias c=clear && neofetch
+      alias c="clear && neofetch"
       neofetch
       ${geminiApiKeyExport}
       ${anthropicApiKeyExport}
