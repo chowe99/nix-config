@@ -71,7 +71,7 @@
   services.displayManager.sddm.wayland.enable = true;
   services.displayManager.sddm.autoLogin.relogin = true;
   services.displayManager.autoLogin.enable = true;
-  services.displayManager.sddm.autoLogin.user = "nix";
+  services.displayManager.autoLogin.user = "nix";
   nix.gc = {
     automatic = true;
     dates = "weekly";
