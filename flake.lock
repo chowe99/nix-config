@@ -81,11 +81,11 @@
     "dotfiles": {
       "flake": false,
       "locked": {
-        "lastModified": 1747386861,
-        "narHash": "sha256-rVdNoYwYsrPTfx7qXHMMQauZxLRi+uu6UzZwm6xPrY4=",
+        "lastModified": 1747387214,
+        "narHash": "sha256-9e9WlXbir3WcBy1lnxcf4Huk8HuLpj29sdEKe8UL7Zo=",
         "owner": "chowe99",
         "repo": "dotfiles",
-        "rev": "b7da265761c0bb2fe9b48ffff5754444ca9e557e",
+        "rev": "b33fdeafc5fd2c0ce8137f5593c24924dd5c9cce",
         "type": "github"
       },
       "original": {
@@ -160,11 +160,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1747020534,
-        "narHash": "sha256-D/6rkiC6w2p+4SwRiVKrWIeYzun8FBg7NlMKMwQMxO0=",
+        "lastModified": 1747331121,
+        "narHash": "sha256-3MmiUN/jOHBHQUnjqzg6qKArc17j2OS6jisEppDY4g8=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "b4bbdc6fde16fc2051fcde232f6e288cd22007ca",
+        "rev": "1eec32f0efe3b830927989767a9e6ece0d82d608",
         "type": "github"
       },
       "original": {
@@ -248,11 +248,11 @@
         "xdph": "xdph"
       },
       "locked": {
-        "lastModified": 1746898286,
-        "narHash": "sha256-Mmdlj9Gnq4HjwOn5RuxHCZKsX73oDlVJwWJ1MPbncl4=",
+        "lastModified": 1747301504,
+        "narHash": "sha256-GAI36RNzF9yC0JOauS1+h681ElwdbD9q/qxxuIqcejQ=",
         "owner": "hyprwm",
         "repo": "Hyprland",
-        "rev": "f58bb72d3a300dc482e9dc934101790c8707667d",
+        "rev": "a5c9b3e49047b4f03f79c5146d8925363eab3072",
         "type": "github"
       },
       "original": {
@@ -433,22 +433,6 @@
         "type": "github"
       }
     },
-    "lvim-config": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1746775361,
-        "narHash": "sha256-DaDW2/bU4klDIC8yRJLYMiRtnUKnHYZcOv3tlG4OVzc=",
-        "owner": "chowe99",
-        "repo": "lvim-conf",
-        "rev": "0a02cc20220b62d3ee95aa61f43bbc6bf713569d",
-        "type": "github"
-      },
-      "original": {
-        "owner": "chowe99",
-        "repo": "lvim-conf",
-        "type": "github"
-      }
-    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1746461020,
@@ -467,11 +451,11 @@
     },
     "nixpkgs_2": {
       "locked": {
-        "lastModified": 1746557022,
-        "narHash": "sha256-QkNoyEf6TbaTW5UZYX0OkwIJ/ZMeKSSoOMnSDPQuol0=",
+        "lastModified": 1747209494,
+        "narHash": "sha256-fLise+ys+bpyjuUUkbwqo5W/UyIELvRz9lPBPoB0fbM=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "1d3aeb5a193b9ff13f63f4d9cc169fb88129f860",
+        "rev": "5d736263df906c5da72ab0f372427814de2f52f8",
         "type": "github"
       },
       "original": {
@@ -510,9 +494,7 @@
         "dotfiles": "dotfiles",
         "home-manager": "home-manager_2",
         "hyprland": "hyprland",
-        "lvim-config": "lvim-config",
-        "nixpkgs": "nixpkgs_2",
-        "waybar-config": "waybar-config"
+        "nixpkgs": "nixpkgs_2"
       }
     },
     "systems": {
@@ -542,22 +524,6 @@
       "original": {
         "owner": "nix-systems",
         "repo": "default-linux",
-        "type": "github"
-      }
-    },
-    "waybar-config": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1747069354,
-        "narHash": "sha256-2sZTagzSobqAiB41BNinVQnNa//ywwZKKpSo3xehDgg=",
-        "owner": "chowe99",
-        "repo": "waybar",
-        "rev": "851a8d6ee38ed0a240f98132bf99019f2be64e7e",
-        "type": "github"
-      },
-      "original": {
-        "owner": "chowe99",
-        "repo": "waybar",
         "type": "github"
       }
     },
