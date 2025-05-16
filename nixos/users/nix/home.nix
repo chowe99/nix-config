@@ -62,6 +62,9 @@ in
     libcanberra
     nss
     gtk2
+    udiskie
+    libnotify
+    exfatprogs # Support for exFAT filesystems
   ];
 
   xdg.desktopEntries."superfile" = {
@@ -75,6 +78,30 @@ in
     mimeType = [ "inode/directory" ];
   };
 
+  services.udiskie = {
+      enable = true;
+      automount = true;
+      notify = true;
+      tray = "never"; # Correct value for Hyprland
+      settings = {
+        program_options = {
+          password_prompt = "kitty -e udiskie-unlock"; # Prompt in kitty for LUKS passphrase
+        };
+        device_config = [
+          # Unencrypted exFAT partition (sda1)
+          {
+            device = "UUID=BF75-E4C0";
+            automount = true;
+          }
+          # LUKS-encrypted partition (sda3)
+          {
+            device = "UUID=73535e6c-db20-4edb-9a7d-3fe4f869b924";
+            luks = true;
+            automount = true;
+          }
+        ];
+      };
+    };
   programs.kitty.enable = true;
   wayland.windowManager.hyprland = {
     enable = true;
