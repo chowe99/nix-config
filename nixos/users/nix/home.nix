@@ -115,6 +115,55 @@ in
     # systemd.variables = ["--all"];
   };
 
+  programs.wofi = {
+    enable = true;
+    settings = {
+      mode = "drun"; # Default to drun mode
+        show = "drun";
+      insensitive = true; # Case-insensitive search
+        allow_images = true; # Show application icons
+        term = "kitty"; # Terminal for launching CLI apps
+        prompt = "Launch"; # Customize prompt text
+    };
+    style = ''
+      * {
+        font-family: Hack, monospace;
+        font-size: 14px;
+      }
+    window {
+      background-color: #2e3440;
+      border-radius: 10px;
+opacity: 0.9;
+    }
+#input {
+  background-color: #3b4252;
+color: #d8dee9;
+border: none;
+padding: 8px;
+margin: 10px;
+}
+#outer-box {
+margin: 10px;
+}
+#entry {
+  background-color: #3b4252;
+color: #d8dee9;
+padding: 5px;
+}
+#entry:selected {
+  background-color: #5e81ac;
+color: #eceff4;
+}
+#text {
+color: #d8dee9;
+}
+'';
+};
+  
+
+
+
+
 
   # age.secrets = {
   #   "gemini-api-key".file = ./secrets/gemini-api-key.age;
