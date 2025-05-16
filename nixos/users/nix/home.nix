@@ -48,6 +48,10 @@
     udiskie
     libnotify
     exfatprogs # Support for exFAT filesystems
+    pywal # For color schemes
+    swww # For setting wallpaper
+    ffmpeg-full # For video/audio processing
+    yt-dlp # For downloading videos
   ];
 
   xdg.desktopEntries."superfile" = {
