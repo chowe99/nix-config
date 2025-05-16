@@ -10,7 +10,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    hyprland.url = "github:hyprwm/Hyprland";
+    # hyprland.url = "github:hyprwm/Hyprland";
 
     agenix = {
       url = "github:ryantm/agenix";
@@ -23,7 +23,7 @@
     };
   };
 
-  outputs = { self, nixpkgs, home-manager, hyprland, agenix, ... }@inputs:
+  outputs = { self, nixpkgs, home-manager, agenix, ... }@inputs:
   let
     system = "x86_64-linux";
     pkgs = nixpkgs.legacyPackages.${system};
