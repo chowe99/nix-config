@@ -116,15 +116,6 @@ in
       # If your theme is in ~/.config/rofi/config.rasi, it will be used automatically
   };
   
-
-
-
-
-
-  age.secrets = {
-    "gemini-api-key".file = ../../../secrets/gemini-api-key.age;
-  };
-
   programs.zsh = {
     enable = true;
     oh-my-zsh = {

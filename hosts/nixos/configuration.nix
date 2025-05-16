@@ -96,7 +96,8 @@
     # The user 'nix' needs to read this for their .zshrc
     # Default owner is root, default mode is "0400"
     owner = "nix"; # Set this to your username
-    mode = "0400"; # User read-only
+    group = "users";
+    mode = "0600"; # User read-only
   };
 
   age.secrets.openai-api-key = {
@@ -104,7 +105,8 @@
     # The user 'nix' needs to read this for their .zshrc
     # Default owner is root, default mode is "0400"
     owner = "nix"; # Set this to your username
-    mode = "0400"; # User read-only
+    group = "users";
+    mode = "0600"; # User read-only
   };
 
   age.secrets.anthropic-api-key = {
@@ -112,7 +114,8 @@
     # The user 'nix' needs to read this for their .zshrc
     # Default owner is root, default mode is "0400"
     owner = "nix"; # Set this to your username
-    mode = "0400"; # User read-only
+    group = "users";
+    mode = "0600"; # User read-only
   };
 
   programs.zsh.enable = true;
