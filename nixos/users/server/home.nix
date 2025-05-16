@@ -12,8 +12,19 @@
     neofetch btop
     tree home-manager
     docker
-    superfile
   ];
+
+  xdg.desktopEntries."superfile" = {
+    name = "Superfile (TUI)";
+    genericName = "TUI File Manager";
+    comment = "Fast and modern TUI file manager";
+    exec = "superfile";
+    icon = "utilities-terminal";
+    terminal = true;
+    categories = [ "Utility" "FileTools" ];
+    mimeType = [ "inode/directory" ];
+  };
+
 
   programs.kitty.enable = true;
   wayland.windowManager.hyprland = {

@@ -48,7 +48,6 @@ in
     neofetch btop
     tree home-manager
     docker
-    superfile
     signal-desktop
     wineWowPackages.waylandFull
     # Helper tool to pull in common dlls

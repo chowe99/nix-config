@@ -78,6 +78,8 @@
     options = "--delete-older-than 7d";
   };
 
+  programs.waybar.package = inputs.hyprland.packages.${pkgs.system}.waybar-hyprland;
+
 
   users.users.nix = {
     isNormalUser = true;
@@ -116,11 +118,10 @@
   environment.systemPackages = with pkgs; [
     vim wget git
     waybar wofi swaylock swayidle
-    hyprpolkitagent
+    hyprpolkitagent superfile
     xdg-desktop-portal-hyprland kitty hyprshot
     iwgtk blueman pipewire wireplumber pavucontrol helvum
     brave lunarvim oh-my-posh wl-clipboard wl-clipboard-rs
-    superfile
     sddm-astronaut
     killall
     gtk3 gtk4
@@ -132,18 +133,6 @@
     spice-gtk # For SPICE display protocol
     swtpm # Software TPM for VMs
   ];
-
-  xdg.desktopEntries."superfile" = {
-    name = "Superfile (TUI)";
-    genericName = "TUI File Manager";
-    comment = "Fast and modern TUI file manager";
-    exec = "superfile";
-    icon = "utilities-terminal";
-    terminal = true;
-    categories = [ "Utility" "FileTools" ];
-    mimeType = [ "inode/directory" ];
-  };
-
 
 # Enable virtualization
   virtualisation.libvirtd = {

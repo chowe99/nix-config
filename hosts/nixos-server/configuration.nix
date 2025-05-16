@@ -102,18 +102,6 @@
     wlr-randr weston # For Wayland testing
   ];
 
-  xdg.desktopEntries."superfile" = {
-    name = "Superfile (TUI)";
-    genericName = "TUI File Manager";
-    comment = "Fast and modern TUI file manager";
-    exec = "superfile";
-    icon = "utilities-terminal";
-    terminal = true;
-    categories = [ "Utility" "FileTools" ];
-    mimeType = [ "inode/directory" ];
-  };
-
-
   # Fonts
   fonts.packages = with pkgs; [
     (nerdfonts.override { fonts = [ "JetBrainsMono" "FiraCode" ]; })
