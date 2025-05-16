@@ -37,6 +37,11 @@
     jack.enable = true;
   };
   services.udisks2.enable = true;
+  fileSystems."/run/media" = {
+    device = "tmpfs";
+    fsType = "tmpfs";
+    options = [ "nosuid" "nodev" "mode=755" "uid=1000" "gid=100" ];
+  };
   security.polkit.enable = true;
   powerManagement.enable = true;
   networking.networkmanager.enable = true;
@@ -72,10 +77,11 @@
     options = "--delete-older-than 7d";
   };
 
+
   users.users.nix = {
     isNormalUser = true;
     description = "nix";
-    extraGroups = [ "networkmanager" "wheel" "video" "docker" "plugdev" "input" "audio" "storage" "render" ];
+    extraGroups = [ "networkmanager" "wheel" "video" "docker" "plugdev" "input" "audio" "storage" "render" "libvirtd" "disk" "udisks2"];
     shell = pkgs.zsh;
   };
 
@@ -119,7 +125,23 @@
     gtk3 gtk4
     xdg-terminal-exec
     appimage-run
+    virt-manager
+    qemu_kvm
+    libvirt
+    spice-gtk # For SPICE display protocol
+    swtpm # Software TPM for VMs
   ];
+
+    # Enable virtualization
+  virtualisation.libvirtd = {
+    enable = true;
+    qemu = {
+      package = pkgs.qemu_kvm;
+      runAsRoot = false; # Run QEMU as user for security
+      swtpm.enable = true; # Enable TPM emulation
+    };
+  };
+
 
   services.displayManager.sddm.theme = "sddm-astronaut";
   fonts.packages = with pkgs; [
