@@ -50,6 +50,7 @@ in
     docker
     signal-desktop
     wineWowPackages.waylandFull
+    papirus-icon-theme # For application icons
     # Helper tool to pull in common dlls
     winetricks
     dpkg
