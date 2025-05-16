@@ -118,6 +118,7 @@
     killall
     gtk3 gtk4
     xdg-terminal-exec
+    appimage-run
   ];
 
   services.displayManager.sddm.theme = "sddm-astronaut";
