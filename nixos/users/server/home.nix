@@ -88,15 +88,21 @@
     force = true;
   };
 
-  home.file.".config/waybar" = {
-    source    = inputs.waybar-config;
+  home.file.".config/rofi" = {
+    source = "${inputs.dotfiles}/rofi";
     recursive = true;
-    force = true;
   };
   home.file.".config/lvim" = {
-    source    = inputs.lvim-config;
+    source = "${inputs.dotfiles}/lvim";
     recursive = true;
-    force = true;
+  };
+  home.file.".config/waybar" = {
+    source = "${inputs.dotfiles}/waybar";
+    recursive = true;
+  };
+  home.file.".config/hypr" = {
+    source = "${inputs.dotfiles}/hypr";
+    recursive = true;
   };
 
 }

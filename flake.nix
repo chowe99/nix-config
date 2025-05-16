@@ -26,6 +26,10 @@
       url   = "github:chowe99/lvim-conf";
       flake = false;
     };
+    dotfiles = {
+      url = "github:chowe99/dotfiles";
+      flake = false;
+    };
   };
 
   outputs = { self, nixpkgs, home-manager, hyprland, agenix, waybar-config, lvim-config, ... }@inputs:

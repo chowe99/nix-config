@@ -116,50 +116,17 @@ in
     # systemd.variables = ["--all"];
   };
 
-  programs.wofi = {
+  programs.rofi = {
     enable = true;
-    settings = {
-      mode = "drun"; # Default to drun mode
-        show = "drun";
-      insensitive = true; # Case-insensitive search
-        allow_images = true; # Show application icons
-        term = "kitty"; # Terminal for launching CLI apps
-        prompt = "Launch"; # Customize prompt text
-    };
-    style = ''
-      * {
-        font-family: Hack, monospace;
-        font-size: 14px;
-      }
-    window {
-      background-color: #2e3440;
-      border-radius: 10px;
-opacity: 0.9;
-    }
-#input {
-  background-color: #3b4252;
-color: #d8dee9;
-border: none;
-padding: 8px;
-margin: 10px;
-}
-#outer-box {
-margin: 10px;
-}
-#entry {
-  background-color: #3b4252;
-color: #d8dee9;
-padding: 5px;
-}
-#entry:selected {
-  background-color: #5e81ac;
-color: #eceff4;
-}
-#text {
-color: #d8dee9;
-}
-'';
-};
+    package = pkgs.rofi-wayland; # Use Wayland version for Hyprland
+      # Optionally, you can define settings here if not using ~/.config/rofi
+      extraConfig = {
+        modi = "drun,run,window"; # Enable drun mode
+          show-icons = true; # Show application icons
+          icon-theme = "Papirus"; # Adjust to match your theme
+      };
+      # If your theme is in ~/.config/rofi/config.rasi, it will be used automatically
+  };
   
 
 
@@ -219,15 +186,21 @@ color: #d8dee9;
     force = true;
   };
 
-  home.file.".config/waybar" = {
-    source    = inputs.waybar-config;
+  home.file.".config/rofi" = {
+    source = "${inputs.dotfiles}/rofi";
     recursive = true;
-    force = true;
   };
   home.file.".config/lvim" = {
-    source    = inputs.lvim-config;
+    source = "${inputs.dotfiles}/lvim";
     recursive = true;
-    force = true;
+  };
+  home.file.".config/waybar" = {
+    source = "${inputs.dotfiles}/waybar";
+    recursive = true;
+  };
+  home.file.".config/hypr" = {
+    source = "${inputs.dotfiles}/hypr";
+    recursive = true;
   };
 
   # Dynamically generate environment.etc entries for config directories
