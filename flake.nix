@@ -17,15 +17,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # Your three config repos, pulled as plain checkouts:
-    waybar-config = {
-      url   = "github:chowe99/waybar";
-      flake = false;
-    };
-    lvim-config = {
-      url   = "github:chowe99/lvim-conf";
-      flake = false;
-    };
     dotfiles = {
       url = "github:chowe99/dotfiles";
       flake = false;
