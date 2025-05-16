@@ -49,7 +49,8 @@
     libnotify
     exfatprogs # Support for exFAT filesystems
     pywal # For color schemes
-    swww # For setting wallpaper
+    hyprpaper # For setting wallpaper
+    swww # For setting animated wallpaper
     ffmpeg-full # For video/audio processing
     yt-dlp # For downloading videos
   ];
