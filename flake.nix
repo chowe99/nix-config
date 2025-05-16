@@ -10,25 +10,20 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    hyprland.url = "github:hyprwm/Hyprland";
+    # hyprland.url = "github:hyprwm/Hyprland";
 
     agenix = {
       url = "github:ryantm/agenix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # Your three config repos, pulled as plain checkouts:
-    waybar-config = {
-      url   = "github:chowe99/waybar";
-      flake = false;
-    };
-    lvim-config = {
-      url   = "github:chowe99/lvim-conf";
+    dotfiles = {
+      url = "github:chowe99/dotfiles";
       flake = false;
     };
   };
 
-  outputs = { self, nixpkgs, home-manager, hyprland, agenix, waybar-config, lvim-config, ... }@inputs:
+  outputs = { self, nixpkgs, home-manager, agenix, ... }@inputs:
   let
     system = "x86_64-linux";
     pkgs = nixpkgs.legacyPackages.${system};

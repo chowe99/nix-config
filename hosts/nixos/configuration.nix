@@ -37,6 +37,11 @@
     jack.enable = true;
   };
   services.udisks2.enable = true;
+  fileSystems."/run/media" = {
+    device = "tmpfs";
+    fsType = "tmpfs";
+    options = [ "nosuid" "nodev" "mode=755" "uid=1000" "gid=100" ];
+  };
   security.polkit.enable = true;
   powerManagement.enable = true;
   networking.networkmanager.enable = true;
@@ -60,59 +65,98 @@
 # Enable the X11 windowing system.
   # services.xserver.enable = true; # This might be automatically enabled by sddm
 
+  programs.hyprland = {
+    enable = true;
+    xwayland.enable = true;
+  };
   # Enable the SDDM display manager.
   services.displayManager.sddm.enable = true;
   services.displayManager.sddm.wayland.enable = true;
   services.displayManager.sddm.autoLogin.relogin = true;
-  # services.displayManager.autoLogin.enable = true;
-  # services.displayManager.sddm.autoLogin.user = "nix";
+  services.displayManager.defaultSession = "hyprland";
+  services.displayManager.autoLogin.enable = true;
+  services.displayManager.autoLogin.user = "nix";
+  nix.gc = {
+    automatic = true;
+    dates = "weekly";
+    options = "--delete-older-than 7d";
+  };
+
+
 
   users.users.nix = {
     isNormalUser = true;
     description = "nix";
-    extraGroups = [ "networkmanager" "wheel" "video" "docker" "plugdev" "input" "audio" "storage" "render" ];
+    extraGroups = [ "networkmanager" "wheel" "video" "docker" "plugdev" "input" "audio" "storage" "render" "libvirtd" "disk" "udisks2"];
     shell = pkgs.zsh;
   };
 
   age.secrets.gemini-api-key = {
     file = ../../secrets/gemini-api-key.age; # Path relative to this configuration.nix
+    path = "/run/agenix/gemini-api-key"; # Path to the decrypted file
     # The user 'nix' needs to read this for their .zshrc
     # Default owner is root, default mode is "0400"
     owner = "nix"; # Set this to your username
-    mode = "0400"; # User read-only
+    group = "users";
+    mode = "0600"; # User read-only
   };
 
   age.secrets.openai-api-key = {
     file = ../../secrets/openai-api-key.age; # Path relative to this configuration.nix
+    path = "/run/agenix/openai-api-key"; # Path
     # The user 'nix' needs to read this for their .zshrc
     # Default owner is root, default mode is "0400"
     owner = "nix"; # Set this to your username
-    mode = "0400"; # User read-only
+    group = "users";
+    mode = "0600"; # User read-only
   };
 
   age.secrets.anthropic-api-key = {
     file = ../../secrets/anthropic-api-key.age; # Path relative to this configuration.nix
+    path = "/run/agenix/anthropic-api-key"; # Path
     # The user 'nix' needs to read this for their .zshrc
     # Default owner is root, default mode is "0400"
     owner = "nix"; # Set this to your username
-    mode = "0400"; # User read-only
+    group = "users";
+    mode = "0600"; # User read-only
   };
 
   programs.zsh.enable = true;
   nixpkgs.config.allowUnfree = true;
-  programs.hyprland.enable = true;
   services.tailscale.enable = true;
   environment.systemPackages = with pkgs; [
     vim wget git
     waybar wofi swaylock swayidle
-    hyprpolkitagent
+    hyprpolkitagent superfile
     xdg-desktop-portal-hyprland kitty hyprshot
     iwgtk blueman pipewire wireplumber pavucontrol helvum
     brave lunarvim oh-my-posh wl-clipboard wl-clipboard-rs
     sddm-astronaut
     killall
     gtk3 gtk4
+    xdg-terminal-exec
+    appimage-run
+    virt-manager
+    qemu_kvm
+    libvirt
+    spice-gtk # For SPICE display protocol
+    swtpm # Software TPM for VMs
   ];
+
+# Enable virtualization
+  virtualisation.libvirtd = {
+    enable = true;
+    qemu = {
+      package = pkgs.qemu_kvm;
+      runAsRoot = false; # Run QEMU as user for security
+      swtpm.enable = true; # Enable TPM emulation
+    };
+  };
+
+  programs.virt-manager.enable = true;
+  virtualisation.spiceUSBRedirection.enable = true;
+
+
 
   services.displayManager.sddm.theme = "sddm-astronaut";
   fonts.packages = with pkgs; [

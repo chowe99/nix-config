@@ -54,11 +54,17 @@
   # Auto-login
   services.getty.autologinUser = "server";
 
-  services.displayManager.sddm = {
+  programs.hyprland = {
     enable = true;
-    wayland.enable = true;
-    theme = "sddm-astronaut";
+    xwayland.enable = true;
   };
+  # Enable the SDDM display manager.
+  services.displayManager.sddm.enable = true;
+  services.displayManager.sddm.wayland.enable = true;
+  services.displayManager.sddm.autoLogin.relogin = true;
+  services.displayManager.defaultSession = "hyprland";
+  services.displayManager.autoLogin.enable = true;
+  services.displayManager.autoLogin.user = "server";
 
   xdg.portal = {
     enable = true;
@@ -93,13 +99,13 @@
   environment.systemPackages = with pkgs; [
     vim wget git
     waybar wofi swaylock swayidle
-    kitty dolphin hyprshot
+    kitty superfile hyprshot
     iwgtk blueman pipewire wireplumber pavucontrol helvum
     brave lunarvim oh-my-posh wl-clipboard wl-clipboard-rs
     sddm-astronaut
     killall
     gtk3 gtk4
-    wlr-randr weston # For Wayland testing
+    wlr-randr 
   ];
 
   # Fonts

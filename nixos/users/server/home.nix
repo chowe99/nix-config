@@ -12,22 +12,33 @@
     neofetch btop
     tree home-manager
     docker
-    superfile
   ];
 
-  programs.kitty.enable = true;
-  wayland.windowManager.hyprland = {
-    enable = true;
-    # Use Hyprland and xdg-desktop-portal-hyprland from NixOS module
-    # package = inputs.hyprland.packages.${pkgs.system}.hyprland;
-    package = pkgs.hyprland;
-    # portalPackage = null;
-    # Load custom configuration
-    # This assumes hyprland.conf is in the same directory as home.nix
-    extraConfig = builtins.readFile ./hyprland.conf;
-    # Optional: If you have issues with systemd services not finding programs
-    # systemd.variables = ["--all"];
+  xdg.desktopEntries."superfile" = {
+    name = "Superfile (TUI)";
+    genericName = "TUI File Manager";
+    comment = "Fast and modern TUI file manager";
+    exec = "superfile";
+    icon = "utilities-terminal";
+    terminal = true;
+    categories = [ "Utility" "FileTools" ];
+    mimeType = [ "inode/directory" ];
   };
+
+
+  programs.kitty.enable = true;
+  # wayland.windowManager.hyprland = {
+  #   enable = true;
+  #   # Use Hyprland and xdg-desktop-portal-hyprland from NixOS module
+  #   # package = inputs.hyprland.packages.${pkgs.system}.hyprland;
+  #   package = pkgs.hyprland;
+  #   # portalPackage = null;
+  #   # Load custom configuration
+  #   # This assumes hyprland.conf is in the same directory as home.nix
+  #   extraConfig = builtins.readFile ./hyprland.conf;
+  #   # Optional: If you have issues with systemd services not finding programs
+  #   # systemd.variables = ["--all"];
+  # };
 
 
   # age.secrets = {
@@ -77,15 +88,21 @@
     force = true;
   };
 
-  home.file.".config/waybar" = {
-    source    = inputs.waybar-config;
+  home.file.".config/rofi" = {
+    source = "${inputs.dotfiles}/rofi";
     recursive = true;
-    force = true;
   };
   home.file.".config/lvim" = {
-    source    = inputs.lvim-config;
+    source = "${inputs.dotfiles}/lvim";
     recursive = true;
-    force = true;
+  };
+  home.file.".config/waybar" = {
+    source = "${inputs.dotfiles}/waybar";
+    recursive = true;
+  };
+  home.file.".config/hypr" = {
+    source = "${inputs.dotfiles}/hypr";
+    recursive = true;
   };
 
 }
