@@ -72,7 +72,7 @@
   # Enable the SDDM display manager.
   services.displayManager.sddm.enable = true;
   services.displayManager.sddm.wayland.enable = true;
-  services.displayManager.sddm.autoLogin.relogin = true;
+  # services.displayManager.sddm.autoLogin.relogin = true;
   services.displayManager.defaultSession = "hyprland";
   # services.displayManager.autoLogin.enable = true;
   # services.displayManager.autoLogin.user = "nix";
