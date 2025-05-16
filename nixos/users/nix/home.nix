@@ -155,6 +155,7 @@
       if [[ -f /run/agenix/anthropic-api-key ]]; then
         export ANTHROPIC_API_KEY=$(cat /run/agenix/anthropic-api-key)
       fi
+      wal -R
     '';
     force = true;
   };
