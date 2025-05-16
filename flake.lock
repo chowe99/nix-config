@@ -78,6 +78,22 @@
         "type": "github"
       }
     },
+    "dotfiles": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1747386861,
+        "narHash": "sha256-rVdNoYwYsrPTfx7qXHMMQauZxLRi+uu6UzZwm6xPrY4=",
+        "owner": "chowe99",
+        "repo": "dotfiles",
+        "rev": "b7da265761c0bb2fe9b48ffff5754444ca9e557e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "chowe99",
+        "repo": "dotfiles",
+        "type": "github"
+      }
+    },
     "flake-compat": {
       "flake": false,
       "locked": {
@@ -491,6 +507,7 @@
     "root": {
       "inputs": {
         "agenix": "agenix",
+        "dotfiles": "dotfiles",
         "home-manager": "home-manager_2",
         "hyprland": "hyprland",
         "lvim-config": "lvim-config",
