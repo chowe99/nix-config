@@ -1,24 +1,7 @@
 # ~/nix-config/nixos/users/nix/home.nix
 { config, pkgs, lib, inputs, ... }:
 
-let
-  # Helper to safely construct the export line for Gemini API Key
-  geminiApiKeyExport =
-    if config ? age && config.age ? secrets && config.age.secrets ? "gemini-api-key" && config.age.secrets."gemini-api-key" ? path
-    then ''export GEMINI_API_KEY="$(<${config.age.secrets."gemini-api-key".path})"''
-    else ""; # Or lib.warn "Gemini API Key path not found" ""
-
-  # Helper for OpenAI API Key
-  openaiApiKeyExport =
-    if config ? age && config.age ? secrets && config.age.secrets ? "openai-api-key" && config.age.secrets."openai-api-key" ? path
-    then ''export OPENAI_API_KEY="$(<${config.age.secrets."openai-api-key".path})"''
-    else "";
-
-  # Helper for Anthropic API Key
-  anthropicApiKeyExport =
-    if config ? age && config.age ? secrets && config.age.secrets ? "anthropic-api-key" && config.age.secrets."anthropic-api-key" ? path
-    then ''export ANTHROPIC_API_KEY="$(<${config.age.secrets."anthropic-api-key".path})"''
-    else "";
+# let
 
   # configDir = ./config; # Path to the config directory relative to this file
   # configEntries = builtins.readDir configDir; # Read contents of the directory
@@ -36,7 +19,7 @@ let
   #   else
   #     null # Skip non-directories
   # ) configEntries;
-in
+# in
 {
   home.stateVersion = "24.11";
   home.username = "nix"; # Set the username
@@ -158,9 +141,15 @@ in
       alias ssf2='wine "$HOME/.wine/drive_c/Program Files (x86)/Super Smash Flash 2 Beta/SSF2.exe"'
       alias c="clear && neofetch"
       neofetch
-      ${geminiApiKeyExport}
-      ${anthropicApiKeyExport}
-      ${openaiApiKeyExport}
+      if [[ -f /run/agenix/openai-api-key ]]; then
+        export OPENAI_API_KEY=$(cat /run/agenix/openai-api-key)
+      fi
+      if [[ -f /run/agenix/gemini-api-key ]]; then
+        export GEMINI_API_KEY=$(cat /run/agenix/gemini-api-key)
+      fi
+      if [[ -f /run/agenix/anthropic-api-key ]]; then
+        export ANTHROPIC_API_KEY=$(cat /run/agenix/anthropic-api-key)
+      fi
     '';
     force = true;
   };
