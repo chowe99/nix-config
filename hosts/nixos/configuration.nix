@@ -66,11 +66,12 @@
   # services.xserver.enable = true; # This might be automatically enabled by sddm
 
   # Enable the SDDM display manager.
+  programs.hyprland.enable = true;
   services.displayManager.sddm.enable = true;
   services.displayManager.sddm.wayland.enable = true;
   services.displayManager.sddm.autoLogin.relogin = true;
-  # services.displayManager.autoLogin.enable = true;
-  # services.displayManager.sddm.autoLogin.user = "nix";
+  services.displayManager.autoLogin.enable = true;
+  services.displayManager.sddm.autoLogin.user = "nix";
   nix.gc = {
     automatic = true;
     dates = "weekly";
@@ -111,7 +112,6 @@
 
   programs.zsh.enable = true;
   nixpkgs.config.allowUnfree = true;
-  programs.hyprland.enable = true;
   services.tailscale.enable = true;
   environment.systemPackages = with pkgs; [
     vim wget git
