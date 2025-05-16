@@ -65,8 +65,11 @@
 # Enable the X11 windowing system.
   # services.xserver.enable = true; # This might be automatically enabled by sddm
 
+  programs.hyprland = {
+    enable = true;
+    xwayland.enable = true;
+  };
   # Enable the SDDM display manager.
-  programs.hyprland.enable = true;
   services.displayManager.sddm.enable = true;
   services.displayManager.sddm.wayland.enable = true;
   services.displayManager.sddm.autoLogin.relogin = true;
