@@ -132,7 +132,7 @@
     swtpm # Software TPM for VMs
   ];
 
-    # Enable virtualization
+# Enable virtualization
   virtualisation.libvirtd = {
     enable = true;
     qemu = {
@@ -141,6 +141,10 @@
       swtpm.enable = true; # Enable TPM emulation
     };
   };
+
+  programs.virt-manager.enable = true;
+  virtualisation.spiceUSBRedirection.enable = true;
+
 
 
   services.displayManager.sddm.theme = "sddm-astronaut";
