@@ -64,7 +64,7 @@
   services.displayManager.sddm.autoLogin.relogin = true;
   services.displayManager.defaultSession = "hyprland";
   services.displayManager.autoLogin.enable = true;
-  services.displayManager.autoLogin.user = "nix";
+  services.displayManager.autoLogin.user = "server";
 
   xdg.portal = {
     enable = true;
