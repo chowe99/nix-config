@@ -27,18 +27,18 @@
 
 
   programs.kitty.enable = true;
-  wayland.windowManager.hyprland = {
-    enable = true;
-    # Use Hyprland and xdg-desktop-portal-hyprland from NixOS module
-    # package = inputs.hyprland.packages.${pkgs.system}.hyprland;
-    package = pkgs.hyprland;
-    # portalPackage = null;
-    # Load custom configuration
-    # This assumes hyprland.conf is in the same directory as home.nix
-    extraConfig = builtins.readFile ./hyprland.conf;
-    # Optional: If you have issues with systemd services not finding programs
-    # systemd.variables = ["--all"];
-  };
+  # wayland.windowManager.hyprland = {
+  #   enable = true;
+  #   # Use Hyprland and xdg-desktop-portal-hyprland from NixOS module
+  #   # package = inputs.hyprland.packages.${pkgs.system}.hyprland;
+  #   package = pkgs.hyprland;
+  #   # portalPackage = null;
+  #   # Load custom configuration
+  #   # This assumes hyprland.conf is in the same directory as home.nix
+  #   extraConfig = builtins.readFile ./hyprland.conf;
+  #   # Optional: If you have issues with systemd services not finding programs
+  #   # systemd.variables = ["--all"];
+  # };
 
 
   # age.secrets = {
