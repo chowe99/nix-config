@@ -23,7 +23,7 @@
     };
   };
 
-  outputs = { self, nixpkgs, home-manager, hyprland, agenix, waybar-config, lvim-config, ... }@inputs:
+  outputs = { self, nixpkgs, home-manager, hyprland, agenix, ... }@inputs:
   let
     system = "x86_64-linux";
     pkgs = nixpkgs.legacyPackages.${system};
