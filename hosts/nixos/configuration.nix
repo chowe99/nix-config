@@ -141,7 +141,10 @@
     libvirt
     spice-gtk # For SPICE display protocol
     swtpm # Software TPM for VMs
+    mullvad-vpn # VPN client
   ];
+  # enable mullvad
+  services.mullvad-vpn.enable = true;
 
 # Enable virtualization
   virtualisation.libvirtd = {
