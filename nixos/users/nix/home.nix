@@ -53,6 +53,7 @@
     swww # For setting animated wallpaper
     ffmpeg-full # For video/audio processing
     yt-dlp # For downloading videos
+    mullvad-vpn # VPN client
   ];
 
   xdg.desktopEntries."superfile" = {
