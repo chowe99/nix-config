@@ -18,6 +18,13 @@
   };
 
   # Bootloader
+
+  # Ensure systemd-boot is disabled
+  boot.loader.systemd-boot.enable = false;
+
+  # Disable EFI-related settings
+  boot.loader.efi.canTouchEfiVariables = false;
+
   boot.loader.grub.enable = true;
   boot.loader.grub.device = "/dev/vda";
   boot.loader.grub.useOSProber = false; # No dual-boot in VM
