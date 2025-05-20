@@ -12,6 +12,7 @@
     neofetch btop
     tree home-manager
     docker
+    caddy
   ];
 
   xdg.desktopEntries."superfile" = {
@@ -24,6 +25,7 @@
     categories = [ "Utility" "FileTools" ];
     mimeType = [ "inode/directory" ];
   };
+
 
 
   programs.kitty.enable = true;
@@ -83,7 +85,21 @@
       alias vim=lvim
       alias age=agenix
       eval "$(oh-my-posh init zsh --config 'https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/1_shell.omp.json')"
-      alias rebuild="sudo nixos-rebuild switch --flake ~/nix-config#server"
+      alias rebuild="sudo nixos-rebuild switch --flake ~/nix-config#nix"
+      alias ssf2='wine "$HOME/.wine/drive_c/Program Files (x86)/Super Smash Flash 2 Beta/SSF2.exe"'
+      alias c="clear && neofetch"
+      alias open="superfile"
+      neofetch
+      if [[ -f /run/agenix/openai-api-key ]]; then
+        export OPENAI_API_KEY=$(cat /run/agenix/openai-api-key)
+      fi
+      if [[ -f /run/agenix/gemini-api-key ]]; then
+        export GEMINI_API_KEY=$(cat /run/agenix/gemini-api-key)
+      fi
+      if [[ -f /run/agenix/anthropic-api-key ]]; then
+        export ANTHROPIC_API_KEY=$(cat /run/agenix/anthropic-api-key)
+      fi
+      wal -R
     '';
     force = true;
   };
