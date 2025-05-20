@@ -106,6 +106,7 @@
     killall
     gtk3 gtk4
     wlr-randr 
+    yarn
   ];
 
   # Fonts
@@ -132,6 +133,20 @@
 
   # Docker
   virtualisation.docker.enable = true;
+
+  config.virtualisation.oci-containers.containers = {
+    hackagecompare = {
+      image = "chrissound/hackagecomparestats-webserver:latest";
+      ports = ["127.0.0.1:3010:3010"];
+      volumes = [
+        "/root/hackagecompare/packageStatistics.json:/root/hackagecompare/packageStatistics.json"
+      ];
+      cmd = [
+        "--base-url"
+        "\"/hackagecompare\""
+      ];
+    };
+  };
 
   # System state
   system.stateVersion = "24.11";
