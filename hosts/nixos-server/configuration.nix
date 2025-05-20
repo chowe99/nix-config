@@ -107,7 +107,11 @@
     gtk3 gtk4
     wlr-randr 
     yarn
+    caddy
   ];
+
+  services.caddy.enable = true;
+  services.caddy.configFile = "/etc/caddy/Caddyfile";
 
   # Fonts
   fonts.packages = with pkgs; [
@@ -120,7 +124,7 @@
   services.openssh.enable = true;
   networking.firewall = {
     enable = true;
-    allowedTCPPorts = [ 22 ];
+    allowedTCPPorts = [ 22 80 443 ];
   };
 
   # Sudo configuration

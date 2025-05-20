@@ -12,7 +12,6 @@
     neofetch btop
     tree home-manager
     docker
-    caddy
   ];
 
   xdg.desktopEntries."superfile" = {
