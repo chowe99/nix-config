@@ -28,7 +28,7 @@
     };
     systemd-boot.enable = false;
     efi.canTouchEfiVariables = false;
-    efi.efiSysMountPoint = ""; # Explicitly disable EFI mount point
+    efi.efiSysMountPoint = null; # Explicitly disable EFI mount point
   };
 
   boot.kernelPackages = pkgs.linuxPackages_latest; # Latest kernel for VM
@@ -68,7 +68,6 @@
     enable = true;
     xwayland.enable = true;
   };
-
   # Enable the SDDM display manager.
   services.displayManager.sddm.enable = true;
   services.displayManager.sddm.wayland.enable = true;
