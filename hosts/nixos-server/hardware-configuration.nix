@@ -8,40 +8,26 @@
     [ (modulesPath + "/profiles/qemu-guest.nix")
     ];
 
-  boot.initrd.availableKernelModules = [ "uhci_hcd" "ehci_pci" "ahci" "virtio_pci" "virtio_blk" ];
+  boot.initrd.availableKernelModules = [ "uhci_hcd" "ehci_pci" "ahci" "virtio_pci" "sr_mod" "virtio_blk" ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ ];
   boot.extraModulePackages = [ ];
 
   fileSystems."/" =
-    { device = "/dev/disk/by-uuid/f2e1e685-8811-43b5-8773-5fcf3246d9c8";
+    { device = "/dev/disk/by-uuid/ad461fd6-64bb-4e88-a4f1-e6eb772eeb21";
       fsType = "ext4";
     };
 
-  fileSystems."/var/lib/docker/overlay2/e3f914eb06bb4fe310049304578b40acee0ecce93dc67f2bb3b6798ef330dd45/merged" =
-    { device = "overlay";
-      fsType = "overlay";
-    };
-
-  fileSystems."/var/lib/docker/overlay2/60825b3d6fde7dd847789de8b2dbdc09f8a18cd6a58945d1f1c3d2f2c15cbb9c/merged" =
-    { device = "overlay";
-      fsType = "overlay";
-    };
-
-  swapDevices = [ ];
+  swapDevices =
+    [ { device = "/dev/disk/by-uuid/950475e2-2efe-4edf-9da7-198537f74845"; }
+    ];
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
   # (the default) this is the recommended approach. When using systemd-networkd it's
   # still possible to use this option, but it's recommended to use it in conjunction
   # with explicit per-interface declarations with `networking.interfaces.<interface>.useDHCP`.
   networking.useDHCP = lib.mkDefault true;
-  # networking.interfaces.br-6253f5e28cd5.useDHCP = lib.mkDefault true;
-  # networking.interfaces.br-b70a2afd7e25.useDHCP = lib.mkDefault true;
-  # networking.interfaces.docker0.useDHCP = lib.mkDefault true;
   # networking.interfaces.enp6s18.useDHCP = lib.mkDefault true;
-  # networking.interfaces.tailscale0.useDHCP = lib.mkDefault true;
-  # networking.interfaces.veth31f9e6f.useDHCP = lib.mkDefault true;
-  # networking.interfaces.veth7c3cab5.useDHCP = lib.mkDefault true;
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 }
