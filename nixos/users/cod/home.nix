@@ -139,4 +139,8 @@
     source = "${inputs.dotfiles}/hypr";
     recursive = true;
   };
+  home.file.".config/kitty" = {
+    source = "${inputs.dotfiles}/kitty";
+    recursive = true;
+  };
 }
