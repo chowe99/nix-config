@@ -8,6 +8,7 @@
   nix.package = pkgs.nix;
 
   home.packages = with pkgs; [
+    openssh
     oh-my-posh lunarvim wofi waybar vim htop zsh
     neofetch btop
     tree home-manager
@@ -62,9 +63,7 @@
       };
     };
 
-  programs.kitty.enable = true;
-  wayland.windowManager.hyprland.enable = true;
-  home.sessionVariables.NIXOS_OZONE_WL = "1";
+  programs.ssh.enable = true;
 
   programs.rofi = {
     enable = true;
