@@ -5,6 +5,7 @@
   home.username = "cod"; # Update to your cod username
   home.homeDirectory = "/home/cod"; # Update to your cod home directory
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.package = pkgs.nix;
 
   home.packages = with pkgs; [
     oh-my-posh lunarvim wofi waybar vim htop zsh
