@@ -12,7 +12,14 @@
     tree home-manager
     papirus-icon-theme
     wget
-    # udiskie
+    udiskie
+    libnotify
+    exfatprogs # Support for exFAT filesystems
+    pywal # For color schemes
+    hyprpaper # For setting wallpaper
+    swww # For setting animated wallpaper
+    ffmpeg-full # For video/audio processing
+    yt-dlp # For downloading videos
   ];
 
   # xdg.desktopEntries."superfile" = {
@@ -52,15 +59,15 @@
   #     };
   #   };
 
-  # programs.rofi = {
-  #   enable = true;
-  #   package = pkgs.rofi-wayland;
-  #   extraConfig = {
-  #     modi = "drun,run,window";
-  #     show-icons = true;
-  #     icon-theme = "Papirus";
-  #   };
-  # };
+  programs.rofi = {
+    enable = true;
+    package = pkgs.rofi-wayland;
+    extraConfig = {
+      modi = "drun,run,window";
+      show-icons = true;
+      icon-theme = "Papirus";
+    };
+  };
 
   programs.zsh = {
     enable = true;
@@ -104,6 +111,7 @@
       alias c="clear && neofetch"
       alias open="superfile"
       neofetch
+      wal -R
     '';
     force = true;
   };
