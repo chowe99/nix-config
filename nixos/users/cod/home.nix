@@ -7,30 +7,12 @@
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   home.packages = with pkgs; [
-    vim git htop zsh
+    oh-my-posh lunarvim wofi waybar vim htop zsh
     neofetch btop
     tree home-manager
-    docker
-    signal-desktop
-    # wineWowPackages.waylandFull # May not work well on Asahi; test or remove
     papirus-icon-theme
-    # winetricks
-    dpkg
-    libcanberra
-
     wget
-    libcanberra
-    nss
-    gtk2
-    udiskie
-    libnotify
-    exfatprogs
-    pywal
-    # hyprpaper # Optional; depends on Hyprland
-    # swww # Optional; depends on Hyprland
-    ffmpeg-full
-    yt-dlp
-    mullvad-vpn
+    # udiskie
   ];
 
   # xdg.desktopEntries."superfile" = {
@@ -45,42 +27,40 @@
   # };
 
   # udiskie configuration for mounting partitions
-  services.udiskie = {
-      enable = true;
-      automount = true;
-      notify = true;
-      tray = "never"; # Correct value for Hyprland
-      settings = {
-        program_options = {
-          password_prompt = "kitty -e udiskie-unlock"; # Prompt in kitty for LUKS passphrase
-        };
-        device_config = [
-          # Unencrypted exFAT partition (sda1)
-          {
-            device = "UUID=BF75-E4C0";
-            automount = true;
-          }
-          # LUKS-encrypted partition (sda3)
-          {
-            device = "UUID=73535e6c-db20-4edb-9a7d-3fe4f869b924";
-            luks = true;
-            automount = true;
-          }
-        ];
-      };
-    };
+  # services.udiskie = {
+  #     enable = true;
+  #     automount = true;
+  #     notify = true;
+  #     tray = "never"; # Correct value for Hyprland
+  #     settings = {
+  #       program_options = {
+  #         password_prompt = "kitty -e udiskie-unlock"; # Prompt in kitty for LUKS passphrase
+  #       };
+  #       device_config = [
+  #         # Unencrypted exFAT partition (sda1)
+  #         {
+  #           device = "UUID=BF75-E4C0";
+  #           automount = true;
+  #         }
+  #         # LUKS-encrypted partition (sda3)
+  #         {
+  #           device = "UUID=73535e6c-db20-4edb-9a7d-3fe4f869b924";
+  #           luks = true;
+  #           automount = true;
+  #         }
+  #       ];
+  #     };
+  #   };
 
-  programs.kitty.enable = true;
-
-  programs.rofi = {
-    enable = true;
-    package = pkgs.rofi-wayland;
-    extraConfig = {
-      modi = "drun,run,window";
-      show-icons = true;
-      icon-theme = "Papirus";
-    };
-  };
+  # programs.rofi = {
+  #   enable = true;
+  #   package = pkgs.rofi-wayland;
+  #   extraConfig = {
+  #     modi = "drun,run,window";
+  #     show-icons = true;
+  #     icon-theme = "Papirus";
+  #   };
+  # };
 
   programs.zsh = {
     enable = true;
@@ -120,22 +100,10 @@
       alias vim=lvim
       # alias age=agenix
       eval "$(oh-my-posh init zsh --config 'https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/1_shell.omp.json')"
-      alias rebuild="home-manager switch --flake ~/nix-config#cod" # Updated for Home Manager
-      # alias ssf2='wine "$HOME/.wine/drive_c/Program Files (x86)/Super Smash Flash 2 Beta/SSF2.exe"' # Test or remove
+      alias switch="home-manager switch --flake ~/nix-config#cod" # Updated for Home Manager
       alias c="clear && neofetch"
       alias open="superfile"
       neofetch
-      # Adjust API key paths for Asahi Linux
-      # if [[ -f ~/.config/secrets/openai-api-key ]]; then
-      #   export OPENAI_API_KEY=$(cat ~/.config/secrets/openai-api-key)
-      # fi
-      # if [[ -f ~/.config/secrets/gemini-api-key ]]; then
-      #   export GEMINI_API_KEY=$(cat ~/.config/secrets/gemini-api-key)
-      # fi
-      # if [[ -f ~/.config/secrets/anthropic-api-key ]]; then
-      #   export ANTHROPIC_API_KEY=$(cat ~/.config/secrets/anthropic-api-key)
-      # fi
-      wal -R
     '';
     force = true;
   };
