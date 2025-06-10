@@ -22,20 +22,23 @@
 
   outputs = { self, nixpkgs, home-manager, agenix, ... }@inputs:
   let
-    # NixOS systems (x86_64-linux)
-    nixosSystem = system: nixpkgs.lib.nixosSystem {
+    # NixOS system configuration function
+    nixosSystem = { system, modules }: nixpkgs.lib.nixosSystem {
       inherit system;
       specialArgs = { inherit inputs; };
+      inherit modules;
     };
 
-    # Home Manager configuration for cod user (aarch64-linux)
-    homeManagerConfig = username: system: home-manager.lib.homeManagerConfiguration {
+    # Home Manager configuration function
+    homeManagerConfig = { username, system, modules }: home-manager.lib.homeManagerConfiguration {
       pkgs = nixpkgs.legacyPackages.${system};
       extraSpecialArgs = { inherit inputs; };
+      inherit modules;
     };
   in {
     nixosConfigurations = {
-      nix = nixosSystem "x86_64-linux" {
+      nix = nixosSystem {
+        system = "x86_64-linux";
         modules = [
           ./hosts/nixos/hardware-configuration.nix
           ./hosts/nixos/configuration.nix
@@ -48,7 +51,8 @@
         ];
       };
 
-      server = nixosSystem "x86_64-linux" {
+      server = nixosSystem {
+        system = "x86_64-linux";
         modules = [
           ./hosts/nixos-server/hardware-configuration.nix
           ./hosts/nixos-server/configuration.nix
@@ -63,7 +67,9 @@
     };
 
     homeConfigurations = {
-      cod = homeManagerConfig "cod" "aarch64-linux" {
+      cod = homeManagerConfig {
+        username = "cod";
+        system = "aarch64-linux";
         modules = [
           ./nixos/users/cod/home.nix
         ];
