@@ -5,11 +5,13 @@
   home.username = "cod"; # Update to your cod username
   home.homeDirectory = "/home/cod"; # Update to your cod home directory
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.package = pkgs.nix;
 
   home.packages = with pkgs; [
     oh-my-posh lunarvim wofi waybar vim htop zsh
     neofetch btop
     tree home-manager
+    hyprshot # screenshots
     papirus-icon-theme
     wget
     udiskie
@@ -20,44 +22,49 @@
     swww # For setting animated wallpaper
     ffmpeg-full # For video/audio processing
     yt-dlp # For downloading videos
+    superfile # Terminal file manager
   ];
 
-  # xdg.desktopEntries."superfile" = {
-  #   name = "Superfile (TUI)";
-  #   genericName = "TUI File Manager";
-  #   comment = "Fast and modern TUI file manager";
-  #   exec = "superfile";
-  #   icon = "utilities-terminal";
-  #   terminal = true;
-  #   categories = [ "Utility" "FileTools" ];
-  #   mimeType = [ "inode/directory" ];
-  # };
+  xdg.desktopEntries."superfile" = {
+    name = "Superfile (TUI)";
+    genericName = "TUI File Manager";
+    comment = "Fast and modern TUI file manager";
+    exec = "superfile";
+    icon = "utilities-terminal";
+    terminal = true;
+    categories = [ "Utility" "FileTools" ];
+    mimeType = [ "inode/directory" ];
+  };
 
   # udiskie configuration for mounting partitions
-  # services.udiskie = {
-  #     enable = true;
-  #     automount = true;
-  #     notify = true;
-  #     tray = "never"; # Correct value for Hyprland
-  #     settings = {
-  #       program_options = {
-  #         password_prompt = "kitty -e udiskie-unlock"; # Prompt in kitty for LUKS passphrase
-  #       };
-  #       device_config = [
-  #         # Unencrypted exFAT partition (sda1)
-  #         {
-  #           device = "UUID=BF75-E4C0";
-  #           automount = true;
-  #         }
-  #         # LUKS-encrypted partition (sda3)
-  #         {
-  #           device = "UUID=73535e6c-db20-4edb-9a7d-3fe4f869b924";
-  #           luks = true;
-  #           automount = true;
-  #         }
-  #       ];
-  #     };
-  #   };
+  services.udiskie = {
+      enable = true;
+      automount = true;
+      notify = true;
+      tray = "never"; # Correct value for Hyprland
+      settings = {
+        program_options = {
+          password_prompt = "kitty -e udiskie-unlock"; # Prompt in kitty for LUKS passphrase
+        };
+        device_config = [
+          # Unencrypted exFAT partition (sda1)
+          {
+            device = "UUID=BF75-E4C0";
+            automount = true;
+          }
+          # LUKS-encrypted partition (sda3)
+          {
+            device = "UUID=73535e6c-db20-4edb-9a7d-3fe4f869b924";
+            luks = true;
+            automount = true;
+          }
+        ];
+      };
+    };
+
+  programs.kitty.enable = true;
+  wayland.windowManager.hyprland.enable = true;
+  home.sessionVariables.NIXOS_OZONE_WL = "1";
 
   programs.rofi = {
     enable = true;
