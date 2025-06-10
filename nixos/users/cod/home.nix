@@ -117,7 +117,7 @@
       alias c="clear && neofetch"
       alias open="superfile"
       neofetch
-      wal -R
+      # wal -R
     '';
     force = true;
   };
