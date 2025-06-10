@@ -9,7 +9,6 @@
 
   home.packages = with pkgs; [
     oh-my-posh lunarvim wofi waybar vim htop zsh
-    rofi
     neofetch btop
     tree home-manager
     hyprshot # screenshots
