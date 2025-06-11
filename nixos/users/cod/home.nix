@@ -7,17 +7,6 @@
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   nix.package = pkgs.nix;
 
-  home.services = {
-    # completely turn off portal backends
-    xdg-desktop-portal = {
-      enable = false;
-    };
-    xdg-desktop-portal-wlr = {
-      enable = false;
-    };
-  };
-
-
   home.packages = with pkgs; [
     wl-clipboard # wayland clipboard
     openssh
