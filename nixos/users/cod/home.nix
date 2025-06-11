@@ -21,7 +21,7 @@ in
   home.packages = with unstable; [
     wl-clipboard
     openssh
-    oh-my-posh wofi waybar vim htop zsh
+    oh-my-posh wofi waybar vim htop
     neofetch btop
     tree home-manager
     hyprshot
@@ -121,6 +121,13 @@ in
 
     # Plugins
     plugins = {
+      neo-tree.enable = true;
+      notify = {
+        enable = true;
+        settings = {
+          background_colour = "#000000";
+        };
+      };
       web-devicons = {
         enable = true;
       };
@@ -136,7 +143,7 @@ in
                   version = "LuaJIT";
                 };
                 diagnostics = {
-                  globals = [ "vim" "lvim" ];
+                  globals = [ "vim" "nvim" ];
                 };
                 workspace = {
                   library = { __raw = "vim.api.nvim_get_runtime_file('', true)"; };
@@ -156,7 +163,7 @@ in
               on_attach = ''
                 function(client, bufnr)
                   client.server_capabilities.documentFormattingProvider = false
-                  require('lvim.lsp').common_on_attach(client, bufnr)
+                  require('nvim.lsp').common_on_attach(client, bufnr)
                 end
               '';
             };
@@ -212,9 +219,29 @@ in
         };
       };
       noice.enable = true;
-      notify.enable = true;
-      neo-tree.enable = true;
       transparent.enable = true;
+      lualine.enable = true;
+      cmp = {
+        enable = true;
+        settings = {
+          sources = [
+            { name = "nvim_lsp"; }
+            { name = "buffer"; }
+            { name = "path"; }
+            { name = "luasnip"; }
+          ];
+        };
+      };
+      luasnip.enable = true;
+      indent-blankline.enable = true;
+      gitsigns.enable = true;
+      comment.enable = true;
+      alpha = {
+        enable = true;
+        settings = {
+          theme = "dashboard"; # Basic theme to satisfy assertion
+        };
+      };
     };
 
     # Additional Plugins
@@ -229,7 +256,18 @@ in
       avante-nvim
       # copilot-vim
       nvim-ts-autotag
+      hologram-nvim
       # tailwindcss-colorizer-cmp
+      which-key-nvim
+      mason-nvim
+      mason-lspconfig-nvim
+      plenary-nvim
+      nvim-navic
+      nvim-ts-context-commentstring
+      schemastore-nvim
+      bigfile-nvim
+      friendly-snippets
+      tokyonight-nvim
     ];
 
     # Keymappings
@@ -256,64 +294,159 @@ in
 
     # Extra Lua Configuration
       extraConfigLua = ''
-    -- DAP Configuration
-    local dap = require('dap')
-    dap.adapters.node2 = {
-      type = 'executable',
-      command = 'node',
-      args = { "${unstable.vimPlugins.nvim-dap}/out/src/nodeDebug.js" },
-    }
-    dap.configurations.javascript = {
-      {
-        name = 'Launch',
-        type = 'node2',
-        request = 'launch',
-        program = "$\{file}",
-        cwd = vim.fn.getcwd(),
-        sourceMaps = true,
-        protocol = 'inspector',
-      },
-    }
+        require("which-key").setup({
+          triggers = {"<leader>"},
+        })
 
-    -- Format on save
-    vim.api.nvim_create_autocmd("BufWritePre", {
-      callback = function()
-        vim.lsp.buf.format()
-      end,
-    })
+        require("nvim-autopairs").setup()
 
-    -- Configure none-ls
-    local none_ls = require('none-ls')
-    none_ls.setup({
-      sources = {
-        -- Formatting sources
-        none_ls.builtins.formatting.prettierd.with({
-          filetypes = { "javascript", "typescript", "typescriptreact", "javascriptreact", "vue", "html", "css", "json", "yaml" },
-        }),
-        none_ls.builtins.formatting.black.with({
-          filetypes = { "python" },
-        }),
-        none_ls.builtins.formatting.stylelint.with({
-          filetypes = { "css", "scss", "sass", "less" },
-        }),
-        none_ls.builtins.formatting.shfmt.with({
-          filetypes = { "sh", "bash" },
-        }),
-        -- Diagnostics sources
-        none_ls.builtins.diagnostics.eslint_d.with({
-          filetypes = { "javascript", "typescript", "typescriptreact", "javascriptreact", "vue" },
-        }),
-        none_ls.builtins.diagnostics.pylint.with({
-          filetypes = { "python" },
-        }),
-        none_ls.builtins.diagnostics.stylelint.with({
-          filetypes = { "css", "scss", "sass", "less" },
-        }),
-        none_ls.builtins.diagnostics.shellcheck.with({
-          filetypes = { "sh", "bash" },
-        }),
-      },
-    })
+        local wk = require("which-key")
+        wk.register({
+          h = {
+            name = "Harpoon",
+            a = { "<cmd>lua require('harpoon'):list():add()<cr>", "Add file" },
+            m = { "<cmd>lua require('harpoon').ui:toggle_quick_menu(require('harpoon'):list())<cr>", "Toggle menu" },
+            ["1"] = { "<cmd>lua require('harpoon'):list():select(1)<cr>", "Select file 1" },
+            ["2"] = { "<cmd>lua require('harpoon'):list():select(2)<cr>", "Select file 2" },
+            ["3"] = { "<cmd>lua require('harpoon'):list():select(3)<cr>", "Select file 3" },
+            ["4"] = { "<cmd>lua require('harpoon'):list():select(4)<cr>", "Select file 4" },
+            p = { "<cmd>lua require('harpoon'):list():prev()<cr>", "Previous file" },
+            n = { "<cmd>lua require('harpoon'):list():next()<cr>", "Next file" },
+          },
+        }, { prefix = "<leader>" })
+
+        wk.register({
+          e = {
+            name = "Diagnostics",
+            e = { "<cmd>lua vim.diagnostic.open_float()<CR>", "Open Error Float" },
+            d = { "<cmd>Telescope diagnostics<CR>", "Error Diagnostics" },
+            h = { "<cmd>Noice all<CR>", "Noice All" },
+          },
+        }, { prefix = "<leader>" })
+
+        wk.register({
+          t = {
+            name = "Terminals",
+            ["1"] = { "<cmd>ToggleTerm 1<CR>", "Terminal 1" },
+            ["2"] = { "<cmd>ToggleTerm 2<CR>", "Terminal 2" },
+            ["3"] = { "<cmd>ToggleTerm 3<CR>", "Terminal 3" },
+            ["4"] = { "<cmd>ToggleTerm 4<CR>", "Terminal 4" },
+            ["5"] = { "<cmd>ToggleTerm 5<CR>", "Terminal 5" },
+            ["6"] = { "<cmd>ToggleTerm 6<CR>", "Terminal 6" },
+            ["7"] = { "<cmd>ToggleTerm 7<CR>", "Terminal 7" },
+            ["8"] = { "<cmd>ToggleTerm 8<CR>", "Terminal 8" },
+            ["9"] = { "<cmd>ToggleTerm 9<CR>", "Terminal 9" },
+            ["0"] = { "<cmd>ToggleTerm 10<CR>", "Terminal 10" },
+          },
+        }, { prefix = "<leader>" })
+
+        require("neo-tree").setup({
+          close_if_last_window = true,
+          filesystem = {
+            window = {
+              position = "right",
+              width = 25,
+              mapping_options = {
+                noremap = true,
+                nowait = true,
+              },
+              mappings = {
+                "<leader>p" = "image_preview",
+              },
+            },
+            commands = {
+              image_preview = function(state)
+                local node = state.tree:get_node()
+                if node.type == "file" then
+                  local hologram = require("hologram")
+                  hologram.setup {
+                    auto_display = false,
+                  }
+                  local buf = vim.api.nvim_create_buf(false, true)
+                  local width = vim.o.columns * 0.5
+                  local height = vim.o.lines * 0.5
+                  vim.api.nvim_open_win(buf, true, {
+                    relative = "editor",
+                    width = math.floor(width),
+                    height = math.floor(height),
+                    row = math.floor((vim.o.lines - height) / 2),
+                    col = math.floor((vim.o.columns - width) / 2),
+                    style = "minimal",
+                    border = "rounded",
+                  })
+                  require('hologram.image'):new(node.path):display(1, 1, buf, {})
+                else
+                  vim.notify("Not a valid image file!", vim.log.levels.WARN)
+                end
+              end,
+            },
+          },
+        })
+
+        -- DAP Configuration
+        local dap = require('dap')
+        dap.adapters.node2 = {
+          type = 'executable',
+          command = 'node',
+          args = { "${unstable.vimPlugins.nvim-dap}/out/src/nodeDebug.js" },
+        }
+        dap.configurations.javascript = {
+          {
+            name = 'Launch',
+            type = 'node2',
+            request = 'launch',
+            program = "$\{file}",
+            cwd = vim.fn.getcwd(),
+            sourceMaps = true,
+            protocol = 'inspector',
+          },
+        }
+
+        vim.api.nvim_create_autocmd("BufWritePre", {
+          callback = function()
+            vim.lsp.buf.format()
+          end,
+        })
+
+        -- Format on save
+        vim.api.nvim_create_autocmd("BufWritePre", {
+          callback = function()
+            vim.lsp.buf.format()
+          end,
+        })
+
+        -- Configure none-ls
+        local none_ls = require('none-ls')
+        none_ls.setup({
+          sources = {
+            -- Formatting sources
+            none_ls.builtins.formatting.prettierd.with({
+              filetypes = { "javascript", "typescript", "typescriptreact", "javascriptreact", "vue", "html", "css", "json", "yaml" },
+            }),
+            none_ls.builtins.formatting.black.with({
+              filetypes = { "python" },
+            }),
+            none_ls.builtins.formatting.stylelint.with({
+              filetypes = { "css", "scss", "sass", "less" },
+            }),
+            none_ls.builtins.formatting.shfmt.with({
+              filetypes = { "sh", "bash" },
+            }),
+            -- Diagnostics sources
+            none_ls.builtins.diagnostics.eslint_d.with({
+              filetypes = { "javascript", "typescript", "typescriptreact", "javascriptreact", "vue" },
+            }),
+            none_ls.builtins.diagnostics.pylint.with({
+              filetypes = { "python" },
+            }),
+            none_ls.builtins.diagnostics.stylelint.with({
+              filetypes = { "css", "scss", "sass", "less" },
+            }),
+            none_ls.builtins.diagnostics.shellcheck.with({
+              filetypes = { "sh", "bash" },
+            }),
+          },
+        })
   '';
   };
 
