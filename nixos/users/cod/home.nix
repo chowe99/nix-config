@@ -45,10 +45,10 @@
       }
     ];
     packages = [
-      "flathub:md.obsidian.Obsidian"
-      "flathub:com.bitwarden.desktop"
-      "flathub:app.zen_browser.zen"
-      "flathub:com.github.tchx84.Flatseal" # For managing permissions
+      "md.obsidian.Obsidian"
+      "com.bitwarden.desktop"
+      "app.zen_browser.zen"
+      "com.github.tchx84.Flatseal"
     ];
     uninstallUnmanaged = true;
     update.auto = {
