@@ -27,14 +27,15 @@
     brightnessctl # brightness control
     pamixer # audio control
     flatpak # for certain applications (bitwarden, obsidian, etc)
+    xdg-utils # for xdg-settings (fixes Obsidian error)
   ];
 
   home.sessionVariables = {
     XDG_DATA_DIRS = "${config.home.homeDirectory}/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:$XDG_DATA_DIRS";
-    ELECTRON_DISABLE_GPU = "1";
+    ELECTRON_DISABLE_GPU = "1"; # Mitigate Asahi GPU issues
   };
 
-  # Existing Flatpak configuration (from your previous question)
+# Flatpak configuration
   services.flatpak = {
     enable = true;
     remotes = [
@@ -47,7 +48,7 @@
       "flathub:md.obsidian.Obsidian"
       "flathub:com.bitwarden.desktop"
       "flathub:app.zen_browser.zen"
-
+      "flathub:com.github.tchx84.Flatseal" # For managing permissions
     ];
     uninstallUnmanaged = true;
     update.auto = {

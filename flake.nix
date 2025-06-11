@@ -14,13 +14,18 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    nix-flatpak = {
+      url = "github:gmodena/nix-flatpak";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     dotfiles = {
       url = "github:chowe99/dotfiles";
       flake = false;
     };
   };
 
-  outputs = { self, nixpkgs, home-manager, agenix, ... }@inputs:
+  outputs = { self, nixpkgs, home-manager, agenix, nix-flatpak, ... }@inputs:
   let
     # NixOS system configuration function
     nixosSystem = { system, modules }: nixpkgs.lib.nixosSystem {
@@ -71,6 +76,7 @@
         username = "cod";
         system = "aarch64-linux";
         modules = [
+            nix-flatpak.homeManagerModules.nix-flatpak # Add nix-flatpak module
           ./nixos/users/cod/home.nix
         ];
       };
