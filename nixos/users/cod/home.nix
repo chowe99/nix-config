@@ -33,8 +33,8 @@
     # --- For Lvim ---
     perl
     openssl
-    nodePackages.prettier
-    nodePackages.prettierd
+    # nodePackages.prettier
+    # nodePackages.prettierd
     black
     nodePackages.stylelint
     shfmt
