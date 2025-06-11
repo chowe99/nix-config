@@ -24,6 +24,8 @@
     ffmpeg-full # For video/audio processing
     yt-dlp # For downloading videos
     superfile # Terminal file manager
+    brightnessctl
+    pamixer
   ];
 
   xdg.desktopEntries."superfile" = {
@@ -117,6 +119,7 @@
       alias c="clear && neofetch"
       alias open="superfile"
       neofetch
+      export PATH="$HOME/Applications:$PATH"
       # wal -R
     '';
     force = true;
