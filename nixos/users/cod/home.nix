@@ -32,7 +32,7 @@
 
   home.sessionVariables = {
     XDG_DATA_DIRS = "${config.home.homeDirectory}/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:$XDG_DATA_DIRS";
-    ELECTRON_DISABLE_GPU = "1"; # Mitigate Asahi GPU issues
+    # ELECTRON_DISABLE_GPU = "1"; # Mitigate Asahi GPU issues
   };
 
 # Flatpak configuration
