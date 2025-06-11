@@ -15,7 +15,7 @@
     hyprshot # screenshots
     papirus-icon-theme
     wget
-    udiskie
+    udiskie # disk management
     libnotify
     exfatprogs # Support for exFAT filesystems
     pywal # For color schemes
@@ -24,20 +24,61 @@
     ffmpeg-full # For video/audio processing
     yt-dlp # For downloading videos
     superfile # Terminal file manager
-    brightnessctl
-    pamixer
+    brightnessctl # brightness control
+    pamixer # audio control
+    flatpak # for certain applications (bitwarden, obsidian, etc)
   ];
 
-  xdg.desktopEntries."superfile" = {
-    name = "Superfile (TUI)";
-    genericName = "TUI File Manager";
-    comment = "Fast and modern TUI file manager";
-    exec = "superfile";
-    icon = "utilities-terminal";
-    terminal = true;
-    categories = [ "Utility" "FileTools" ];
-    mimeType = [ "inode/directory" ];
+  home.sessionVariables = {
+    XDG_DATA_DIRS = "${config.home.homeDirectory}/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:$XDG_DATA_DIRS";
+    ELECTRON_DISABLE_GPU = "1";
   };
+
+  # Existing Flatpak configuration (from your previous question)
+  services.flatpak = {
+    enable = true;
+    remotes = [
+      {
+        name = "flathub";
+        location = "https://dl.flathub.org/repo/flathub.flatpakrepo";
+      }
+    ];
+    packages = [
+      "flathub:md.obsidian.Obsidian"
+      "flathub:com.bitwarden.desktop"
+      "flathub:app.zen_browser.zen"
+
+    ];
+    uninstallUnmanaged = true;
+    update.auto = {
+      enable = true;
+      onCalendar = "weekly";
+    };
+  };
+
+  xdg.desktopEntries = {
+    "md.obsidian.Obsidian" = {
+      name = "Obsidian";
+      comment = "Knowledge base";
+      exec = "flatpak run md.obsidian.Obsidian --js-flags=\"--nodecommit_pooled_pages\" --disable-gpu %U";
+      icon = "md.obsidian.Obsidian";
+      terminal = false;
+      type = "Application";
+      categories = [ "Office" ];
+      mimeType = [ "x-scheme-handler/obsidian" ];
+    };
+    "superfile" = {
+      name = "Superfile (TUI)";
+      genericName = "TUI File Manager";
+      comment = "Fast and modern TUI file manager";
+      exec = "superfile";
+      icon = "utilities-terminal";
+      terminal = true;
+      categories = [ "Utility" "FileTools" ];
+      mimeType = [ "inode/directory" ];
+    };
+  };
+
 
   # udiskie configuration for mounting partitions
   services.udiskie = {
