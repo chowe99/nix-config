@@ -31,6 +31,14 @@
     xdg-utils # for xdg-settings (fixes Obsidian error)
 
     # --- For Lvim ---
+    neovim
+    make
+    pip
+    python
+    npm
+    node
+    cargo
+    ripgrep
     #perl
     #openssl
     # nodePackages.prettier
