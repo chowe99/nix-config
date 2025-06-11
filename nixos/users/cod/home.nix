@@ -8,6 +8,7 @@
   nix.package = pkgs.nix;
 
   home.packages = with pkgs; [
+    wl-clipboard # wayland clipboard
     openssh
     oh-my-posh lunarvim wofi waybar vim htop zsh
     neofetch btop
@@ -28,6 +29,18 @@
     pamixer # audio control
     flatpak # for certain applications (bitwarden, obsidian, etc)
     xdg-utils # for xdg-settings (fixes Obsidian error)
+
+    # --- For Lvim ---
+    perl
+    openssl
+    nodePackages.prettier
+    nodePackages.prettierd
+    black
+    nodePackages.stylelint
+    shfmt
+    nodePackages.eslint_d
+    python3Packages.pylint
+    shellcheck
   ];
 
   home.sessionVariables = {
