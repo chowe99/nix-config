@@ -30,6 +30,11 @@
     flatpak # for certain applications (bitwarden, obsidian, etc)
     xdg-utils # for xdg-settings (fixes Obsidian error)
 
+    # Portal packages
+    xdg-desktop-portal
+    xdg-desktop-portal-wlr # Replace gtk with wlr
+
+
     # --- For Lvim ---
     (neovim.override {
           vimAlias = true;
