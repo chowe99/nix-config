@@ -160,10 +160,9 @@ in
             enable = true;
             filetypes = [ "javascript" "javascriptreact" "typescript" "typescriptreact" ];
             extraOptions = {
-              on_attach = ''
+              onAttach = ''
                 function(client, bufnr)
                   client.server_capabilities.documentFormattingProvider = false
-                  require('nvim.lsp').common_on_attach(client, bufnr)
                 end
               '';
             };
@@ -288,6 +287,7 @@ in
       { mode = "n"; key = "<leader>h4"; action = "lua require('harpoon'):list():select(4)"; }
       { mode = "n"; key = "<leader>hp"; action = "lua require('harpoon'):list():prev()"; }
       { mode = "n"; key = "<leader>hn"; action = "lua require('harpoon'):list():next()"; }
+      { mode = "n"; key = "<leader>"; action = ":WhichKey<CR>"; }
     ];
 
     # Extra Lua Configuration
