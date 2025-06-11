@@ -67,10 +67,6 @@
       type = "Application";
       categories = [ "Office" ];
       mimeType = [ "x-scheme-handler/obsidian" ];
-      extraConfig = {
-        "X-Flatpak-Tags" = "proprietary";
-        "X-Flatpak" = "md.obsidian.Obsidian";
-      };
     };
     "superfile" = {
       name = "Superfile (TUI)";
