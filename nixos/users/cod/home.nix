@@ -17,7 +17,6 @@
     papirus-icon-theme
     wget
     udiskie # disk management
-    libnotify
     exfatprogs # Support for exFAT filesystems
     pywal # For color schemes
     hyprpaper # For setting wallpaper
@@ -31,7 +30,20 @@
     xdg-utils # for xdg-settings (fixes Obsidian error)
 
     # --- For Lvim ---
+    (neovim.override {
+          vimAlias = true;
+          configure = {
+            customRC = ''
+              set number
+            '';
+            packages.myPlugins = with pkgs.vimPlugins; {
+              start = [ nvim-lspconfig ];
+            };
+          };
+    })
     lunarvim
+    libnotify # library for notify-send in lvim
+    yarn
     nodejs
     cargo
     ripgrep
