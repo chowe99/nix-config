@@ -42,6 +42,11 @@
             };
           };
     })
+    luajit
+    luajitPackages.luarocks
+    gnumake
+    gcc
+    nodePackages.prettier_d_slim
     lunarvim
     libnotify # library for notify-send in lvim
     yarn
@@ -204,10 +209,10 @@
     source = "${inputs.dotfiles}/rofi";
     recursive = true;
   };
-  #home.file.".config/lvim" = {
-  #  source = "${inputs.dotfiles}/lvim";
-  #  recursive = true;
-  #};
+  home.file.".config/lvim/init.lua" = {
+    source = "${inputs.dotfiles}/lvim";
+    recursive = true;
+  };
   home.file.".config/waybar" = {
     source = "${inputs.dotfiles}/waybar";
     recursive = true;
