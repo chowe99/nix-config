@@ -238,8 +238,8 @@ in
       { mode = "n"; key = "<leader>sf"; action = "require('telescope.builtin').find_files"; }
       { mode = "n"; key = "<leader>sg"; action = "require('telescope.builtin').live_grep"; }
       { mode = "n"; key = "<C-t>"; action = ":Neotree toggle<CR>"; }
-      { mode = "n"; key = "x"; action = '"_x'; }
-      { mode = "v"; key = "d"; action = '"_d'; }
+      { mode = "n"; key = "x"; action = "\"_x"; }
+      { mode = "v"; key = "d"; action = "\"_d"; }
       { mode = "n"; key = "<leader>ee"; action = "vim.diagnostic.open_float"; }
       { mode = "n"; key = "<leader>ed"; action = "<cmd>Telescope diagnostics<CR>"; }
       { mode = "n"; key = "<leader>eh"; action = "<cmd>Noice all<CR>"; }
