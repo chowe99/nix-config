@@ -3,6 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
+    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
 
     home-manager = {
       url = "github:nix-community/home-manager/release-24.11";
@@ -16,7 +17,11 @@
 
     nix-flatpak = {
       url = "github:gmodena/nix-flatpak";
-      # inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    nixvim = {
+      url = "github:nix-community/nixvim";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
 
     dotfiles = {
@@ -25,16 +30,14 @@
     };
   };
 
-  outputs = { self, nixpkgs, home-manager, agenix, nix-flatpak, ... }@inputs:
+  outputs = { self, nixpkgs, nixpkgs-unstable, home-manager, agenix, nix-flatpak, nixvim, ... }@inputs:
   let
-    # NixOS system configuration function
     nixosSystem = { system, modules }: nixpkgs.lib.nixosSystem {
       inherit system;
       specialArgs = { inherit inputs; };
       inherit modules;
     };
 
-    # Home Manager configuration function
     homeManagerConfig = { username, system, modules }: home-manager.lib.homeManagerConfiguration {
       pkgs = nixpkgs.legacyPackages.${system};
       extraSpecialArgs = { inherit inputs; };
@@ -76,7 +79,7 @@
         username = "cod";
         system = "aarch64-linux";
         modules = [
-            nix-flatpak.homeManagerModules.nix-flatpak # Add nix-flatpak module
+          nix-flatpak.homeManagerModules.nix-flatpak
           ./nixos/users/cod/home.nix
         ];
       };
