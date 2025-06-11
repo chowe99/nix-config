@@ -10,7 +10,7 @@
   home.packages = with pkgs; [
     wl-clipboard # wayland clipboard
     openssh
-    oh-my-posh lunarvim wofi waybar vim htop zsh
+    oh-my-posh wofi waybar vim htop zsh
     neofetch btop
     tree home-manager
     hyprshot # screenshots
@@ -31,22 +31,27 @@
     xdg-utils # for xdg-settings (fixes Obsidian error)
 
     # --- For Lvim ---
-    perl
-    openssl
+    #perl
+    #openssl
     # nodePackages.prettier
     # nodePackages.prettierd
-    black
-    nodePackages.stylelint
-    shfmt
-    nodePackages.eslint_d
-    python3Packages.pylint
-    shellcheck
+    #black
+    #nodePackages.stylelint
+    #shfmt
+    #nodePackages.eslint_d
+    #python3Packages.pylint
+    #shellcheck
   ];
 
   home.sessionVariables = {
     XDG_DATA_DIRS = "${config.home.homeDirectory}/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:$XDG_DATA_DIRS";
     ELECTRON_DISABLE_GPU = "1"; # Mitigate Asahi GPU issues
   };
+
+  #Add support for ./local/bin
+  home.sessionPath = [
+    "$HOME/.local/bin"
+  ];
 
 # Flatpak configuration
   services.flatpak = {
