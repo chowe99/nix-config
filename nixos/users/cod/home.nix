@@ -187,7 +187,7 @@ in
           clangd.enable = true;
         };
       };
-      none-ls = {
+      null-ls = {
         enable = true;
       };
       treesitter = {
@@ -287,11 +287,12 @@ in
       { mode = "n"; key = "<leader>h4"; action = "lua require('harpoon'):list():select(4)"; }
       { mode = "n"; key = "<leader>hp"; action = "lua require('harpoon'):list():prev()"; }
       { mode = "n"; key = "<leader>hn"; action = "lua require('harpoon'):list():next()"; }
-      { mode = "n"; key = "<leader>"; action = ":WhichKey<CR>"; }
     ];
 
     # Extra Lua Configuration
     extraConfigLua = ''
+      vim.g.loaded_netrw = 1
+      vim.g.loaded_netrwPlugin = 1
       require("which-key").setup({
         triggers = {"<leader>"},
       })
@@ -407,8 +408,8 @@ in
         end,
       })
 
-      -- Configure none-ls
-      local none_ls = require('none-ls')
+      -- Configure null-ls
+      local none_ls = require('null-ls')
       none_ls.setup({
         sources = {
           -- Formatting sources
