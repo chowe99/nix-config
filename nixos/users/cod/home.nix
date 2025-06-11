@@ -31,24 +31,18 @@
     xdg-utils # for xdg-settings (fixes Obsidian error)
 
     # --- For Lvim ---
-    neovim
-    gnumake
-    gcc
-    python3.pkgs.pip
-
+    lunarvim
     nodejs
     cargo
     ripgrep
-    #perl
-    #openssl
-    # nodePackages.prettier
-    # nodePackages.prettierd
-    #black
-    #nodePackages.stylelint
-    #shfmt
-    #nodePackages.eslint_d
-    #python3Packages.pylint
-    #shellcheck
+    perl
+    openssl
+    black
+    nodePackages.stylelint
+    shfmt
+    nodePackages.eslint_d
+    python3Packages.pylint
+    shellcheck
   ];
 
   home.sessionVariables = {
@@ -197,10 +191,10 @@
     source = "${inputs.dotfiles}/rofi";
     recursive = true;
   };
-  home.file.".config/lvim" = {
-    source = "${inputs.dotfiles}/lvim";
-    recursive = true;
-  };
+  #home.file.".config/lvim" = {
+  #  source = "${inputs.dotfiles}/lvim";
+  #  recursive = true;
+  #};
   home.file.".config/waybar" = {
     source = "${inputs.dotfiles}/waybar";
     recursive = true;
