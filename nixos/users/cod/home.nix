@@ -60,6 +60,11 @@ in
     openssl
     libnotify
     nodePackages.graphql-language-service-cli  
+    go
+    php
+    luarocks
+    openjdk
+    julia
   ];
 
   home.sessionVariables = {
@@ -75,13 +80,13 @@ in
   # NixVim Configuration
   programs.nixvim = {
     enable = true;
-    
-    # General Vim Settings
+    clipboard = {
+      register = "unnamedplus";
+      providers.wl-copy.enable = true;
+    };
     globals = {
       mapleader = " ";
-      # python3_host_prog = "~/.pyenv/shims/python";
     };
-
     opts = {
       encoding = "utf-8";
       fileencoding = "utf-8";
@@ -118,41 +123,22 @@ in
       foldlevel = 0;
       foldlevelstart = 0;
     };
-
-    # Plugins
     plugins = {
-      neo-tree.enable = true;
-      notify = {
-        enable = true;
-        settings = {
-          background_colour = "#000000";
-        };
-      };
-      web-devicons = {
-        enable = true;
-      };
-      nvim-tree.enable = false; # Disable default NvimTree
       lsp = {
         enable = true;
         servers = {
-          lua_ls = {  # changed from lua-ls
+          lua_ls = {
             enable = true;
             settings = {
               Lua = {
-                runtime = {
-                  version = "LuaJIT";
-                };
-                diagnostics = {
-                  globals = [ "vim" "nvim" ];
-                };
+                runtime = { version = "LuaJIT"; };
+                diagnostics = { globals = [ "vim" "nvim" ]; };
                 workspace = {
                   library = { __raw = "vim.api.nvim_get_runtime_file('', true)"; };
                   maxPreload = 1000;
                   preloadFileSize = 1000;
                 };
-                telemetry = {
-                  enable = false;
-                };
+                telemetry = { enable = false; };
               };
             };
           };
@@ -174,28 +160,25 @@ in
           jsonls.enable = true;
           yamlls.enable = true;
           dockerls.enable = true;
-          graphql = {
-            enable = true;
-            package = null;
-          };
+          graphql.enable = true;
           bashls.enable = true;
-          eslint.enable = true;
-          emmet_ls = {  # changed from emmet-ls
+          emmet_ls = {
             enable = true;
             filetypes = [ "html" "css" "javascript" "javascriptreact" "typescriptreact" ];
           };
-          clangd.enable = true;
+          # Removed clangd due to installation issues
         };
       };
-      null-ls = {
+      neo-tree.enable = true;
+      notify = {
         enable = true;
+        settings = { background_colour = "#000000"; };
       };
+      web-devicons.enable = true;
       treesitter = {
         enable = true;
         settings = {
-          highlight = {
-            enable = true;
-          };
+          highlight = { enable = true; };
           ensure_installed = [
             "javascript" "typescript" "tsx" "python" "html" "css" "json" "yaml"
             "gitignore" "graphql" "http" "scss" "sql" "vim" "lua"
@@ -212,12 +195,18 @@ in
           open_mapping = "[[<c-\\>]]";
           shade_factor = 2;
           direction = "float";
-          float_opts = {
-            border = "curved";
-          };
+          float_opts = { border = "curved"; };
         };
       };
-      noice.enable = true;
+      noice = {
+        enable = true;
+        settings.routes = [
+          {
+            filter = { event = "msg_show"; kind = "search_count"; };
+            opts = { skip = true; };
+          }
+        ];
+      };
       transparent.enable = true;
       lualine.enable = true;
       cmp = {
@@ -237,37 +226,32 @@ in
       comment.enable = true;
       alpha = {
         enable = true;
-        theme = "dashboard"; # Basic theme to satisfy assertion
+        theme = "dashboard";
       };
     };
-
-    # Additional Plugins
     extraPlugins = with pkgs.vimPlugins; [
+      mini-icons
+      nui-nvim
+      plenary-nvim
       nvim-dap
       undotree
-      { plugin = harpoon; config = "lua require('harpoon'):setup()"; }
       nvim-spectre
-      # rainbow_csv
       vim-visual-multi
       nvim-autopairs
       avante-nvim
-      # copilot-vim
       nvim-ts-autotag
       hologram-nvim
-      # tailwindcss-colorizer-cmp
       which-key-nvim
       mason-nvim
       mason-lspconfig-nvim
-      plenary-nvim
       nvim-navic
       nvim-ts-context-commentstring
-      # schemastore-nvim
       bigfile-nvim
       friendly-snippets
       tokyonight-nvim
+      render-markdown-nvim
+      dressing-nvim
     ];
-
-    # Keymappings
     keymaps = [
       { mode = "n"; key = "<leader>sf"; action = "require('telescope.builtin').find_files"; }
       { mode = "n"; key = "<leader>sg"; action = "require('telescope.builtin').live_grep"; }
@@ -279,69 +263,53 @@ in
       { mode = "n"; key = "<leader>eh"; action = "<cmd>Noice all<CR>"; }
       { mode = "n"; key = "<leader>rn"; action = "vim.lsp.buf.rename"; }
       { mode = "n"; key = "<leader>u"; action = ":UndotreeToggle<CR>:UndotreeFocus<CR>"; }
-      { mode = "n"; key = "<leader>ha"; action = "lua require('harpoon'):list():add()"; }
-      { mode = "n"; key = "<leader>hm"; action = "lua require('harpoon').ui:toggle_quick_menu(require('harpoon'):list())"; }
-      { mode = "n"; key = "<leader>h1"; action = "lua require('harpoon'):list():select(1)"; }
-      { mode = "n"; key = "<leader>h2"; action = "lua require('harpoon'):list():select(2)"; }
-      { mode = "n"; key = "<leader>h3"; action = "lua require('harpoon'):list():select(3)"; }
-      { mode = "n"; key = "<leader>h4"; action = "lua require('harpoon'):list():select(4)"; }
-      { mode = "n"; key = "<leader>hp"; action = "lua require('harpoon'):list():prev()"; }
-      { mode = "n"; key = "<leader>hn"; action = "lua require('harpoon'):list():next()"; }
+      { mode = "n"; key = "<leader>/"; action = "<cmd>CommentToggle<CR>"; options = { desc = "Toggle linewise comment"; }; }
     ];
-
-    # Extra Lua Configuration
     extraConfigLua = ''
+      require("mason").setup()
+      require("mason-lspconfig").setup({
+        ensure_installed = {
+          "ts_ls", "pyright", "lua_ls", "tailwindcss", "html", "cssls",
+          "jsonls", "yamlls", "dockerls", "graphql", "bashls", "emmet_ls"
+        },
+        automatic_installation = true,
+      })
+
       vim.g.loaded_netrw = 1
       vim.g.loaded_netrwPlugin = 1
       require("which-key").setup({
-        triggers = {"<leader>"},
+        triggers = { "<leader>" },
+        debug = true,
       })
 
       require("nvim-autopairs").setup()
 
       local wk = require("which-key")
       wk.register({
-        h = {
-          name = "Harpoon",
-          a = { "<cmd>lua require('harpoon'):list():add()<cr>", "Add file" },
-          m = { "<cmd>lua require('harpoon').ui:toggle_quick_menu(require('harpoon'):list())<cr>", "Toggle menu" },
-          ["1"] = { "<cmd>lua require('harpoon'):list():select(1)<cr>", "Select file 1" },
-          ["2"] = { "<cmd>lua require('harpoon'):list():select(2)<cr>", "Select file 2" },
-          ["3"] = { "<cmd>lua require('harpoon'):list():select(3)<cr>", "Select file 3" },
-          ["4"] = { "<cmd>lua require('harpoon'):list():select(4)<cr>", "Select file 4" },
-          p = { "<cmd>lua require('harpoon'):list():prev()<cr>", "Previous file" },
-          n = { "<cmd>lua require('harpoon'):list():next()<cr>", "Next file" },
-        },
-      }, { prefix = "<leader>" })
+        ["<leader>e"] = { name = "Diagnostics" },
+        ["<leader>ed"] = { "<cmd>Telescope diagnostics<CR>", "Error Diagnostics" },
+        ["<leader>ee"] = { "<cmd>lua vim.diagnostic.open_float()<CR>", "Open Error Float" },
+        ["<leader>eh"] = { "<cmd>Noice all<CR>", "Noice All" },
+      })
 
       wk.register({
-        e = {
-          name = "Diagnostics",
-          e = { "<cmd>lua vim.diagnostic.open_float()<CR>", "Open Error Float" },
-          d = { "<cmd>Telescope diagnostics<CR>", "Error Diagnostics" },
-          h = { "<cmd>Noice all<CR>", "Noice All" },
-        },
-      }, { prefix = "<leader>" })
-
-      wk.register({
-        t = {
-          name = "Terminals",
-          ["1"] = { "<cmd>ToggleTerm 1<CR>", "Terminal 1" },
-          ["2"] = { "<cmd>ToggleTerm 2<CR>", "Terminal 2" },
-          ["3"] = { "<cmd>ToggleTerm 3<CR>", "Terminal 3" },
-          ["4"] = { "<cmd>ToggleTerm 4<CR>", "Terminal 4" },
-          ["5"] = { "<cmd>ToggleTerm 5<CR>", "Terminal 5" },
-          ["6"] = { "<cmd>ToggleTerm 6<CR>", "Terminal 6" },
-          ["7"] = { "<cmd>ToggleTerm 7<CR>", "Terminal 7" },
-          ["8"] = { "<cmd>ToggleTerm 8<CR>", "Terminal 8" },
-          ["9"] = { "<cmd>ToggleTerm 9<CR>", "Terminal 9" },
-          ["0"] = { "<cmd>ToggleTerm 10<CR>", "Terminal 10" },
-        },
-      }, { prefix = "<leader>" })
+        ["<leader>t"] = { name = "Terminals" },
+        ["<leader>t0"] = { "<cmd>ToggleTerm 10<CR>", "Terminal 10" },
+        ["<leader>t1"] = { "<cmd>ToggleTerm 1<CR>", "Terminal 1" },
+        ["<leader>t2"] = { "<cmd>ToggleTerm 2<CR>", "Terminal 2" },
+        ["<leader>t3"] = { "<cmd>ToggleTerm 3<CR>", "Terminal 3" },
+        ["<leader>t4"] = { "<cmd>ToggleTerm 4<CR>", "Terminal 4" },
+        ["<leader>t5"] = { "<cmd>ToggleTerm 5<CR>", "Terminal 5" },
+        ["<leader>t6"] = { "<cmd>ToggleTerm 6<CR>", "Terminal 6" },
+        ["<leader>t7"] = { "<cmd>ToggleTerm 7<CR>", "Terminal 7" },
+        ["<leader>t8"] = { "<cmd>ToggleTerm 8<CR>", "Terminal 8" },
+        ["<leader>t9"] = { "<cmd>ToggleTerm 9<CR>", "Terminal 9" },
+      })
 
       require("neo-tree").setup({
         close_if_last_window = true,
         filesystem = {
+          hijack_netrw_behavior = "open_current",
           window = {
             position = "right",
             width = 25,
@@ -394,7 +362,7 @@ in
           name = 'Launch',
           type = 'node2',
           request = 'launch',
-          program = "$\{file}",
+          program = "${file}",
           cwd = vim.fn.getcwd(),
           sourceMaps = true,
           protocol = 'inspector',
@@ -408,7 +376,7 @@ in
         end,
       })
 
-      -- Configure null-ls
+      -- Configure none-ls
       local none_ls = require('null-ls')
       none_ls.setup({
         sources = {
@@ -427,6 +395,7 @@ in
           }),
           -- Diagnostics sources
           none_ls.builtins.diagnostics.eslint_d.with({
+            command = "/home/cod/.nix-profile/bin/eslint_d", -- Verify path with `which eslint_d`
             filetypes = { "javascript", "typescript", "typescriptreact", "javascriptreact", "vue" },
           }),
           none_ls.builtins.diagnostics.pylint.with({
@@ -440,9 +409,8 @@ in
           }),
         },
       })
-  '';
+    '';
   };
-
   # Flatpak configuration
   services.flatpak = {
     enable = true;
