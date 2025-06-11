@@ -19,6 +19,7 @@ in
   nix.package = pkgs.nix;
 
   home.packages = with unstable; [
+    nix-prefetch-git
     wl-clipboard
     openssh
     oh-my-posh wofi waybar vim htop
@@ -88,6 +89,8 @@ in
       mapleader = " ";
     };
     opts = {
+      undofile = true;
+      undodir = "${config.home.homeDirectory}/.local/share/nvim/undo";
       encoding = "utf-8";
       fileencoding = "utf-8";
       number = true;
@@ -124,6 +127,19 @@ in
       foldlevelstart = 0;
     };
     plugins = {
+      comment = {
+        enable = true;
+        settings = {
+          toggler = {
+            line = "<leader>/"; # Replace <gcc>
+            block = "<leader>cb"; # Replace <gbc>
+          };
+          opleader = {
+            line = "<leader>c"; # Replace <gc>
+            block = "<leader>b"; # Replace <gb>
+          };
+        };
+      };
       lsp = {
         enable = true;
         servers = {
@@ -160,7 +176,10 @@ in
           jsonls.enable = true;
           yamlls.enable = true;
           dockerls.enable = true;
-          graphql.enable = true;
+          graphql = {
+            enable = true;
+            package = null;
+          };
           bashls.enable = true;
           emmet_ls = {
             enable = true;
@@ -223,7 +242,6 @@ in
       luasnip.enable = true;
       indent-blankline.enable = true;
       gitsigns.enable = true;
-      comment.enable = true;
       alpha = {
         enable = true;
         theme = "dashboard";
@@ -241,7 +259,15 @@ in
       avante-nvim
       nvim-ts-autotag
       hologram-nvim
-      which-key-nvim
+      (pkgs.vimUtils.buildVimPlugin {
+        name = "which-key-nvim";
+        src = pkgs.fetchFromGitHub {
+          owner = "folke";
+          repo = "which-key.nvim";
+          rev = "v2.1.0";
+          hash = "sha256-gc/WJJ1s4s+hh8Mx8MTDg8pGGNOXxgKqBMwudJtpO4Y="; # Correct hash
+        };
+      })
       mason-nvim
       mason-lspconfig-nvim
       nvim-navic
@@ -263,7 +289,6 @@ in
       { mode = "n"; key = "<leader>eh"; action = "<cmd>Noice all<CR>"; }
       { mode = "n"; key = "<leader>rn"; action = "vim.lsp.buf.rename"; }
       { mode = "n"; key = "<leader>u"; action = ":UndotreeToggle<CR>:UndotreeFocus<CR>"; }
-      { mode = "n"; key = "<leader>/"; action = "<cmd>CommentToggle<CR>"; options = { desc = "Toggle linewise comment"; }; }
     ];
     extraConfigLua = ''
       require("mason").setup()
@@ -286,25 +311,25 @@ in
 
       local wk = require("which-key")
       wk.register({
-        ["<leader>e"] = { name = "Diagnostics" },
-        ["<leader>ed"] = { "<cmd>Telescope diagnostics<CR>", "Error Diagnostics" },
-        ["<leader>ee"] = { "<cmd>lua vim.diagnostic.open_float()<CR>", "Open Error Float" },
-        ["<leader>eh"] = { "<cmd>Noice all<CR>", "Noice All" },
+        { "<leader>e", group = "Diagnostics" },
+        { "<leader>ed", "<cmd>Telescope diagnostics<CR>", desc = "Error Diagnostics" },
+        { "<leader>ee", "<cmd>lua vim.diagnostic.open_float()<CR>", desc = "Open Error Float" },
+        { "<leader>eh", "<cmd>Noice all<CR>", desc = "Noice All" },
       })
 
       wk.register({
-        ["<leader>t"] = { name = "Terminals" },
-        ["<leader>t0"] = { "<cmd>ToggleTerm 10<CR>", "Terminal 10" },
-        ["<leader>t1"] = { "<cmd>ToggleTerm 1<CR>", "Terminal 1" },
-        ["<leader>t2"] = { "<cmd>ToggleTerm 2<CR>", "Terminal 2" },
-        ["<leader>t3"] = { "<cmd>ToggleTerm 3<CR>", "Terminal 3" },
-        ["<leader>t4"] = { "<cmd>ToggleTerm 4<CR>", "Terminal 4" },
-        ["<leader>t5"] = { "<cmd>ToggleTerm 5<CR>", "Terminal 5" },
-        ["<leader>t6"] = { "<cmd>ToggleTerm 6<CR>", "Terminal 6" },
-        ["<leader>t7"] = { "<cmd>ToggleTerm 7<CR>", "Terminal 7" },
-        ["<leader>t8"] = { "<cmd>ToggleTerm 8<CR>", "Terminal 8" },
-        ["<leader>t9"] = { "<cmd>ToggleTerm 9<CR>", "Terminal 9" },
-      })
+        { "<leader>t", group = "Terminals" },
+        { "<leader>t0", "<cmd>ToggleTerm 10<CR>", desc = "Terminal 10" },
+        { "<leader>t1", "<cmd>ToggleTerm 1<CR>", desc = "Terminal 1" },
+        { "<leader>t2", "<cmd>ToggleTerm 2<CR>", desc = "Terminal 2" },
+        { "<leader>t3", "<cmd>ToggleTerm 3<CR>", desc = "Terminal 3" },
+        { "<leader>t4", "<cmd>ToggleTerm 4<CR>", desc = "Terminal 4" },
+        { "<leader>t5", "<cmd>ToggleTerm 5<CR>", desc = "Terminal 5" },
+        { "<leader>t6", "<cmd>ToggleTerm 6<CR>", desc = "Terminal 6" },
+        { "<leader>t7", "<cmd>ToggleTerm 7<CR>", desc = "Terminal 7" },
+        { "<leader>t8", "<cmd>ToggleTerm 8<CR>", desc = "Terminal 8" },
+        { "<leader>t9", "<cmd>ToggleTerm 9<CR>", desc = "Terminal 9" },
+    })
 
       require("neo-tree").setup({
         close_if_last_window = true,
@@ -362,7 +387,7 @@ in
           name = 'Launch',
           type = 'node2',
           request = 'launch',
-          program = "${file}",
+          program = "$\{file}",
           cwd = vim.fn.getcwd(),
           sourceMaps = true,
           protocol = 'inspector',
@@ -376,39 +401,6 @@ in
         end,
       })
 
-      -- Configure none-ls
-      local none_ls = require('null-ls')
-      none_ls.setup({
-        sources = {
-          -- Formatting sources
-          none_ls.builtins.formatting.prettierd.with({
-            filetypes = { "javascript", "typescript", "typescriptreact", "javascriptreact", "vue", "html", "css", "json", "yaml" },
-          }),
-          none_ls.builtins.formatting.black.with({
-            filetypes = { "python" },
-          }),
-          none_ls.builtins.formatting.stylelint.with({
-            filetypes = { "css", "scss", "sass", "less" },
-          }),
-          none_ls.builtins.formatting.shfmt.with({
-            filetypes = { "sh", "bash" },
-          }),
-          -- Diagnostics sources
-          none_ls.builtins.diagnostics.eslint_d.with({
-            command = "/home/cod/.nix-profile/bin/eslint_d", -- Verify path with `which eslint_d`
-            filetypes = { "javascript", "typescript", "typescriptreact", "javascriptreact", "vue" },
-          }),
-          none_ls.builtins.diagnostics.pylint.with({
-            filetypes = { "python" },
-          }),
-          none_ls.builtins.diagnostics.stylelint.with({
-            filetypes = { "css", "scss", "sass", "less" },
-          }),
-          none_ls.builtins.diagnostics.shellcheck.with({
-            filetypes = { "sh", "bash" },
-          }),
-        },
-      })
     '';
   };
   # Flatpak configuration
