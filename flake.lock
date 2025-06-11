@@ -48,11 +48,11 @@
     "dotfiles": {
       "flake": false,
       "locked": {
-        "lastModified": 1749619782,
-        "narHash": "sha256-rriPByGv8ifrmSQDcCnmn+cJrnsWr2TZfGu07LGjl84=",
+        "lastModified": 1749620862,
+        "narHash": "sha256-FvMGjWptkXj2eU/gvRZzqfM4szTc+p3MQ05PI0zIlBM=",
         "owner": "chowe99",
         "repo": "dotfiles",
-        "rev": "a4a2c6d4fd23398bd8c5a8e0b390f120fcd189e0",
+        "rev": "8acf6f339e1078bc0e466f8946f271f8f05a5711",
         "type": "github"
       },
       "original": {

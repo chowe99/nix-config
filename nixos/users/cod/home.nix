@@ -7,6 +7,17 @@
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   nix.package = pkgs.nix;
 
+  home.services = {
+    # completely turn off portal backends
+    xdg-desktop-portal = {
+      enable = false;
+    };
+    xdg-desktop-portal-wlr = {
+      enable = false;
+    };
+  };
+
+
   home.packages = with pkgs; [
     wl-clipboard # wayland clipboard
     openssh
@@ -29,11 +40,6 @@
     pamixer # audio control
     flatpak # for certain applications (bitwarden, obsidian, etc)
     xdg-utils # for xdg-settings (fixes Obsidian error)
-
-    # Portal packages
-    xdg-desktop-portal
-    xdg-desktop-portal-wlr # Replace gtk with wlr
-
 
     # --- For Lvim ---
     (neovim.override {
