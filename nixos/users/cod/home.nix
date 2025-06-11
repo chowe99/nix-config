@@ -14,6 +14,7 @@
     neofetch btop
     tree home-manager
     hyprshot # screenshots
+    hyprpolkitagent # authentication agent
     papirus-icon-theme
     wget
     udiskie # disk management
