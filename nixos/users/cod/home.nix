@@ -32,7 +32,7 @@
 
   home.sessionVariables = {
     XDG_DATA_DIRS = "${config.home.homeDirectory}/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:$XDG_DATA_DIRS";
-    # ELECTRON_DISABLE_GPU = "1"; # Mitigate Asahi GPU issues
+    ELECTRON_DISABLE_GPU = "1"; # Mitigate Asahi GPU issues
   };
 
 # Flatpak configuration
@@ -61,12 +61,16 @@
     "md.obsidian.Obsidian" = {
       name = "Obsidian";
       comment = "Knowledge base";
-      exec = "flatpak run md.obsidian.Obsidian --js-flags=\"--nodecommit_pooled_pages\" --disable-gpu %U";
+      exec = "flatpak run --no-sandbox --branch=stable --arch=aarch64 --command=obsidian.sh --file-forwarding md.obsidian.Obsidian --js-flags=\"--nodecommit_pooled_pages\" --disable-gpu @@u %U @@";
       icon = "md.obsidian.Obsidian";
       terminal = false;
       type = "Application";
       categories = [ "Office" ];
       mimeType = [ "x-scheme-handler/obsidian" ];
+      extraConfig = {
+        "X-Flatpak-Tags" = "proprietary";
+        "X-Flatpak" = "md.obsidian.Obsidian";
+      };
     };
     "superfile" = {
       name = "Superfile (TUI)";
