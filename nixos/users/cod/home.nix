@@ -3,10 +3,15 @@
 let
   unstable = import inputs.nixpkgs-unstable {
     system = "aarch64-linux";
-    config.allowUnfree = true;
+    config = {
+      allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
+        "copilot.vim"
+      ];
+    };
   };
 in
 {
+  imports = [ inputs.nixvim.homeManagerModules.nixvim ];
   home.stateVersion = "24.11";
   home.username = "cod";
   home.homeDirectory = "/home/cod";
@@ -37,6 +42,13 @@ in
     xdg-utils
 
     # Dependencies for NixVim
+    eslint_d
+    pylint
+    stylelint
+    shellcheck
+    prettierd
+    black
+    shfmt
     ripgrep
     fd
     gnumake
@@ -47,6 +59,7 @@ in
     perl
     openssl
     libnotify
+    nodePackages.graphql-language-service-cli  # Add this
   ];
 
   home.sessionVariables = {
@@ -66,7 +79,7 @@ in
     # General Vim Settings
     globals = {
       mapleader = " ";
-      python3_host_prog = "~/.pyenv/shims/python";
+      # python3_host_prog = "~/.pyenv/shims/python";
     };
 
     opts = {
@@ -108,26 +121,35 @@ in
 
     # Plugins
     plugins = {
+      web-devicons = {
+        enable = true;
+      };
       nvim-tree.enable = false; # Disable default NvimTree
       lsp = {
         enable = true;
         servers = {
-          lua-ls = {
+          lua_ls = {  # changed from lua-ls
             enable = true;
             settings = {
               Lua = {
-                runtime.version = "LuaJIT";
-                diagnostics.globals = [ "vim" "lvim" ];
+                runtime = {
+                  version = "LuaJIT";
+                };
+                diagnostics = {
+                  globals = [ "vim" "lvim" ];
+                };
                 workspace = {
                   library = { __raw = "vim.api.nvim_get_runtime_file('', true)"; };
                   maxPreload = 1000;
                   preloadFileSize = 1000;
                 };
-                telemetry.enable = false;
+                telemetry = {
+                  enable = false;
+                };
               };
             };
           };
-          tsserver = {
+          ts_ls = {
             enable = true;
             filetypes = [ "javascript" "javascriptreact" "typescript" "typescriptreact" ];
             extraOptions = {
@@ -146,72 +168,48 @@ in
           jsonls.enable = true;
           yamlls.enable = true;
           dockerls.enable = true;
-          graphql.enable = true;
+          graphql = {
+            enable = true;
+            package = null;
+          };
           bashls.enable = true;
           eslint.enable = true;
-          emmet-ls = {
+          emmet_ls = {  # changed from emmet-ls
             enable = true;
             filetypes = [ "html" "css" "javascript" "javascriptreact" "typescriptreact" ];
           };
           clangd.enable = true;
         };
       };
-
-      null-ls = {
+      none-ls = {
         enable = true;
-        sources = {
-          formatting = {
-            prettierd = {
-              filetypes = [ "javascript" "typescript" "typescriptreact" "javascriptreact" "vue" "html" "css" "json" "yaml" ];
-            };
-            black = {
-              filetypes = [ "python" ];
-            };
-            stylelint = {
-              filetypes = [ "css" "scss" "sass" "less" ];
-            };
-            shfmt = {
-              filetypes = [ "sh" "bash" ];
-            };
-          };
-          diagnostics = {
-            eslint_d = {
-              filetypes = [ "javascript" "typescript" "typescriptreact" "javascriptreact" "vue" ];
-            };
-            pylint = {
-              filetypes = [ "python" ];
-            };
-            stylelint = {
-              filetypes = [ "css" "scss" "sass" "less" ];
-            };
-            shellcheck = {
-              filetypes = [ "sh" "bash" ];
-            };
-          };
-        };
       };
-
       treesitter = {
         enable = true;
-        ensureInstalled = [
-          "javascript" "typescript" "tsx" "python" "html" "css" "json" "yaml"
-          "gitignore" "graphql" "http" "scss" "sql" "vim" "lua"
-        ];
-        highlight.enable = true;
-        autotag.enable = true;
+        settings = {
+          highlight = {
+            enable = true;
+          };
+          ensure_installed = [
+            "javascript" "typescript" "tsx" "python" "html" "css" "json" "yaml"
+            "gitignore" "graphql" "http" "scss" "sql" "vim" "lua"
+          ];
+        };
       };
-
       telescope.enable = true;
       dap.enable = true;
-      autopairs.enable = true;
       bufferline.enable = true;
       toggleterm = {
         enable = true;
-        size = 20;
-        openMapping = "<c-\\>";
-        shadeFactor = 2;
-        direction = "float";
-        floatOpts.border = "curved";
+        settings = {
+          size = 20;
+          open_mapping = "[[<c-\\>]]";
+          shade_factor = 2;
+          direction = "float";
+          float_opts = {
+            border = "curved";
+          };
+        };
       };
       noice.enable = true;
       notify.enable = true;
@@ -220,17 +218,18 @@ in
     };
 
     # Additional Plugins
-    extraPlugins = with unstable.vimPlugins; [
+    extraPlugins = with pkgs.vimPlugins; [
       nvim-dap
       undotree
       { plugin = harpoon; config = "lua require('harpoon'):setup()"; }
       nvim-spectre
-      rainbow_csv
+      # rainbow_csv
       vim-visual-multi
+      nvim-autopairs
       avante-nvim
-      github-copilot
+      # copilot-vim
       nvim-ts-autotag
-      tailwindcss-colorizer-cmp
+      # tailwindcss-colorizer-cmp
     ];
 
     # Keymappings
@@ -256,33 +255,66 @@ in
     ];
 
     # Extra Lua Configuration
-    extraConfigLua = ''
-      -- DAP Configuration
-      local dap = require('dap')
-      dap.adapters.node2 = {
-        type = 'executable',
-        command = 'node',
-        args = { '\${unstable.vimPlugins.nvim-dap}/out/src/nodeDebug.js' },
-      }
-      dap.configurations.javascript = {
-        {
-          name = 'Launch',
-          type = 'node2',
-          request = 'launch',
-          program = '\${file}',
-          cwd = vim.fn.getcwd(),
-          sourceMaps = true,
-          protocol = 'inspector',
-        },
-      }
+      extraConfigLua = ''
+    -- DAP Configuration
+    local dap = require('dap')
+    dap.adapters.node2 = {
+      type = 'executable',
+      command = 'node',
+      args = { "${unstable.vimPlugins.nvim-dap}/out/src/nodeDebug.js" },
+    }
+    dap.configurations.javascript = {
+      {
+        name = 'Launch',
+        type = 'node2',
+        request = 'launch',
+        program = "$\{file}",
+        cwd = vim.fn.getcwd(),
+        sourceMaps = true,
+        protocol = 'inspector',
+      },
+    }
 
-      -- Format on save
-      vim.api.nvim_create_autocmd("BufWritePre", {
-        callback = function()
-          vim.lsp.buf.format()
-        end,
-      })
-    '';
+    -- Format on save
+    vim.api.nvim_create_autocmd("BufWritePre", {
+      callback = function()
+        vim.lsp.buf.format()
+      end,
+    })
+
+    -- Configure none-ls
+    local none_ls = require('none-ls')
+    none_ls.setup({
+      sources = {
+        -- Formatting sources
+        none_ls.builtins.formatting.prettierd.with({
+          filetypes = { "javascript", "typescript", "typescriptreact", "javascriptreact", "vue", "html", "css", "json", "yaml" },
+        }),
+        none_ls.builtins.formatting.black.with({
+          filetypes = { "python" },
+        }),
+        none_ls.builtins.formatting.stylelint.with({
+          filetypes = { "css", "scss", "sass", "less" },
+        }),
+        none_ls.builtins.formatting.shfmt.with({
+          filetypes = { "sh", "bash" },
+        }),
+        -- Diagnostics sources
+        none_ls.builtins.diagnostics.eslint_d.with({
+          filetypes = { "javascript", "typescript", "typescriptreact", "javascriptreact", "vue" },
+        }),
+        none_ls.builtins.diagnostics.pylint.with({
+          filetypes = { "python" },
+        }),
+        none_ls.builtins.diagnostics.stylelint.with({
+          filetypes = { "css", "scss", "sass", "less" },
+        }),
+        none_ls.builtins.diagnostics.shellcheck.with({
+          filetypes = { "sh", "bash" },
+        }),
+      },
+    })
+  '';
   };
 
   # Flatpak configuration
