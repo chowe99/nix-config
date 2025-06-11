@@ -262,14 +262,14 @@ in
       dap.adapters.node2 = {
         type = 'executable',
         command = 'node',
-        args = { '${unstable.vimPlugins.nvim-dap}/out/src/nodeDebug.js' },
+        args = { '\${unstable.vimPlugins.nvim-dap}/out/src/nodeDebug.js' },
       }
       dap.configurations.javascript = {
         {
           name = 'Launch',
           type = 'node2',
           request = 'launch',
-          program = '${file}',
+          program = '\${file}',
           cwd = vim.fn.getcwd(),
           sourceMaps = true,
           protocol = 'inspector',
