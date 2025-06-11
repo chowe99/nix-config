@@ -32,11 +32,11 @@
 
     # --- For Lvim ---
     neovim
-    make
-    pip
-    python
-    npm
-    node
+    gnumake
+    gcc
+    python3.pkgs.pip
+
+    nodejs
     cargo
     ripgrep
     #perl
