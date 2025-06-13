@@ -23,6 +23,7 @@
     QT_QPA_PLATFORM = "wayland";
   };
 
+  boot.supportedFilesystems = [ "fuse" ];
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.kernelPackages = pkgs.linuxPackages_latest; # Latest kernel

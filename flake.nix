@@ -83,6 +83,14 @@
           ./nixos/users/cod/home.nix
         ];
       };
+      nix = homeManagerConfig {
+        username = "nix";
+        system = "x86_64-linux";
+        modules = [
+          nix-flatpak.homeManagerModules.nix-flatpak
+          ./nixos/users/nix/home.nix
+        ];
+      };
     };
   };
 }
