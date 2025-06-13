@@ -28,6 +28,7 @@
   boot.kernelPackages = pkgs.linuxPackages_latest; # Latest kernel
   # boot.kernelPackages = pkgs.linuxPackages;
   boot.initrd.luks.devices."luks-1e8804fe-b173-49f8-a93e-2064fecdc501".device = "/dev/disk/by-uuid/1e8804fe-b173-49f8-a93e-2064fecdc501";
+  boot.supportedFilesystems = [ "fuse" ];
   networking.hostName = "nixos";
   hardware.bluetooth.enable = true;
   services.pipewire = {
