@@ -21,12 +21,11 @@ in
   home.packages = with unstable; [
     lsd
     neovim
-    neofetch
     nix-prefetch-git
     wl-clipboard
     openssh
     oh-my-posh wofi waybar vim htop
-    neofetch btop
+    fastfetch btop
     tree home-manager
     hyprshot
     hyprpolkitagent
@@ -518,14 +517,14 @@ in
       alias vim=nvim
       eval "$(oh-my-posh init zsh --config 'https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/1_shell.omp.json')"
       alias switch="home-manager switch --flake ~/nix-config#cod"
-      alias c="clear && neofetch"
+      alias c="clear && fastfetch"
       alias open="superfile"
       alias ls='lsd'
       alias l='ls -l'
       alias la='ls -a'
       alias lla='ls -la'
       alias lt='ls --tree'
-      neofetch
+      fastfetch
       export PATH="$HOME/Applications:$PATH"
     '';
     force = true;
