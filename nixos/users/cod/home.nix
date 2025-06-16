@@ -19,6 +19,8 @@ in
   nix.package = pkgs.nix;
 
   home.packages = with unstable; [
+    neovim
+    neofetch
     nix-prefetch-git
     wl-clipboard
     openssh
@@ -403,6 +405,7 @@ in
 
     '';
   };
+  
   # Flatpak configuration
   services.flatpak = {
     enable = true;
@@ -483,8 +486,16 @@ in
     };
   };
 
+  programs.git = {
+    enable = true;
+    userName = "chowe99";
+    userEmail = "chowej99@gmail.com";
+  };
+
   programs.zsh = {
     enable = true;
+    autosuggestion.enable = true;
+    syntaxHighlighting.enable = true;
     oh-my-zsh = {
       enable = true;
       theme = "simple";
@@ -492,28 +503,20 @@ in
     };
     plugins = [
       {
-        name = "zsh-autosuggestions";
-        src = unstable.zsh-autosuggestions;
-        file = "share/zsh-autosuggestions/zsh-autosuggestions.zsh";
-      }
-      {
-        name = "zsh-syntax-highlighting";
-        src = unstable.zsh-syntax-highlighting;
-        file = "share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh";
-      }
-      {
         name = "fast-syntax-highlighting";
         src = unstable.zsh-fast-syntax-highlighting;
         file = "share/zsh/site-functions/fast-syntax-highlighting.plugin.zsh";
       }
+    {
+      name = "zsh-icons";
+      src = builtins.fetchGit {
+        url = "https://github.com/zsh-users/zsh-icons.git";
+        rev = "e9f2ad9efb97a30f925079a6d0ad70d4f20f5bbf";  # Replace with actual commit hash
+      };
+    }
     ];
   };
 
-  programs.git = {
-    enable = true;
-    userName = "chowe99";
-    userEmail = "chowej99@gmail.com";
-  };
 
   home.file.".zshrc" = {
     text = ''
