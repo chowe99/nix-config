@@ -499,7 +499,7 @@ in
     oh-my-zsh = {
       enable = true;
       theme = "simple";
-      plugins = [ "git" "common-aliases" "colored-man-pages" "z" "dnf" "docker" "npm" "command-not-found" "fzf" ];
+      plugins = [ "git" "common-aliases" "colored-man-pages" "z" "dnf" "docker" "npm" "fzf" ];
     };
     plugins = [
       {
