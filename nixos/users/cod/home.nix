@@ -19,6 +19,7 @@ in
   nix.package = pkgs.nix;
 
   home.packages = with unstable; [
+    lsd
     neovim
     neofetch
     nix-prefetch-git
@@ -499,7 +500,7 @@ in
     oh-my-zsh = {
       enable = true;
       theme = "simple";
-      plugins = [ "git" "common-aliases" "colored-man-pages" "z" ];
+      plugins = [ "git" "common-aliases" "colored-man-pages" "z" "dnf" "docker" "npm" "command-not-found" "fzf" ];
     };
     plugins = [
       {
@@ -507,13 +508,6 @@ in
         src = unstable.zsh-fast-syntax-highlighting;
         file = "share/zsh/site-functions/fast-syntax-highlighting.plugin.zsh";
       }
-    {
-      name = "zsh-icons";
-      src = builtins.fetchGit {
-        url = "https://github.com/zsh-users/zsh-icons.git";
-        rev = "e9f2ad9efb97a30f925079a6d0ad70d4f20f5bbf";  # Replace with actual commit hash
-      };
-    }
     ];
   };
 
@@ -526,6 +520,11 @@ in
       alias switch="home-manager switch --flake ~/nix-config#cod"
       alias c="clear && neofetch"
       alias open="superfile"
+      alias ls='lsd'
+      alias l='ls -l'
+      alias la='ls -a'
+      alias lla='ls -la'
+      alias lt='ls --tree'
       neofetch
       export PATH="$HOME/Applications:$PATH"
     '';
