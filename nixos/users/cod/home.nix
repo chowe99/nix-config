@@ -20,7 +20,6 @@ in
 
   home.packages = with unstable; [
     lsd
-    neovim
     nix-prefetch-git
     wl-clipboard
     openssh
@@ -261,6 +260,7 @@ in
       avante-nvim
       nvim-ts-autotag
       hologram-nvim
+      # nvim-web-devicons
       (pkgs.vimUtils.buildVimPlugin {
         name = "which-key-nvim";
         src = pkgs.fetchFromGitHub {
@@ -402,6 +402,8 @@ in
           vim.lsp.buf.format()
         end,
       })
+      print("Lua package.path: " .. vim.inspect(package.path))
+      print("Lua package.cpath: " .. vim.inspect(package.cpath))
 
     '';
   };
