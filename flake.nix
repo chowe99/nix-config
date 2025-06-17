@@ -58,6 +58,21 @@
           }
         ];
       };
+
+      whiteserver = nixpkgs.lib.nixosSystem {
+        inherit system;
+        specialArgs = { inherit inputs; };
+        modules = [
+          ./hosts/white-server/hardware-configuration.nix
+          ./hosts/white-server/configuration.nix
+          agenix.nixosModules.default
+          {
+            environment.systemPackages = with pkgs; [
+              inputs.agenix.packages.${system}.default
+            ];
+          }
+        ];
+      };
     };
   };
 }
