@@ -98,13 +98,13 @@
     gtk3 gtk4
     wlr-randr
     yarn
-    caddy
+    # caddy
     gcc gnumake perl openssl zlib lua54Packages.lua pkg-config
     docker
   ];
 
-  services.caddy.enable = true;
-  services.caddy.configFile = "/etc/caddy/Caddyfile";
+  # services.caddy.enable = true;
+  #services.caddy.configFile = "/etc/caddy/Caddyfile";
 
   fonts.packages = with pkgs; [
     (nerdfonts.override { fonts = [ "JetBrainsMono" "FiraCode" ]; })
