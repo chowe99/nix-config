@@ -23,6 +23,14 @@
 
   programs.kitty.enable = true;
 
+  # programs.ssh = {
+  #   enable = true;
+  #   authorizedKeys.keys = [
+  #     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOdjw3/8DiU7OBBvbzOSS9yc5PeIbReUizaYpI/Mqn7p whiteserver@whiteserver"
+  #   ];
+  # };
+
+
   programs.zsh = {
     enable = true;
     oh-my-zsh = {
