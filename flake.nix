@@ -63,7 +63,6 @@
         inherit system;
         specialArgs = { inherit inputs; };
         modules = [
-          ./hosts/whiteserver/hardware-configuration.nix
           ./hosts/whiteserver/configuration.nix
           agenix.nixosModules.default
           {
