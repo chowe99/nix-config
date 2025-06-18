@@ -21,7 +21,7 @@
   virtualisation.oci-containers.containers = {
     homepage = {
       image = "ghcr.io/gethomepage/homepage:latest";
-      ports = [ "3000:3030" ];
+      ports = [ "3000:3000" ];
       environment = {
         PUID = "1000";
         PGID = "1000";
