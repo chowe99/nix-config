@@ -5,9 +5,6 @@
 
 {
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
-  imports = [
-    inputs.home-manager.nixosModules.home-manager
-  ];
 
   # Home Manager configuration
   home-manager = {
