@@ -122,6 +122,29 @@
         ];
       };
     };
+    asusserver = nixosSystem {
+      inherit system;
+      hostname = "asusserver";
+      username = "asusserver";
+      modules = [
+        ./hosts/asusserver/configuration.nix
+          inputs.agenix.nixosModules.default
+          inputs.home-manager.nixosModules.home-manager
+          {
+            environment.systemPackages = with pkgs; [
+              inputs.agenix.packages.${system}.default
+            ];
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.users.asusserver = import ./nixos/users/asusserver/home.nix;
+            home-manager.extraSpecialArgs = { 
+              inherit inputs; 
+              hostname = "asusserver"; 
+              username = "asusserver"; 
+            };
+          }
+      ];
+    };
 
     homeConfigurations = {
       cod = homeManagerConfig {
