@@ -61,6 +61,29 @@
       flatpak
     ];
 
+    # Flatpak configuration
+    services.flatpak = {
+      enable = true;
+      remotes = [
+      {
+        name = "flathub";
+        location = "https://dl.flathub.org/repo/flathub.flatpakrepo";
+      }
+      ];
+      packages = [
+        "md.obsidian.Obsidian"
+          "com.bitwarden.desktop"
+          "app.zen_browser.zen"
+          "com.github.tchx84.Flatseal"
+      ];
+      uninstallUnmanaged = true;
+      update.auto = {
+        enable = true;
+        onCalendar = "weekly";
+      };
+    };
+
+
     # Example Flatpak desktop entry using cpu_architecture
     xdg.desktopEntries."md.obsidian.Obsidian" = {
       name = "Obsidian";
