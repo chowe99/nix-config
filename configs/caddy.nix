@@ -25,7 +25,7 @@
     virtualHosts."https://www.howse.top".extraConfig = ''
       tls internal
       encode gzip
-      reverse_proxy localhost:3030
+      reverse_proxy localhost:3000
     '';
 
     virtualHosts."vaultwarden.howse.top".extraConfig = ''
