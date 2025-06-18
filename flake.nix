@@ -18,6 +18,10 @@
       url = "github:chowe99/dotfiles";
       flake = false;
     };
+    nixvim = {
+      url = "github:nix-community/nixvim/release-24.11";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = { self, nixpkgs, home-manager, agenix, ... }@inputs:
