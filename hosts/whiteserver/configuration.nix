@@ -3,10 +3,7 @@
 
 {
   imports = [
-    ../../templates/server-configuration.nix
+    ./hardware-configuration.nix
+    (import ../../templates/server-configuration.nix { inherit inputs; hostname = "whiteserver"; username = "whiteserver"; })
   ];
-
-  # Server-specific overrides
-  hostname = "whiteserver";
-  username = "whiteserver";
 }

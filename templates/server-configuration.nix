@@ -1,11 +1,11 @@
 # templates/base-configuration.nix
+# templates/server-configuration.nix
 # Shared configuration template for all servers
 { config, pkgs, inputs, hostname, username, ... }:
 
 {
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   imports = [
-    ../hosts/${hostname}/hardware-configuration.nix
     inputs.home-manager.nixosModules.home-manager
   ];
 

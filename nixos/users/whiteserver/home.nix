@@ -1,12 +1,6 @@
 # nixos/users/whiteserver/home.nix
-{ config, pkgs, lib, inputs, ... }:
 
-{
   imports = [
-    ../../../templates/server-home.nix
+    (import ../../../templates/base-home.nix { inherit inputs; username = "whiteserver"; hostname = "whiteserver"; })
   ];
-
-  # User-specific overrides
-  username = "whiteserver";
-  hostname = "whiteserver";
 }

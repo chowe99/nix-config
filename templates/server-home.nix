@@ -47,12 +47,12 @@
       {
         name = "zsh-syntax-highlighting";
         src = pkgs.zsh-syntax-highlighting;
-        file = "share/zsh-syntax-highlighting";
+        file = "share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh";
       }
       {
         name = "fast-syntax-highlighting";
-        src = pkgs.zsh;
-        file = "zsh-fast-syntax-highlighting.plugin.zsh";
+        src = pkgs.zsh-fast-syntax-highlighting;
+        file = "share/zsh/site-functions/fast-syntax-highlighting.plugin.zsh";
       }
     ];
   };
