@@ -3,6 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
+    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable"; # Added for unstable packages
 
     home-manager = {
       url = "github:nix-community/home-manager/release-24.11";
@@ -24,14 +25,10 @@
     };
   };
 
-  outputs = { self, nixpkgs, home-manager, agenix, nix-flatpak, ... }@inputs:
-  let
-    system = "x86_64-linux";
-    pkgs = nixpkgs.legacyPackages.${system};
-  in {
+  outputs = { self, nixpkgs, nixpkgs-unstable, home-manager, agenix, nix-flatpak, ... }@inputs: {
     nixosConfigurations = {
       nix = nixpkgs.lib.nixosSystem {
-        inherit system;
+        system = "x86_64-linux";
         specialArgs = {
           inherit inputs;
           hostname = "nix";
@@ -42,8 +39,8 @@
           inputs.agenix.nixosModules.default
           inputs.home-manager.nixosModules.home-manager
           {
-            environment.systemPackages = with pkgs; [
-              inputs.agenix.packages.${system}.default
+            environment.systemPackages = with nixpkgs.legacyPackages."x86_64-linux"; [
+              inputs.agenix.packages."x86_64-linux".default
             ];
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
@@ -58,7 +55,7 @@
       };
 
       whiteserver = nixpkgs.lib.nixosSystem {
-        inherit system;
+        system = "x86_64-linux";
         specialArgs = {
           inherit inputs;
           hostname = "whiteserver";
@@ -69,8 +66,8 @@
           inputs.agenix.nixosModules.default
           inputs.home-manager.nixosModules.home-manager
           {
-            environment.systemPackages = with pkgs; [
-              inputs.agenix.packages.${system}.default
+            environment.systemPackages = with nixpkgs.legacyPackages."x86_64-linux"; [
+              inputs.agenix.packages."x86_64-linux".default
             ];
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
@@ -85,7 +82,7 @@
       };
 
       blackserver = nixpkgs.lib.nixosSystem {
-        inherit system;
+        system = "x86_64-linux";
         specialArgs = {
           inherit inputs;
           hostname = "blackserver";
@@ -96,8 +93,8 @@
           inputs.agenix.nixosModules.default
           inputs.home-manager.nixosModules.home-manager
           {
-            environment.systemPackages = with pkgs; [
-              inputs.agenix.packages.${system}.default
+            environment.systemPackages = with nixpkgs.legacyPackages."x86_64-linux"; [
+              inputs.agenix.packages."x86_64-linux".default
             ];
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
@@ -114,7 +111,7 @@
 
     homeConfigurations = {
       cod = home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs.legacyPackages.aarch64-linux;
+        pkgs = nixpkgs.legacyPackages."aarch64-linux";
         extraSpecialArgs = {
           inherit inputs;
           hostname = "cod";
@@ -128,4 +125,3 @@
     };
   };
 }
-

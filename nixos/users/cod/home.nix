@@ -1,20 +1,6 @@
 { config, pkgs, lib, inputs, ... }:
 
-let
-  unstable = import inputs.nixpkgs-unstable {
-    system = "aarch64-linux";
-    config = {
-      allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
-        "copilot.vim"
-      ];
-    };
-  };
-in
 {
-  # Set architecture and package set for aarch64-linux
-  packageSet = unstable;
-  cpu_architecture = "aarch64";
-
   # Import the base configuration
   imports = [
     inputs.nixvim.homeManagerModules.nixvim
@@ -26,7 +12,7 @@ in
   nix.package = pkgs.nix;
 
   # Exclusive packages for aarch64-linux
-  home.packages = with unstable; [
+  home.packages = with config.packageSet; [
     openssh
     hyprpolkitagent
     brightnessctl
@@ -45,9 +31,6 @@ in
   # Enable SSH (exclusive to cod)
   programs.ssh.enable = true;
 
-  # Override rofi package (base uses packageSet, but cod needs unstable explicitly)
-  programs.rofi.package = unstable.rofi-wayland;
-
   # Custom zsh configuration (overrides base)
   programs.zsh = {
     enable = true;
@@ -61,7 +44,7 @@ in
     plugins = [
       {
         name = "fast-syntax-highlighting";
-        src = unstable.zsh-fast-syntax-highlighting;
+        src = config.packageSet.zsh-fast-syntax-highlighting;
         file = "share/zsh/site-functions/fast-syntax-highlighting.plugin.zsh";
       }
     ];
