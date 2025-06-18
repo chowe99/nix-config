@@ -22,7 +22,17 @@
   };
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.initrd.services.swraid.enable = true;
+  boot.initrd.services.swraid.mdadmConf = ''
+    ARRAY /dev/md127 UUID=e22f6488:83684aca:f30ec314:f49242d1
+  '';
 
+  # Filesystem configuration for RAID
+  fileSystems."/mnt/nas" = {
+    device = "/dev/md127";
+    fsType = "ext4";
+    options = [ "defaults" "nofail" ];
+  };
   # Networking
   networking.hostName = hostname;
   networking.networkmanager.enable = true;
