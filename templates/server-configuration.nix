@@ -26,8 +26,8 @@ in
   };
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
-  boot.initrd.services.swraid.enable = true;
-  boot.initrd.services.swraid.mdadmConf = ''
+  boot.swraid.enable = true;
+  boot.swraid.mdadmConf = ''
     ARRAY /dev/md127 UUID=e22f6488:83684aca:f30ec314:f49242d1
   '';
 
@@ -115,8 +115,14 @@ in
     docker
     mdadm
     dig
+    lsof
+    nssTools
+    caddy
   ];
 
+  security.pki.certificateFiles = [
+    "/var/lib/caddy/.local/share/caddy/pki/authorities/local/root.crt"
+  ];
   # services.caddy.enable = true;
   # services.caddy.configFile = "/etc/caddy/Caddyfile";
 
@@ -129,7 +135,7 @@ in
   services.openssh.enable = true;
   networking.firewall = {
     enable = true;
-    allowedTCPPorts = [ 22 80 443 ];
+    allowedTCPPorts = [ 22 80 443 3000 3030];
   };
 
   security.sudo = {
