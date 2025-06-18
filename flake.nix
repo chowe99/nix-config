@@ -6,7 +6,6 @@
 
     home-manager = {
       url = "github:nix-community/home-manager/release-24.11";
-      # make sure HM uses the same nixpkgs
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -31,7 +30,7 @@
     nixosConfigurations = {
       nix = nixpkgs.lib.nixosSystem {
         inherit system;
-        specialArgs = { inherit inputs; };
+        specialArgs = { inherit inputs pkgs; }; # Add pkgs here
         modules = [
           ./hosts/nixos/hardware-configuration.nix
           ./hosts/nixos/configuration.nix
@@ -46,7 +45,7 @@
 
       server = nixpkgs.lib.nixosSystem {
         inherit system;
-        specialArgs = { inherit inputs; };
+        specialArgs = { inherit inputs pkgs; }; # Add pkgs here
         modules = [
           ./hosts/nixos-server/hardware-configuration.nix
           ./hosts/nixos-server/configuration.nix
@@ -61,7 +60,7 @@
 
       whiteserver = nixpkgs.lib.nixosSystem {
         inherit system;
-        specialArgs = { inherit inputs; };
+        specialArgs = { inherit inputs pkgs; }; # Add pkgs here
         modules = [
           ./hosts/whiteserver/configuration.nix
           agenix.nixosModules.default

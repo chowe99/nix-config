@@ -1,4 +1,3 @@
-# templates/base-configuration.nix
 # templates/server-configuration.nix
 # Shared configuration template for all servers
 { config, pkgs, inputs, hostname, username, ... }:

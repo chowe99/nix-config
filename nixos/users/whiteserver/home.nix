@@ -1,6 +1,8 @@
 # nixos/users/whiteserver/home.nix
+{ inputs, pkgs, ... }:
 
+{
   imports = [
-    (import ../../../templates/base-home.nix { inherit inputs; username = "whiteserver"; hostname = "whiteserver"; })
+    (import ../../../templates/server-home.nix { inherit inputs pkgs; username = "whiteserver"; hostname = "whiteserver"; })
   ];
 }

@@ -1,4 +1,3 @@
-# templates/base-home.nix
 # Shared home configuration template for all users
 { config, pkgs, lib, inputs, username, hostname, ... }:
 
