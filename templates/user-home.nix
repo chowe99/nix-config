@@ -29,7 +29,7 @@
     home.packages = with config.packageSet; [
       vim git htop zsh
       btop
-      tree home-manager
+      tree
       docker
       signal-desktop
       wineWowPackages.waylandFull
@@ -91,6 +91,8 @@
       icon = "md.obsidian.Obsidian";
       type = "Application";
     };
+
+    programs.home-manager.enable = true;
 
     programs.rofi = {
       enable = true;
