@@ -3,10 +3,14 @@
 # Shared configuration template for all servers
 { config, pkgs, inputs, hostname, username, ... }:
 
+let
+  k3sToken = "5fb8e655cb747a040b9e9d7b0f6e233333998b0682701e9ef9186e84b8d4e4e5"; # Generate with `openssl rand -hex 32`
+in
 {
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   imports = [
     inputs.home-manager.nixosModules.home-manager
+    ../configs/caddy.nix
   ];
 
   # Home Manager configuration
@@ -136,6 +140,21 @@
 
   # Docker
   virtualisation.docker.enable = true;
+
+  
+  # Enable k3s (Server 1 as control plane)
+  services.k3s = {
+    enable = true;
+    role = "server";
+    token = k3sToken;
+    extraFlags = "--disable traefik"; # Disable default Traefik for custom ingress
+  };
+
+  # Enable GlusterFS
+  services.glusterfs = {
+    enable = true;
+    servers = [ "100.64.65.24" "100.73.187.60" ]; # Whiteserver-ip blackserver-ip (tailscale)
+  };
 
   # Create Docker networks
   systemd.services.create-docker-networks = {
