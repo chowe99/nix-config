@@ -99,6 +99,7 @@
     # caddy
     gcc gnumake perl openssl zlib lua54Packages.lua pkg-config
     docker
+    mdadm
   ];
 
   # services.caddy.enable = true;
