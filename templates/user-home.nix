@@ -57,29 +57,33 @@
       mullvad-vpn
       flatpak
     ];
+    home.sessionVariables = {
+      XDG_DATA_DIRS = "${config.home.homeDirectory}/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:$XDG_DATA_DIRS";
+    };
 
-    home.activation.setupFlatpak = lib.hm.dag.entryAfter ["writeBoundary"] ''
-      # Set up the Flathub remote if it doesn't exist
-      if ! flatpak remotes | grep -q flathub; then
-        flatpak remote-add --if-not-exists --user flathub https://dl.flathub.org/repo/flathub.flatpakrepo
-      fi
 
-      # List of applications to install
-      apps=(
-        md.obsidian.Obsidian
-        com.bitwarden.desktop
-        app.zen_browser.zen
-        com.github.tchx84.Flatseal
-      )
-
-      # Install each application if not already installed
-      for app in ''${apps[@]}; do
-        if ! flatpak list | grep -q $app; then
-          flatpak install -y --user flathub $app
-        fi
-      done
-    '';
-
+    # home.activation.setupFlatpak = lib.hm.dag.entryAfter ["writeBoundary"] ''
+    #   # Set up the Flathub remote if it doesn't exist
+    #   if ! flatpak remotes | grep -q flathub; then
+    #     flatpak remote-add --if-not-exists --user flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+    #   fi
+    #
+    #   # List of applications to install
+    #   apps=(
+    #     md.obsidian.Obsidian
+    #     com.bitwarden.desktop
+    #     app.zen_browser.zen
+    #     com.github.tchx84.Flatseal
+    #   )
+    #
+    #   # Install each application if not already installed
+    #   for app in ''${apps[@]}; do
+    #     if ! flatpak list | grep -q $app; then
+    #       flatpak install -y --user flathub $app
+    #     fi
+    #   done
+    # '';
+    #
     # Example Flatpak desktop entry using cpu_architecture
     xdg.desktopEntries."md.obsidian.Obsidian" = {
       name = "Obsidian";
