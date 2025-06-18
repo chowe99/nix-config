@@ -88,11 +88,10 @@
 
   environment.systemPackages = with pkgs; [
     vim wget git
-    waybar wofi swaylock swayidle
+    wofi swaylock swayidle
     kitty superfile hyprshot
     iwgtk blueman pipewire wireplumber pavucontrol helvum
-    brave lunarvim oh-my-posh wl-clipboard wl-clipboard-rs
-    sddm-astronaut
+    lunarvim oh-my-posh wl-clipboard wl-clipboard-rs
     killall
     gtk3 gtk4
     wlr-randr
