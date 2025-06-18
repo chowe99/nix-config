@@ -120,9 +120,9 @@ in
     caddy
   ];
 
-  security.pki.certificateFiles = [
-    "/var/lib/caddy/.local/share/caddy/pki/authorities/local/root.crt"
-  ];
+  # security.pki.certificateFiles = [
+  #   "/var/lib/caddy/.local/share/caddy/pki/authorities/local/root.crt"
+  # ];
   # services.caddy.enable = true;
   # services.caddy.configFile = "/etc/caddy/Caddyfile";
 
