@@ -114,15 +114,18 @@
         APACHE_PORT = "11000";
         APACHE_IP_BINDING = "127.0.0.1";
         NEXTCLOUD_MEMORY_LIMIT = "2048M";
+        NEXTCLOUD_DATADIR="/mnt/nas/nextcloud" --add-host=host.docker.internal
       };
       volumes = [
         "nextcloud_aio_mastercontainer:/mnt/docker-aio-config"
         "/var/run/docker.sock:/var/run/docker.sock:ro"
+        "/mnt/nas/nextcloud:/mnt/ncdata"
       ];
       extraOptions = [
         "--init"
         "--sig-proxy=false"
         "--name=nextcloud-aio-mastercontainer"
+        "--add-host=host.docker.internal:host-gateway"
       ];
       autoStart = true;
     };
