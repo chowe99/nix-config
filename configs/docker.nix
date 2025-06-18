@@ -25,6 +25,7 @@
       environment = {
         PUID = "1000";
         PGID = "1000";
+        HOMEPAGE_ALLOWED_HOSTS = "howse.top";
       };
       volumes = [
         "/home/${username}/homepage:/app/config"
