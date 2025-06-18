@@ -28,21 +28,6 @@
     pkgs = nixpkgs.legacyPackages.${system};
   in {
     nixosConfigurations = {
-      # nix = nixpkgs.lib.nixosSystem {
-      #   inherit system;
-      #   specialArgs = { inherit inputs pkgs; }; # Add pkgs here
-      #   modules = [
-      #     ./hosts/nixos/hardware-configuration.nix
-      #     ./hosts/nixos/configuration.nix
-      #     agenix.nixosModules.default
-      #     {
-      #       environment.systemPackages = with pkgs; [
-      #         inputs.agenix.packages.${system}.default
-      #       ];
-      #     }
-      #   ];
-      # };
-
       nix = nixpkgs.lib.nixosSystem {
         inherit system;
         specialArgs = { 
@@ -58,10 +43,10 @@
               environment.systemPackages = with pkgs; [
                 inputs.agenix.packages.${system}.default
               ];
-# Home Manager configuration
+            # Home Manager configuration
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
-              home-manager.users.whiteserver = import ./nixos/users/nix/home.nix;
+              home-manager.users.nix = import ./nixos/users/nix/home.nix;
               home-manager.extraSpecialArgs = { 
                 inherit inputs; 
                 hostname = "nix"; 
@@ -71,20 +56,6 @@
         ];
       };
 
-      server = nixpkgs.lib.nixosSystem {
-        inherit system;
-        specialArgs = { inherit inputs pkgs; }; # Add pkgs here
-        modules = [
-          ./hosts/nixos-server/hardware-configuration.nix
-          ./hosts/nixos-server/configuration.nix
-          agenix.nixosModules.default
-          {
-            environment.systemPackages = with pkgs; [
-              inputs.agenix.packages.${system}.default
-            ];
-          }
-        ];
-      };
 
       whiteserver = nixpkgs.lib.nixosSystem {
         inherit system;
@@ -101,7 +72,7 @@
               environment.systemPackages = with pkgs; [
                 inputs.agenix.packages.${system}.default
               ];
-# Home Manager configuration
+              # Home Manager configuration
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
               home-manager.users.whiteserver = import ./nixos/users/whiteserver/home.nix;
@@ -109,6 +80,34 @@
                 inherit inputs; 
                 hostname = "whiteserver"; 
                 username = "whiteserver"; 
+              };
+            }
+        ];
+      };
+
+      blackserver = nixpkgs.lib.nixosSystem {
+        inherit system;
+        specialArgs = { 
+          inherit inputs; 
+          hostname = "blackserver"; 
+          username = "blackserver"; 
+        };
+        modules = [
+          ./hosts/blackserver/configuration.nix
+            inputs.agenix.nixosModules.default
+            inputs.home-manager.nixosModules.home-manager  # Ensure Home Manager is included
+            {
+              environment.systemPackages = with pkgs; [
+                inputs.agenix.packages.${system}.default
+              ];
+              # Home Manager configuration
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.users.blackserver = import ./nixos/users/blackserver/home.nix;
+              home-manager.extraSpecialArgs = { 
+                inherit inputs; 
+                hostname = "blackserver"; 
+                username = "blackserver"; 
               };
             }
         ];

@@ -1,5 +1,5 @@
 # ~/nix-config/nixos/users/nix/home.nix
-{ config, pkgs, lib, inputs, ... }:
+{ config, pkgs, lib, inputs, username, hostname, ... }:
 
 # let
 
@@ -22,7 +22,7 @@
 # in
 {
   home.stateVersion = "24.11";
-  home.username = username # Set the username
+  home.username = username; # Set the username
   home.homeDirectory = "/home/${username}"; # Set the home directory
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 

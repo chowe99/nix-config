@@ -91,7 +91,7 @@
   };
 
   age.secrets.gemini-api-key = {
-    file = ../../secrets/gemini-api-key.age; # Path relative to this configuration.nix
+    file = ../secrets/gemini-api-key.age; # Path relative to this configuration.nix
     path = "/run/agenix/gemini-api-key"; # Path to the decrypted file
     # The user 'nix' needs to read this for their .zshrc
     # Default owner is root, default mode is "0400"
@@ -101,7 +101,7 @@
   };
 
   age.secrets.openai-api-key = {
-    file = ../../secrets/openai-api-key.age; # Path relative to this configuration.nix
+    file = ../secrets/openai-api-key.age; # Path relative to this configuration.nix
     path = "/run/agenix/openai-api-key"; # Path
     # The user 'nix' needs to read this for their .zshrc
     # Default owner is root, default mode is "0400"
@@ -111,7 +111,7 @@
   };
 
   age.secrets.anthropic-api-key = {
-    file = ../../secrets/anthropic-api-key.age; # Path relative to this configuration.nix
+    file = ../secrets/anthropic-api-key.age; # Path relative to this configuration.nix
     path = "/run/agenix/anthropic-api-key"; # Path
     # The user 'nix' needs to read this for their .zshrc
     # Default owner is root, default mode is "0400"
