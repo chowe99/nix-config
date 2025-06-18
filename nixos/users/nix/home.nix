@@ -5,5 +5,4 @@
   imports = [
     ../../../templates/user-home.nix  # Include directly as a module
   ];
-  nix.package = pkgs.nix;
 }

@@ -123,11 +123,10 @@
   environment.systemPackages = with pkgs; [
     vim wget git
     waybar wofi swaylock swayidle
-    hyprpolkitagent superfile
+    hyprpolkitagent
     xdg-desktop-portal-hyprland kitty hyprshot
     iwgtk blueman pipewire wireplumber pavucontrol helvum
-    brave lunarvim oh-my-posh wl-clipboard wl-clipboard-rs
-    sddm-astronaut
+    lunarvim oh-my-posh wl-clipboard wl-clipboard-rs
     killall
     gtk3 gtk4
     xdg-terminal-exec
@@ -141,6 +140,8 @@
   ];
   # enable mullvad
   services.mullvad-vpn.enable = true;
+
+  services.flatpak.enable = true;
 
 # Enable virtualization
   virtualisation.libvirtd = {
