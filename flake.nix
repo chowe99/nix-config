@@ -9,8 +9,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # hyprland.url = "github:hyprwm/Hyprland";
-
     agenix = {
       url = "github:ryantm/agenix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -26,104 +24,106 @@
   let
     system = "x86_64-linux";
     pkgs = nixpkgs.legacyPackages.${system};
+
+    nixosSystem = { system, hostname, username, modules }: nixpkgs.lib.nixosSystem {
+      inherit system;
+      specialArgs = { 
+        inherit inputs; 
+        inherit hostname username; 
+      };
+      inherit modules;
+    };
+
+    homeManagerConfig = { username, system, modules }: home-manager.lib.homeManagerConfiguration {
+      pkgs = nixpkgs.legacyPackages.${system};
+      extraSpecialArgs = { inherit inputs; };
+      inherit modules;
+    };
   in {
     nixosConfigurations = {
-      nix = nixpkgs.lib.nixosSystem {
+      nix = nixosSystem {
         inherit system;
-        specialArgs = { 
-          inherit inputs; 
-          hostname = "nix"; 
-          username = "nix"; 
-        };
+        hostname = "nix";
+        username = "nix";
         modules = [
           ./hosts/nix/configuration.nix
-            inputs.agenix.nixosModules.default
-            inputs.home-manager.nixosModules.home-manager  # Ensure Home Manager is included
-            {
-              environment.systemPackages = with pkgs; [
-                inputs.agenix.packages.${system}.default
-              ];
-            # Home Manager configuration
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.users.nix = import ./nixos/users/nix/home.nix;
-              home-manager.extraSpecialArgs = { 
-                inherit inputs; 
-                hostname = "nix"; 
-                username = "nix"; 
-              };
-            }
+          inputs.agenix.nixosModules.default
+          inputs.home-manager.nixosModules.home-manager
+          {
+            environment.systemPackages = with pkgs; [
+              inputs.agenix.packages.${system}.default
+            ];
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.users.nix = import ./nixos/users/nix/home.nix;
+            home-manager.extraSpecialArgs = { 
+              inherit inputs; 
+              hostname = "nix"; 
+              username = "nix"; 
+            };
+          }
         ];
       };
 
-
-      whiteserver = nixpkgs.lib.nixosSystem {
+      whiteserver = nixosSystem {
         inherit system;
-        specialArgs = { 
-          inherit inputs; 
-          hostname = "whiteserver"; 
-          username = "whiteserver"; 
-        };
+        hostname = "whiteserver";
+        username = "whiteserver";
         modules = [
           ./hosts/whiteserver/configuration.nix
-            inputs.agenix.nixosModules.default
-            inputs.home-manager.nixosModules.home-manager  # Ensure Home Manager is included
-            {
-              environment.systemPackages = with pkgs; [
-                inputs.agenix.packages.${system}.default
-              ];
-              # Home Manager configuration
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.users.whiteserver = import ./nixos/users/whiteserver/home.nix;
-              home-manager.extraSpecialArgs = { 
-                inherit inputs; 
-                hostname = "whiteserver"; 
-                username = "whiteserver"; 
-              };
-            }
+          inputs.agenix.nixosModules.default
+          inputs.home-manager.nixosModules.home-manager
+          {
+            environment.systemPackages = with pkgs; [
+              inputs.agenix.packages.${system}.default
+            ];
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.users.whiteserver = import ./nixos/users/whiteserver/home.nix;
+            home-manager.extraSpecialArgs = { 
+              inherit inputs; 
+              hostname = "whiteserver"; 
+              username = "whiteserver"; 
+            };
+          }
         ];
       };
 
-      blackserver = nixpkgs.lib.nixosSystem {
+      blackserver = nixosSystem {
         inherit system;
-        specialArgs = { 
-          inherit inputs; 
-          hostname = "blackserver"; 
-          username = "blackserver"; 
-        };
+        hostname = "blackserver";
+        username = "blackserver";
         modules = [
           ./hosts/blackserver/configuration.nix
-            inputs.agenix.nixosModules.default
-            inputs.home-manager.nixosModules.home-manager  # Ensure Home Manager is included
-            {
-              environment.systemPackages = with pkgs; [
-                inputs.agenix.packages.${system}.default
-              ];
-              # Home Manager configuration
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.users.blackserver = import ./nixos/users/blackserver/home.nix;
-              home-manager.extraSpecialArgs = { 
-                inherit inputs; 
-                hostname = "blackserver"; 
-                username = "blackserver"; 
-              };
-            }
+          inputs.agenix.nixosModules.default
+          inputs.home-manager.nixosModules.home-manager
+          {
+            environment.systemPackages = with pkgs; [
+              inputs.agenix.packages.${system}.default
+            ];
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.users.blackserver = import ./nixos/users/blackserver/home.nix;
+            home-manager.extraSpecialArgs = { 
+              inherit inputs; 
+              hostname = "blackserver"; 
+              username = "blackserver"; 
+            };
+          }
         ];
       };
+    };
 
     homeConfigurations = {
       cod = homeManagerConfig {
         username = "cod";
         system = "aarch64-linux";
         modules = [
-          nix-flatpak.homeManagerModules.nix-flatpak
+          # Note: nix-flatpak is not in inputs, so this line is commented out to avoid errors
+          # nix-flatpak.homeManagerModules.nix-flatpak
           ./nixos/users/cod/home.nix
         ];
       };
-    };
-
     };
   };
 }
