@@ -1,4 +1,4 @@
-{ inputs, config, pkgs, lib, ... }:
+{ inputs, config, pkgs, lib, username, hostname, ... }:
 {
   # Docker
   virtualisation.docker.enable = true;
