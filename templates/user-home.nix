@@ -27,14 +27,13 @@
     nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
     home.packages = with config.packageSet; [
-      zsh
       btop
       tree
       docker
       signal-desktop
-      wineWowPackages.waylandFull
+      # wineWowPackages.waylandFull
       papirus-icon-theme
-      winetricks
+      # winetricks
       dpkg
       libcanberra
       lsd
@@ -139,7 +138,7 @@
         alias age=agenix
         eval "$(oh-my-posh init zsh --config 'https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/1_shell.omp.json')"
         alias rebuild="sudo nixos-rebuild switch --flake ~/nix-config#${username}"
-        alias ssf2='wine "$HOME/.wine/drive_c/Program Files (x86)/Super Smash Flash 2 Beta/SSF2.exe"'
+        # alias ssf2='wine "$HOME/.wine/drive_c/Program Files (x86)/Super Smash Flash 2 Beta/SSF2.exe"'
         alias c="clear && fastfetch"
         alias open="superfile"
         alias ls='lsd'

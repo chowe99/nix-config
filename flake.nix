@@ -3,6 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
+    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
 
     home-manager = {
       url = "github:nix-community/home-manager/release-24.11";
@@ -19,8 +20,8 @@
       flake = false;
     };
     nixvim = {
-      url = "github:nix-community/nixvim/release-24.11";
-      inputs.nixpkgs.follows = "nixpkgs";
+      url = "github:nix-community/nixvim/";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
   };
 
@@ -38,11 +39,15 @@
       inherit modules;
     };
 
-    homeManagerConfig = { username, system, modules }: home-manager.lib.homeManagerConfiguration {
+    homeManagerConfig = { username, system, hostname, modules }: home-manager.lib.homeManagerConfiguration {
       pkgs = nixpkgs.legacyPackages.${system};
-      extraSpecialArgs = { inherit inputs; };
+      extraSpecialArgs = { 
+        inherit inputs; 
+        inherit username hostname; 
+      };
       inherit modules;
     };
+
   in {
     nixosConfigurations = {
       nix = nixosSystem {
@@ -122,6 +127,7 @@
       cod = homeManagerConfig {
         username = "cod";
         system = "aarch64-linux";
+        hostname = "cod";
         modules = [
           # Note: nix-flatpak is not in inputs, so this line is commented out to avoid errors
           # nix-flatpak.homeManagerModules.nix-flatpak
