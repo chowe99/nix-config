@@ -58,6 +58,7 @@
       ffmpeg-full
       yt-dlp
       mullvad-vpn
+      flatpak
     ];
 
     # Example Flatpak desktop entry using cpu_architecture
