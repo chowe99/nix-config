@@ -1,4 +1,4 @@
-# ~/nix-config/nixos/users/nix/home.nix
+# ~/nix-config/nix/users/nix/home.nix
 { inputs, pkgs, ... }:
 
 {
