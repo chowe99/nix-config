@@ -4,7 +4,7 @@
     enable = true;
 
     virtualHosts."*.howse.top".extraConfig = ''
-      tls internal
+      tls /etc/ssl/certs/cert.pem /etc/ssl/certs/howse.top.key
       encode gzip
     '';
 
@@ -17,34 +17,28 @@
     '';
 
     virtualHosts."https://howse.top".extraConfig = ''
-      tls internal
       encode gzip
       reverse_proxy localhost:3000
     '';
 
     virtualHosts."https://www.howse.top".extraConfig = ''
-      tls internal
       encode gzip
       reverse_proxy localhost:3000
     '';
 
     virtualHosts."vaultwarden.howse.top".extraConfig = ''
-      tls internal
       reverse_proxy localhost:8170
     '';
 
     virtualHosts."prowlarr.howse.top".extraConfig = ''
-      tls internal
       reverse_proxy localhost:9696
     '';
 
     virtualHosts."git.howse.top".extraConfig = ''
-      tls internal
       reverse_proxy localhost:1480
     '';
 
     virtualHosts."cloud.howse.top".extraConfig = ''
-      tls internal
       reverse_proxy localhost:11000
       header {
         Host {host}
@@ -54,54 +48,44 @@
     '';
 
     virtualHosts."sab.howse.top".extraConfig = ''
-      tls internal
       reverse_proxy localhost:5480
     '';
 
     virtualHosts."llm.howse.top".extraConfig = ''
-      tls internal
       reverse_proxy http://localhost:8081
     '';
 
     virtualHosts."ollama.howse.top".extraConfig = ''
-      tls internal
       reverse_proxy localhost:11434
     '';
 
     virtualHosts."searx.howse.top".extraConfig = ''
-      tls internal
       reverse_proxy localhost:5347 {
         header_up X-Real-IP {remote_host}
       }
     '';
 
     virtualHosts."shop.howse.top".extraConfig = ''
-      tls internal
       reverse_proxy localhost:3008
     '';
 
     # virtualHosts."http://ho.howse.top:80".extraConfig = ''
-    #   tls off
     #   reverse_proxy localhost:4173
     # '';
 
     virtualHosts."comfy.howse.top".extraConfig = ''
-      tls internal
       reverse_proxy localhost:8188
     '';
 
     virtualHosts."browser.howse.top".extraConfig = ''
-      tls internal
       reverse_proxy localhost:7788
     '';
 
     virtualHosts."ttyd.howse.top".extraConfig = ''
-      tls internal
       reverse_proxy localhost:7681
     '';
 
     virtualHosts."static.howse.top".extraConfig = ''
-      tls internal
       root * /var/www/html/static
       file_server
       header {
@@ -118,7 +102,6 @@
     '';
 
     virtualHosts."vnc.howse.top".extraConfig = ''
-      tls internal
       root * /snap/novnc/current
       file_server {
         index vnc.html
@@ -129,27 +112,22 @@
     '';
 
     virtualHosts."ntfy.howse.top".extraConfig = ''
-      tls internal
       reverse_proxy localhost:8082
     '';
 
     virtualHosts."music.howse.top".extraConfig = ''
-      tls internal
       reverse_proxy localhost:4533
     '';
 
     virtualHosts."lidarr.howse.top".extraConfig = ''
-      tls internal
       reverse_proxy localhost:8686
     '';
 
     virtualHosts."deemix.howse.top".extraConfig = ''
-      tls internal
       reverse_proxy localhost:6595
     '';
 
     virtualHosts."ytmd.howse.top".extraConfig = ''
-      tls internal
       reverse_proxy localhost:5121
     '';
   };
