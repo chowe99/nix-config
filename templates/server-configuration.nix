@@ -114,6 +114,7 @@ in
     gcc gnumake perl openssl zlib lua54Packages.lua pkg-config
     docker
     mdadm
+    dig
   ];
 
   # services.caddy.enable = true;
@@ -151,10 +152,10 @@ in
   };
 
   # Enable GlusterFS
-  services.glusterfs = {
-    enable = true;
-    servers = [ "100.64.65.24" "100.73.187.60" ]; # Whiteserver-ip blackserver-ip (tailscale)
-  };
+  # services.glusterfs = {
+  #   enable = true;
+  #   servers = [ "100.64.65.24" "100.73.187.60" ]; # Whiteserver-ip blackserver-ip (tailscale)
+  # };
 
   # Create Docker networks
   systemd.services.create-docker-networks = {
@@ -259,22 +260,22 @@ in
       autoStart = true;
     };
 
-    ntfy = {
-      image = "binwiederhier/ntfy";
-      ports = [ "8082:80" "8083:443" ];
-      volumes = [
-        "/var/cache/ntfy:/var/cache/ntfy"
-        "/etc/ntfy:/etc/ntfy"
-      ];
-      cmd = [
-        "serve"
-        "--cache-file"
-        "/var/cache/ntfy/cache.db"
-        "--attachment-cache-dir"
-        "/var/cache/ntfy/attachments"
-      ];
-      autoStart = true;
-    };
+    # ntfy = {
+    #   image = "binwiederhier/ntfy";
+    #   ports = [ "8082:80" "8083:443" ];
+    #   volumes = [
+    #     "/var/cache/ntfy:/var/cache/ntfy"
+    #     "/etc/ntfy:/etc/ntfy"
+    #   ];
+    #   cmd = [
+    #     "serve"
+    #     "--cache-file"
+    #     "/var/cache/ntfy/cache.db"
+    #     "--attachment-cache-dir"
+    #     "/var/cache/ntfy/attachments"
+    #   ];
+    #   autoStart = true;
+    # };
   };
 
   # Ensure volume directories exist

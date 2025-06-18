@@ -3,24 +3,29 @@
   services.caddy = {
     enable = true;
 
-    virtualHosts."*.howse.top".extraConfig = ''
-      encode gzip
-      '';
+  virtualHosts."*.howse.top".extraConfig = ''
+    tls internal 
+    encode gzip
+  '';
 
-    virtualHosts."http://howse.top".extraConfig = ''
-      redir https://howse.top{uri}
+  virtualHosts."http://howse.top".extraConfig = ''
+    tls /etc/ssl/certs/fullchain.pem /etc/ssl/certs/howse.top.key
+    redir https://howse.top{uri}
   '';
 
   virtualHosts."http://www.howse.top".extraConfig = ''
+    tls /etc/ssl/certs/fullchain.pem /etc/ssl/certs/howse.top.key
     redir https://howse.top{uri}
   '';
 
   virtualHosts."https://howse.top".extraConfig = ''
+    tls /etc/ssl/certs/fullchain.pem /etc/ssl/certs/howse.top.key
     encode gzip
     reverse_proxy localhost:3030
     '';
 
   virtualHosts."https://www.howse.top".extraConfig = ''
+    tls /etc/ssl/certs/fullchain.pem /etc/ssl/certs/howse.top.key
     encode gzip
     reverse_proxy localhost:3030
     '';
