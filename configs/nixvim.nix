@@ -13,6 +13,31 @@ in
 {
   programs.nixvim = {
     enable = true;
+    extraPackages = with unstable; [
+      eslint_d
+      pylint
+      stylelint
+      shellcheck
+      prettierd
+      black
+      shfmt
+      ripgrep
+      fd
+      gnumake
+      gcc
+      nodejs
+      yarn
+      cargo
+      perl
+      openssl
+      libnotify
+      nodePackages.graphql-language-service-cli  
+      go
+      php
+      luarocks
+      openjdk
+      julia
+    ];
     clipboard = {
       register = "unnamedplus";
       providers.wl-copy.enable = true;
