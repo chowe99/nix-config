@@ -4,6 +4,6 @@
 {
   imports = [
     ./hardware-configuration.nix
-    (import ../../templates/server-configuration.nix { inherit inputs pkgs; hostname = "whiteserver"; username = "whiteserver"; })
+    ../../templates/server-configuration.nix  # Include directly as a module
   ];
 }

@@ -1,4 +1,5 @@
 # templates/server-configuration.nix
+# templates/server-configuration.nix
 # Shared configuration template for all servers
 { config, pkgs, inputs, hostname, username, ... }:
 
@@ -12,11 +13,8 @@
   home-manager = {
     useGlobalPkgs = true;
     useUserPackages = true;
-    users.${username} = import ../../nixos/users/${username}/home.nix;
     backupFileExtension = "backup";
-    extraSpecialArgs = { inherit inputs; };
   };
-
   # Bootloader
   boot.loader = {
     systemd-boot.enable = true;
@@ -105,7 +103,7 @@
   ];
 
   # services.caddy.enable = true;
-  #services.caddy.configFile = "/etc/caddy/Caddyfile";
+  # services.caddy.configFile = "/etc/caddy/Caddyfile";
 
   fonts.packages = with pkgs; [
     (nerdfonts.override { fonts = [ "JetBrainsMono" "FiraCode" ]; })

@@ -1,4 +1,5 @@
 # Shared home configuration template for all users
+# Shared home configuration template for all users
 { config, pkgs, lib, inputs, username, hostname, ... }:
 
 {

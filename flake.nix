@@ -60,17 +60,32 @@
 
       whiteserver = nixpkgs.lib.nixosSystem {
         inherit system;
-        specialArgs = { inherit inputs pkgs; }; # Add pkgs here
+        specialArgs = { 
+          inherit inputs; 
+          hostname = "whiteserver"; 
+          username = "whiteserver"; 
+        };
         modules = [
           ./hosts/whiteserver/configuration.nix
-          agenix.nixosModules.default
-          {
-            environment.systemPackages = with pkgs; [
-              inputs.agenix.packages.${system}.default
-            ];
-          }
+            inputs.agenix.nixosModules.default
+            inputs.home-manager.nixosModules.home-manager  # Ensure Home Manager is included
+            {
+              environment.systemPackages = with pkgs; [
+                inputs.agenix.packages.${system}.default
+              ];
+# Home Manager configuration
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.users.whiteserver = import ./nixos/users/whiteserver/home.nix;
+              home-manager.extraSpecialArgs = { 
+                inherit inputs; 
+                hostname = "whiteserver"; 
+                username = "whiteserver"; 
+              };
+            }
         ];
       };
+
     };
   };
 }
