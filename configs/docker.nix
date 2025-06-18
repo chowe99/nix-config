@@ -114,7 +114,7 @@
         APACHE_PORT = "11000";
         APACHE_IP_BINDING = "127.0.0.1";
         NEXTCLOUD_MEMORY_LIMIT = "2048M";
-        NEXTCLOUD_DATADIR="/mnt/nas/nextcloud" --add-host=host.docker.internal
+        NEXTCLOUD_DATADIR="/mnt/nas/nextcloud"; 
       };
       volumes = [
         "nextcloud_aio_mastercontainer:/mnt/docker-aio-config"
@@ -129,7 +129,6 @@
       ];
       autoStart = true;
     };
-}
     # ntfy = {
     #   image = "binwiederhier/ntfy";
     #   ports = [ "8082:80" "8083:443" ];
