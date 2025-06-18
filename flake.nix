@@ -122,6 +122,7 @@
         ];
       };
     };
+
     asusserver = nixosSystem {
       inherit system;
       hostname = "asusserver";
