@@ -11,6 +11,7 @@ in
   imports = [
     inputs.home-manager.nixosModules.home-manager
     ../configs/caddy.nix
+    ../configs/docker.nix
   ];
 
   # Home Manager configuration
@@ -145,8 +146,6 @@ in
     '';
   };
 
-  # Docker
-  virtualisation.docker.enable = true;
 
   
   # Enable k3s (Server 1 as control plane)
@@ -162,6 +161,9 @@ in
   #   enable = true;
   #   servers = [ "100.64.65.24" "100.73.187.60" ]; # Whiteserver-ip blackserver-ip (tailscale)
   # };
+
+  # Docker
+  virtualisation.docker.enable = true;
 
   # Create Docker networks
   systemd.services.create-docker-networks = {

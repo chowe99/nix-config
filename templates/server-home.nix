@@ -8,7 +8,7 @@
   home.homeDirectory = "/home/${username}";
 
   home.packages = with pkgs; [
-    htop neofetch btop tree home-manager
+    htop fastfetch btop tree home-manager lsd
   ];
 
   xdg.desktopEntries."superfile" = {
@@ -71,9 +71,14 @@
       eval "$(oh-my-posh init zsh --config 'https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/1_shell.omp.json')"
       alias rebuild="sudo nixos-rebuild switch --flake ~/nix-config#${hostname}"
       alias ssf2='wine "$HOME/.wine/drive_c/Program Files (x86)/Super Smash Flash 2 Beta/SSF2.exe"'
-      alias c="clear && neofetch"
+      alias c="clear && fastfetch"
       alias open="superfile"
-      neofetch
+      alias ls='lsd'
+      alias l='ls -l'
+      alias la='ls -a'
+      alias lla='ls -la'
+      alias lt='ls --tree'
+      fastfetch
       if [[ -f /run/agenix/openai-api-key ]]; then
         export OPENAI_API_KEY=$(cat /run/agenix/openai-api-key)
       fi
