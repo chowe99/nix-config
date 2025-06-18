@@ -53,8 +53,34 @@
     swww # For setting animated wallpaper
     ffmpeg-full # For video/audio processing
     yt-dlp # For downloading videos
-    mullvad-vpn # VPN client
+    # mullvad-vpn # VPN client
+    flatpak
   ];
+
+  home.sessionVariables = {
+    XDG_DATA_DIRS = "${config.home.homeDirectory}/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:$XDG_DATA_DIRS";
+  };
+
+  services.flatpak = {
+    enable = true;
+    remotes = [
+      {
+        name = "flathub";
+        location = "https://dl.flathub.org/repo/flathub.flatpakrepo";
+      }
+    ];
+    packages = [
+      "md.obsidian.Obsidian"
+      "com.bitwarden.desktop"
+      "app.zen_browser.zen"
+      "com.github.tchx84.Flatseal"
+    ];
+    uninstallUnmanaged = true;
+    update.auto = {
+      enable = true;
+      onCalendar = "weekly";
+    };
+  };
 
   xdg.desktopEntries."superfile" = {
     name = "Superfile (TUI)";
