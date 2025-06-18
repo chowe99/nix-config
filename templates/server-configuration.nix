@@ -10,8 +10,6 @@ in
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   imports = [
     inputs.home-manager.nixosModules.home-manager
-    ../configs/caddy.nix
-    ../configs/docker.nix
   ];
 
   # Home Manager configuration
