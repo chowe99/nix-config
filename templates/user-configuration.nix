@@ -137,6 +137,7 @@
     spice-gtk # For SPICE display protocol
     swtpm # Software TPM for VMs
     mullvad-vpn # VPN client
+    flatpak
   ];
   # enable mullvad
   services.mullvad-vpn.enable = true;
