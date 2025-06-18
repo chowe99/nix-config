@@ -107,6 +107,26 @@
       autoStart = true;
     };
 
+    nextcloud-aio-mastercontainer = {
+      image = "nextcloud/all-in-one:latest";
+      ports = [ "8080:8080" ];
+      environment = {
+        APACHE_PORT = "11000";
+        APACHE_IP_BINDING = "127.0.0.1";
+        NEXTCLOUD_MEMORY_LIMIT = "2048M";
+      };
+      volumes = [
+        "nextcloud_aio_mastercontainer:/mnt/docker-aio-config"
+        "/var/run/docker.sock:/var/run/docker.sock:ro"
+      ];
+      extraOptions = [
+        "--init"
+        "--sig-proxy=false"
+        "--name=nextcloud-aio-mastercontainer"
+      ];
+      autoStart = true;
+    };
+}
     # ntfy = {
     #   image = "binwiederhier/ntfy";
     #   ports = [ "8082:80" "8083:443" ];
