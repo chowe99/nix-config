@@ -1,8 +1,10 @@
 { inputs, config, pkgs, lib, ... }:
 
 let
-  unstable = import inputs.nixpkgs-unstable {
-    system = "aarch64-linux";
+  # Use unstable for aarch64-linux, stable for x86_64-linux
+  pkgSource = if pkgs.system == "aarch64-linux" then inputs.nixpkgs-unstable else inputs.nixpkgs;
+  pkgSet = import pkgSource {
+    system = pkgs.system;
     config = {
       allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
         "copilot.vim"
@@ -13,7 +15,7 @@ in
 {
   programs.nixvim = {
     enable = true;
-    extraPackages = with unstable; [
+    extraPackages = with pkgSet; [
       eslint_d
       pylint
       stylelint
@@ -338,7 +340,7 @@ in
       dap.adapters.node2 = {
         type = 'executable',
         command = 'node',
-        args = { "${unstable.vimPlugins.nvim-dap}/out/src/nodeDebug.js" },
+        args = { "${pkgSet.vimPlugins.nvim-dap}/out/src/nodeDebug.js" },
       }
       dap.configurations.javascript = {
         {
@@ -363,5 +365,4 @@ in
 
     '';
   };
-
 }
