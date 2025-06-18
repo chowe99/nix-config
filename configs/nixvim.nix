@@ -1,5 +1,15 @@
-{ config, pkgs, ... }:
+{ inputs, config, pkgs, lib, ... }:
 
+let
+  unstable = import inputs.nixpkgs-unstable {
+    system = "aarch64-linux";
+    config = {
+      allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
+        "copilot.vim"
+      ];
+    };
+  };
+in
 {
   programs.nixvim = {
     enable = true;
