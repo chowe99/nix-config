@@ -121,7 +121,6 @@
           }
         ];
       };
-    };
 
     asusserver = nixosSystem {
       inherit system;
@@ -146,6 +145,8 @@
           }
       ];
     };
+  };
+
 
     homeConfigurations = {
       cod = homeManagerConfig {
