@@ -113,6 +113,17 @@
         ];
       };
 
+    homeConfigurations = {
+      cod = homeManagerConfig {
+        username = "cod";
+        system = "aarch64-linux";
+        modules = [
+          nix-flatpak.homeManagerModules.nix-flatpak
+          ./nixos/users/cod/home.nix
+        ];
+      };
+    };
+
     };
   };
 }
