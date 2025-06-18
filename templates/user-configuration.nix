@@ -6,16 +6,14 @@
 {
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   imports = [
-    ./hardware-configuration.nix
     inputs.home-manager.nixosModules.home-manager
   ];
 
+  # Home Manager configuration
   home-manager = {
     useGlobalPkgs = true;
     useUserPackages = true;
-    users.nix = import ./../../nixos/users/nix/home.nix;
-    backupFileExtension = "backup"; # Automatically back up conflicting files
-    extraSpecialArgs = { inherit inputs; };
+    backupFileExtension = "backup";
   };
 
   environment.variables = {
