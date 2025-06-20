@@ -117,6 +117,15 @@
     mode = "0600"; # User read-only
   };
 
+  age.secrets.k3s-token = {
+    file = ./secrets/k3s-token.age;
+    path = "/run/agenix/k3s-token";
+    owner = username; # Or "k3s" if it needs to be owned by a k3s service user
+      group = "users";
+    mode = "600";
+  };
+
+
   programs.zsh.enable = true;
   nixpkgs.config.allowUnfree = true;
   services.tailscale.enable = true;

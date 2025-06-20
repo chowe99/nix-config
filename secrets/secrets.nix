@@ -12,7 +12,7 @@ let
   # Your system's public SSH host key (e.g., from /etc/ssh/ssh_host_ed25519_key.pub on the target machine)
   # Replace with your actual public key string
   system_lemur_pro_pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOW8vEJXA9kNsUDO18DJhv0sb61dcXX1YRAxg+ouS29b root@nixos"; # Removed trailing space, ensure it's the exact key
-  system_whiteserver_pubkey = 
+  # system_whiteserver_pubkey = 
 
   # Lists of keys for convenience
   users = [ user_nix_pubkey user_whiteserver_pubkey user_blackserver_pubkey user_asusserver_pubkey ];
@@ -30,6 +30,8 @@ in
   "openai-api-key.age".publicKeys = defaultRecipientKeys; # Or specify different keys if needed
 
   "anthropic-api-key.age".publicKeys = defaultRecipientKeys;
+
+  "k3s-token.age".publicKeys = defaultRecipientKeys;
 
   # You can add more secrets here, e.g.:
   # "another-secret.age".publicKeys = [ user_nix_pubkey ];

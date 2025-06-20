@@ -70,6 +70,45 @@ in
     shell = pkgs.zsh;
   };
 
+    age.secrets.gemini-api-key = {
+    file = ../secrets/gemini-api-key.age; # Path relative to this configuration.nix
+    path = "/run/agenix/gemini-api-key"; # Path to the decrypted file
+    # The user 'nix' needs to read this for their .zshrc
+    # Default owner is root, default mode is "0400"
+    owner = username; # Set this to your username
+    group = "users";
+    mode = "0600"; # User read-only
+  };
+
+  age.secrets.openai-api-key = {
+    file = ../secrets/openai-api-key.age; # Path relative to this configuration.nix
+    path = "/run/agenix/openai-api-key"; # Path
+    # The user 'nix' needs to read this for their .zshrc
+    # Default owner is root, default mode is "0400"
+    owner = username; # Set this to your username
+    group = "users";
+    mode = "0600"; # User read-only
+  };
+
+  age.secrets.anthropic-api-key = {
+    file = ../secrets/anthropic-api-key.age; # Path relative to this configuration.nix
+    path = "/run/agenix/anthropic-api-key"; # Path
+    # The user 'nix' needs to read this for their .zshrc
+    # Default owner is root, default mode is "0400"
+    owner = username; # Set this to your username
+    group = "users";
+    mode = "0600"; # User read-only
+  };
+
+  age.secrets.k3s-token = {
+    file = ./secrets/k3s-token.age;
+    path = "/run/agenix/k3s-token";
+    owner = username; # Or "k3s" if it needs to be owned by a k3s service user
+      group = "users";
+    mode = "600";
+  };
+
+
   # Auto-login
   services.getty.autologinUser = username;
 
