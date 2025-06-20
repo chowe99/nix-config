@@ -60,24 +60,31 @@
       XDG_DATA_DIRS = "${config.home.homeDirectory}/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:$XDG_DATA_DIRS";
     };
 
-
     home.activation.setupFlatpak = lib.hm.dag.entryAfter ["writeBoundary"] ''
       flatpak_cmd="${config.packageSet.flatpak}/bin/flatpak"
+
       if ! $flatpak_cmd remotes | grep -q flathub; then
         $flatpak_cmd remote-add --if-not-exists --user flathub https://dl.flathub.org/repo/flathub.flatpakrepo
       fi
+
       apps=(
         md.obsidian.Obsidian
         com.bitwarden.desktop
         app.zen_browser.zen
         com.github.tchx84.Flatseal
       )
+
       for app in ''${apps[@]}; do
         if ! $flatpak_cmd list | grep -q $app; then
           $flatpak_cmd install -y --user flathub $app
         fi
       done
+
+      # Give Zen Browser access to ~/Downloads with read-write access
+      $flatpak_cmd override --user app.zen_browser.zen --filesystem=$HOME/Downloads:rw
     '';
+
+
     # Example Flatpak desktop entry using cpu_architecture
     xdg.desktopEntries."md.obsidian.Obsidian" = {
       name = "Obsidian";
