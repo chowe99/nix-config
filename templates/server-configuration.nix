@@ -143,9 +143,9 @@ in
   ];
 
   services.openssh.enable = true;
-  networking.firewall = {
-    enable = true;
-    allowedTCPPorts = [ 22 80 443 3000 3030];
+  # networking.firewall = {
+  #   enable = true;
+  #   allowedTCPPorts = [ 22 80 443 3000 3030];
   };
 
   security.sudo = {
@@ -155,13 +155,6 @@ in
     '';
   };
   
-  # Enable k3s (Server 1 as control plane)
-  #services.k3s = {
-    #enable = true;
-    #role = "server";
-    #token = k3sToken;
-    #extraFlags = "--disable traefik"; # Disable default Traefik for custom ingress
-  #};
 
   # Enable GlusterFS
   # services.glusterfs = {
