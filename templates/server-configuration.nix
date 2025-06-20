@@ -25,7 +25,6 @@ in
   };
 
   services.logind = {
-    enable = true;
     lidSwitchDocked = "ignore";
     lidSwitchExternalPower = "ignore";
   };
