@@ -156,6 +156,9 @@
         if [[ -f /run/agenix/anthropic-api-key ]]; then
           export ANTHROPIC_API_KEY=$(cat /run/agenix/anthropic-api-key)
         fi
+        if [[ -f /run/agenix/k3s-token ]]; then
+          export K3S_TOKEN=$(cat /run/agenix/k3s-token)
+        fi
       '';
       force = true;
     };
