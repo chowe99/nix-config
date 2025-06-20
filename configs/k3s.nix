@@ -14,7 +14,7 @@
   services.k3s = {
     enable = true;
     role = "server";
-    extraFlags = "--datastore-endpoint=etcd://100.64.65.24:2379,100.73.187.60:2379,100.84.199.75:2379 --cluster-init";
+    extraFlags = "--cluster-init";
   };
 
   networking.firewall.allowedTCPPorts = [ 80 443 6443 2379 2380 24007 24008 49152 49153 ];

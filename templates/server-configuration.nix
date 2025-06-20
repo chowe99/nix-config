@@ -115,9 +115,14 @@ in
     gtk3 gtk4
     wlr-randr
     yarn
-    # caddy
     gcc gnumake perl openssl zlib lua54Packages.lua pkg-config
+
+    # K3sS
     docker
+    kubectl
+    glusterfs
+
+    # Network/Disk tools
     mdadm
     dig
     lsof
