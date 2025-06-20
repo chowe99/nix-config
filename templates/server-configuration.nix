@@ -10,7 +10,6 @@ in
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   imports = [
     inputs.home-manager.nixosModules.home-manager
-    ../configs/zshrc.nix
   ];
 
   # Home Manager configuration

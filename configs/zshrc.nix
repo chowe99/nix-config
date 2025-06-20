@@ -1,4 +1,4 @@
-{ inputs, config, pkgs, ... }:
+{ config, pkgs, lib, inputs, username, hostname, ... }:
 {
     home.file.".zshrc" = {
       text = ''

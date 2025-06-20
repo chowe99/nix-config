@@ -5,9 +5,6 @@
 
 {
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
-  imports = [
-    ../configs/zshrc.nix
-  ];
 
   # Home Manager configuration
   home-manager = {
@@ -121,7 +118,7 @@
   };
 
   age.secrets.k3s-token = {
-    file = ./secrets/k3s-token.age;
+    file = ../secrets/k3s-token.age;
     path = "/run/agenix/k3s-token";
     owner = username; # Or "k3s" if it needs to be owned by a k3s service user
       group = "users";
