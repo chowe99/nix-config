@@ -67,13 +67,18 @@
     shell = pkgs.zsh;
   };
 
-    age.secrets.gemini-api-key = {
+
+  age.identityPaths = [
+      "/etc/ssh/ssh_host_ed25519_key" # Use the system host private key
+    ];
+
+  age.secrets.gemini-api-key = {
     file = ../secrets/gemini-api-key.age; # Path relative to this configuration.nix
-    path = "/run/agenix/gemini-api-key"; # Path to the decrypted file
-    # The user 'nix' needs to read this for their .zshrc
-    # Default owner is root, default mode is "0400"
-    owner = username; # Set this to your username
-    group = "users";
+      path = "/run/agenix/gemini-api-key"; # Path to the decrypted file
+      # The user 'nix' needs to read this for their .zshrc
+      # Default owner is root, default mode is "0400"
+      owner = username; # Set this to your username
+      group = "users";
     mode = "0600"; # User read-only
   };
 

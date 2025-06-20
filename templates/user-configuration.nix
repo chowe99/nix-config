@@ -87,6 +87,10 @@
     shell = pkgs.zsh;
   };
 
+  age.identityPaths = [
+    "/etc/ssh/ssh_host_ed25519_key" # Use the system host private key
+  ];
+
   age.secrets.gemini-api-key = {
     file = ../secrets/gemini-api-key.age; # Path relative to this configuration.nix
     path = "/run/agenix/gemini-api-key"; # Path to the decrypted file
