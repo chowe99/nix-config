@@ -18,7 +18,7 @@ let
 
   # Lists of keys for convenience
   users = [ user_nix_pubkey user_whiteserver_pubkey user_blackserver_pubkey user_asusserver_pubkey ];
-  targetSystems = [ system_lemur_pro_pubkey ];
+  targetSystems = [ system_lemur_pro_pubkey system_whiteserver_pubkey system_blackserver_pubkey system_asusserver_pubkey ];
 
   # Keys that can decrypt all general secrets
   defaultRecipientKeys = users ++ targetSystems;
