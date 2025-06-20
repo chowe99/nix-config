@@ -154,11 +154,6 @@ in
       Defaults timestamp_timeout = 180
     '';
   };
-  
-  Enable k3s (Server 1 as control plane)
-  services.k3s = {
-    extraFlags = "--disable traefik"; # Disable default Traefik for custom ingress
-  };
 
   # Enable GlusterFS
   # services.glusterfs = {
