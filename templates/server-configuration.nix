@@ -137,11 +137,11 @@ in
   ];
 
   services.openssh.enable = true;
-  # networking.firewall = {
-  #   enable = true;
-  #   allowedTCPPorts = [ 22 80 443 3000 3030];
-  # };
-  #
+  networking.firewall = {
+    enable = true;
+    allowedTCPPorts = [ 22 80 443 3000 3030];
+  };
+
   security.sudo = {
     enable = true;
     extraConfig = ''
