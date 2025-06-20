@@ -5,6 +5,9 @@
 
 {
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  imports = [
+    ../configs/zshrc.nix
+  ];
 
   # Home Manager configuration
   home-manager = {
