@@ -3,15 +3,10 @@
 # Shared configuration template for all servers
 { config, pkgs, inputs, hostname, username, ... }:
 
-let
-  k3sToken = "5fb8e655cb747a040b9e9d7b0f6e233333998b0682701e9ef9186e84b8d4e4e5"; # Generate with `openssl rand -hex 32`
-in
 {
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   imports = [
     inputs.home-manager.nixosModules.home-manager
-    ../configs/caddy.nix
-    ../configs/docker.nix
   ];
 
   # Home Manager configuration
@@ -26,10 +21,16 @@ in
     efi.canTouchEfiVariables = true;
   };
 
+  services.logind = {
+    lidSwitchDocked = "ignore";
+    lidSwitchExternalPower = "ignore";
+  };
+
   boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.swraid.enable = true;
   boot.swraid.mdadmConf = ''
     ARRAY /dev/md127 UUID=e22f6488:83684aca:f30ec314:f49242d1
+    MAILADDR c0dred@tutamail.com
   '';
 
   # Filesystem configuration for RAID
@@ -65,6 +66,45 @@ in
     extraGroups = [ "networkmanager" "wheel" "video" "docker" ];
     shell = pkgs.zsh;
   };
+
+    age.secrets.gemini-api-key = {
+    file = ../secrets/gemini-api-key.age; # Path relative to this configuration.nix
+    path = "/run/agenix/gemini-api-key"; # Path to the decrypted file
+    # The user 'nix' needs to read this for their .zshrc
+    # Default owner is root, default mode is "0400"
+    owner = username; # Set this to your username
+    group = "users";
+    mode = "0600"; # User read-only
+  };
+
+  age.secrets.openai-api-key = {
+    file = ../secrets/openai-api-key.age; # Path relative to this configuration.nix
+    path = "/run/agenix/openai-api-key"; # Path
+    # The user 'nix' needs to read this for their .zshrc
+    # Default owner is root, default mode is "0400"
+    owner = username; # Set this to your username
+    group = "users";
+    mode = "0600"; # User read-only
+  };
+
+  age.secrets.anthropic-api-key = {
+    file = ../secrets/anthropic-api-key.age; # Path relative to this configuration.nix
+    path = "/run/agenix/anthropic-api-key"; # Path
+    # The user 'nix' needs to read this for their .zshrc
+    # Default owner is root, default mode is "0400"
+    owner = username; # Set this to your username
+    group = "users";
+    mode = "0600"; # User read-only
+  };
+
+  age.secrets.k3s-token = {
+    file = ../secrets/k3s-token.age;
+    path = "/run/agenix/k3s-token";
+    owner = username; # Or "k3s" if it needs to be owned by a k3s service user
+      group = "users";
+    mode = "600";
+  };
+
 
   # Auto-login
   services.getty.autologinUser = username;
@@ -111,9 +151,14 @@ in
     gtk3 gtk4
     wlr-randr
     yarn
-    # caddy
     gcc gnumake perl openssl zlib lua54Packages.lua pkg-config
+
+    # K3sS
     docker
+    kubectl
+    glusterfs
+
+    # Network/Disk tools
     mdadm
     dig
     lsof
@@ -134,24 +179,16 @@ in
   ];
 
   services.openssh.enable = true;
-  # networking.firewall = {
-  #   enable = true;
-  #   allowedTCPPorts = [ 22 80 443 3000 3030];
-  # };
-  #
+  networking.firewall = {
+    enable = true;
+    allowedTCPPorts = [ 22 80 443 3000 3030];
+  };
+
   security.sudo = {
     enable = true;
     extraConfig = ''
       Defaults timestamp_timeout = 180
     '';
-  };
-  
-  # Enable k3s (Server 1 as control plane)
-  services.k3s = {
-    enable = true;
-    role = "server";
-    token = k3sToken;
-    extraFlags = "--disable traefik"; # Disable default Traefik for custom ingress
   };
 
   # Enable GlusterFS
