@@ -24,6 +24,12 @@ in
     efi.canTouchEfiVariables = true;
   };
 
+  services.logind = {
+    enable = true;
+    lidSwitchDocked = "ignore";
+    lidSwitchExternalPower = "ignore";
+  };
+
   boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.swraid.enable = true;
   boot.swraid.mdadmConf = ''
