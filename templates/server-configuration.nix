@@ -3,9 +3,6 @@
 # Shared configuration template for all servers
 { config, pkgs, inputs, hostname, username, ... }:
 
-let
-  k3sToken = "5fb8e655cb747a040b9e9d7b0f6e233333998b0682701e9ef9186e84b8d4e4e5"; # Generate with `openssl rand -hex 32`
-in
 {
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   imports = [
@@ -101,7 +98,7 @@ in
   };
 
   age.secrets.k3s-token = {
-    file = ./secrets/k3s-token.age;
+    file = ../secrets/k3s-token.age;
     path = "/run/agenix/k3s-token";
     owner = username; # Or "k3s" if it needs to be owned by a k3s service user
       group = "users";
