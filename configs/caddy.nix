@@ -130,5 +130,8 @@
     virtualHosts."ytmd.howse.top".extraConfig = ''
       reverse_proxy localhost:5121
     '';
+    virtualHosts."k3s.howse.top".extraConfig = ''
+      reverse_proxy localhost:6443
+    '';
   };
 }
