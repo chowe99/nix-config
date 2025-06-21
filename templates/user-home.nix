@@ -26,9 +26,6 @@
     home.homeDirectory = "/home/${username}";
     nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
-    imports = [
-      ../configs/zshrc.nix
-    ];
 
     home.packages = with config.packageSet; [
       btop
