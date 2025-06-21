@@ -6,6 +6,7 @@
 {
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
+
   # Home Manager configuration
   home-manager = {
     useGlobalPkgs = true;
@@ -32,6 +33,15 @@
     pulse.enable = true;
     jack.enable = true;
   };
+
+  # Enable ACPI lid handling for Hyprland
+  services.acpid.enable = true;
+  services.logind = {
+    lidSwitchExternalPower = "ignore";
+    lidSwitchDocked = "ignore";
+  };
+
+
   services.udisks2.enable = true;
   fileSystems."/run/media" = {
     device = "tmpfs";
