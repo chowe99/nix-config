@@ -11,6 +11,8 @@
   ];
 
   services.k3s.role = "server";
+  services.k3s.tokenFile = "/run/agenix/k3s-token";
+  servics.k3s.extraFlags = "--cluster-init"
 
 
 }
