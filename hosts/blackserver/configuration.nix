@@ -11,5 +11,5 @@
   services.k3s.role = "server";
   services.k3s.serverAddr = "https://100.64.65.24:6443";
   services.k3s.tokenFile = "/run/agenix/k3s-token";
-  servics.k3s.extraFlags = "--cluster-init"
+  servics.k3s.extraFlags = "--disable=traefik --cluster-init"
 }

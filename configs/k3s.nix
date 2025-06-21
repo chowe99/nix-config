@@ -13,7 +13,6 @@
 
   services.k3s = {
     enable = true;
-    extraFlags = "--disable traefik";
   };
 
   networking.firewall.allowedTCPPorts = [ 80 443 6443 2379 2380 24007 24008 49152 49153 ];
