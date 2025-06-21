@@ -1,4 +1,5 @@
-{ config, pkgs, lib, inputs, username, hostname, ... }:
+# ~/nix-config/configs/zshrc.nix
+{ username, ... }:
 {
     home.file.".zshrc" = {
       text = ''

@@ -5,9 +5,6 @@
 
 {
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
-  imports = [
-    ../configs/zshrc.nix
-  ];
 
 
   # Home Manager configuration
@@ -37,42 +34,13 @@
     jack.enable = true;
   };
 
-  # Disable lid switch actions for monitor  
-
+  # Enable ACPI lid handling for Hyprland
+  services.acpid.enable = true;
   services.logind = {
     lidSwitchExternalPower = "ignore";
     lidSwitchDocked = "ignore";
   };
 
-  home.file.".config/hypr/lid-handler.sh".text = ''
-#!/bin/sh
-
-MONITOR="eDP-1"
-
-if [ "$1" = "close" ]; then
-  hyprctl dispatch dpms off "$MONITOR"
-elif [ "$1" = "open" ]; then
-  hyprctl dispatch dpms on "$MONITOR"
-fi
-  '';
-
-  home.file.".config/hypr/lid-handler.sh".executable = true;
-
-  systemd.user.services.lidwatch = {
-    Unit = {
-      Description = "Lidwatch Hyprland DPMS toggle";
-      After = [ "graphical-session.target" ];
-    };
-
-    Service = {
-      ExecStart = "${pkgs.lidwatch}/bin/lidwatch --on-lid-open ~/.config/hypr/lid-handler.sh open --on-lid-close ~/.config/hypr/lid-handler.sh close";
-      Restart = "always";
-    };
-
-    Install = {
-      WantedBy = [ "default.target" ];
-    };
-  };
 
   services.udisks2.enable = true;
   fileSystems."/run/media" = {
@@ -189,7 +157,6 @@ fi
     swtpm # Software TPM for VMs
     mullvad-vpn # VPN client
     flatpak
-    lidwatch # Lid switch watcher
   ];
   # enable mullvad
   services.mullvad-vpn.enable = true;

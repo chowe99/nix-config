@@ -1,7 +1,11 @@
+# ~/nix-config/templates/user-home.nix
 { config, pkgs, lib, inputs, username, hostname, ... }:
 
+let
+zshrc = import ../configs/zshrc.nix { inherit username; };
+in
 {
-  # Define custom options
+# Define custom options
   options = {
     packageSet = lib.mkOption {
       type = lib.types.attrs;
@@ -15,11 +19,12 @@
     };
   };
 
-  config = {
-    # Set packageSet based on system
+  config = lib.mkMerge [
+  {
+# Set packageSet based on system
     packageSet = if pkgs.system == "aarch64-linux" 
-                 then inputs.nixpkgs-unstable.legacyPackages.${pkgs.system} 
-                 else pkgs;
+      then inputs.nixpkgs-unstable.legacyPackages.${pkgs.system} 
+    else pkgs;
 
     home.stateVersion = "24.11";
     home.username = username;
@@ -29,34 +34,34 @@
 
     home.packages = with config.packageSet; [
       btop
-      tree
-      docker
-      signal-desktop
-      # wineWowPackages.waylandFull
-      papirus-icon-theme
-      # winetricks
-      dpkg
-      libcanberra
-      lsd
-      nix-prefetch-git
-      oh-my-posh
-      waybar
-      fastfetch
-      superfile
-      libcanberra
-      nss
-      gtk2
-      udiskie
-      libnotify
-      exfatprogs
-      pywal
-      hyprpaper
-      swww
-      ffmpeg-full
-      yt-dlp
-      mullvad-vpn
-      flatpak
-    ];
+        tree
+        docker
+        signal-desktop
+# wineWowPackages.waylandFull
+        papirus-icon-theme
+# winetricks
+        dpkg
+        libcanberra
+        lsd
+        nix-prefetch-git
+        oh-my-posh
+        waybar
+        fastfetch
+        superfile
+        libcanberra
+        nss
+        gtk2
+        udiskie
+        libnotify
+        exfatprogs
+        pywal
+        hyprpaper
+        swww
+        ffmpeg-full
+        yt-dlp
+        mullvad-vpn
+        flatpak
+        ];
     home.sessionVariables = {
       XDG_DATA_DIRS = "${config.home.homeDirectory}/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:$XDG_DATA_DIRS";
     };
@@ -66,20 +71,20 @@
       flatpak_cmd="${config.packageSet.flatpak}/bin/flatpak"
       if ! $flatpak_cmd remotes | grep -q flathub; then
         $flatpak_cmd remote-add --if-not-exists --user flathub https://dl.flathub.org/repo/flathub.flatpakrepo
-      fi
-      apps=(
-        md.obsidian.Obsidian
-        com.bitwarden.desktop
-        app.zen_browser.zen
-        com.github.tchx84.Flatseal
-      )
-      for app in ''${apps[@]}; do
-        if ! $flatpak_cmd list | grep -q $app; then
-          $flatpak_cmd install -y --user flathub $app
-        fi
-      done
-    '';
-    # Example Flatpak desktop entry using cpu_architecture
+          fi
+          apps=(
+              md.obsidian.Obsidian
+              com.bitwarden.desktop
+              app.zen_browser.zen
+              com.github.tchx84.Flatseal
+              )
+          for app in ''${apps[@]}; do
+            if ! $flatpak_cmd list | grep -q $app; then
+              $flatpak_cmd install -y --user flathub $app
+                fi
+                done
+                '';
+# Example Flatpak desktop entry using cpu_architecture
     xdg.desktopEntries."md.obsidian.Obsidian" = {
       name = "Obsidian";
       exec = "flatpak run --no-sandbox --branch=stable --arch=${config.cpu_architecture} --command=obsidian.sh md.obsidian.Obsidian";
@@ -107,25 +112,25 @@
         plugins = [ "git" "common-aliases" "colored-man-pages" "z" ];
       };
       plugins = [
-        {
-          name = "zsh-autosuggestions";
-          src = config.packageSet.zsh-autosuggestions;
-          file = "share/zsh-autosuggestions/zsh-autosuggestions.zsh";
-        }
-        {
-          name = "zsh-syntax-highlighting";
-          src = config.packageSet.zsh-syntax-highlighting;
-          file = "share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh";
-        }
-        {
-          name = "fast-syntax-highlighting";
-          src = config.packageSet.zsh-fast-syntax-highlighting;
-          file = "share/zsh/site-functions/fast-syntax-highlighting.plugin.zsh";
-        }
+      {
+        name = "zsh-autosuggestions";
+        src = config.packageSet.zsh-autosuggestions;
+        file = "share/zsh-autosuggestions/zsh-autosuggestions.zsh";
+      }
+      {
+        name = "zsh-syntax-highlighting";
+        src = config.packageSet.zsh-syntax-highlighting;
+        file = "share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh";
+      }
+      {
+        name = "fast-syntax-highlighting";
+        src = config.packageSet.zsh-fast-syntax-highlighting;
+        file = "share/zsh/site-functions/fast-syntax-highlighting.plugin.zsh";
+      }
       ];
     };
 
-    # Rest of the configuration remains unchanged
+# Rest of the configuration remains unchanged
     programs.git = {
       enable = true;
       userName = "chowe99";
@@ -135,11 +140,11 @@
     home.file.".zshrc" = {
       text = ''
         alias vim=nvim
-      '';
+        '';
       force = true;
     };
 
-    # File imports and other settings unchanged
+# File imports and other settings unchanged
     home.file.".config/rofi".source = "${inputs.dotfiles}/rofi";
     home.file.".config/rofi".recursive = true;
     home.file.".config/lvim".source = "${inputs.dotfiles}/lvim";
@@ -150,5 +155,7 @@
     home.file.".config/hypr".recursive = true;
     home.file.".config/kitty".source = "${inputs.dotfiles}/kitty";
     home.file.".config/kitty".recursive = true;
-  };
+  }
+  zshrc
+    ];
 }
