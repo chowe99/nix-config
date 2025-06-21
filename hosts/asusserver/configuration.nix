@@ -9,5 +9,6 @@
   ];
 
   services.k3s.role = "agent";
-  services.k3s.token = "";
+  serverAddr = "https://100.64.65.24:6443";
+  tokenFile = "/run/agenix/k3s-token";
 }
