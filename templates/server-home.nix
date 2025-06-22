@@ -29,9 +29,6 @@ in
       htop fastfetch btop tree home-manager lsd
     ];
 
-    imports = [
-      ../configs/zshrc.nix
-    ];
 
     xdg.desktopEntries."superfile" = {
       name = "Superfile (TUI)";
