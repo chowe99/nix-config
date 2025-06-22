@@ -88,8 +88,6 @@
     options = "--delete-older-than 7d";
   };
 
-
-
   users.users.${username} = {
     isNormalUser = true;
     description = username;
@@ -136,7 +134,7 @@
     path = "/run/agenix/k3s-token";
     owner = username; # Or "k3s" if it needs to be owned by a k3s service user
       group = "users";
-    mode = "600";
+    mode = "0600";
   };
 
 
