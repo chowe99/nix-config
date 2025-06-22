@@ -8,7 +8,10 @@
     ../../configs/k3s.nix
   ];
 
-  services.k3s.role = "agent";
-  services.k3s.serverAddr = "https://100.64.65.24:6443";
-  services.k3s.tokenFile = "/run/agenix/k3s-token";
+  services.k3s = {
+    role = "agent";
+    serverAddr = "https://100.64.65.24:6443";  # whiteserver’s IP
+      tokenFile = "/run/agenix/k3s-token";       # Same token as servers
+  };
+  age.secrets.k3s-token.file = ../../secrets/k3s-token.age;
 }

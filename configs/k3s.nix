@@ -1,22 +1,27 @@
 { inputs, config, pkgs, ... }:
 {
-  # services.etcd = {
-  #   enable = true;
-  #   name = "whiteserver";
-  #   initialCluster = "whiteserver=[invalid url, do not cite]
-  #   advertiseClientUrls = [ [invalid url, do not cite] ];
-  #   listenClientUrls = [ [invalid url, do not cite] ];
-  #   listenPeerUrls = [ [invalid url, do not cite] ];
-  #   initialAdvertisePeerUrls = [ "[invalid url, do not cite] ];
-  #   openFirewall = true;
-  # };
-
   services.k3s = {
     enable = true;
+    # No need for extraFlags here; host-specific flags go in host configs
   };
 
-  networking.firewall.allowedTCPPorts = [ 80 443 6443 2379 2380 24007 24008 49152 49153 ];
-  networking.firewall.allowedUDPPorts = [ 8472 ];
+  # Firewall rules for k3s
+  networking.firewall = {
+    enable = true;
+    allowedTCPPorts = [
+      6443  # Kubernetes API server (control plane)
+      2379  # etcd client
+      2380  # etcd peer
+      10250 # Kubelet
+    ];
+    allowedUDPPorts = [
+      8472  # Flannel VXLAN (default k3s networking)
+    ];
+  };
 
-  environment.systemPackages = with pkgs; [ kubectl glusterfs docker ];
+  # Useful tools
+  environment.systemPackages = with pkgs; [
+    kubectl  # CLI for managing the cluster
+    k3s      # Ensure k3s CLI is available
+  ];
 }

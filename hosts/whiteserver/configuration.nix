@@ -10,7 +10,14 @@
     ../../configs/k3s.nix
   ];
 
-  services.k3s.role = "server";
-  services.k3s.tokenFile = "/run/agenix/k3s-token";
-  services.k3s.extraFlags = "--disable=traefik --cluster-init";
+  services.k3s = {
+    role = "server";
+    tokenFile = "/run/agenix/k3s-token";  # Shared secret for cluster joining
+      extraFlags = toString [
+      "--disable=traefik"  # Disable Traefik ingress (you’re using Caddy)
+        "--cluster-init"     # Initialize the cluster (only needed on the first server)
+      ];
+  };
+# Ensure the token file is accessible (assuming agenix is set up)
+  age.secrets.k3s-token.file = ../../secrets/k3s-token.age;
 }
