@@ -112,7 +112,7 @@
       ports = [ "8080:8080" ];
       environment = {
         APACHE_PORT = "11000";
-        APACHE_IP_BINDING = "127.0.0.1";
+        APACHE_IP_BINDING = "0.0.0.0";
         NEXTCLOUD_MEMORY_LIMIT = "2048M";
         NEXTCLOUD_DATADIR="/mnt/nas/nextcloud"; 
       };
