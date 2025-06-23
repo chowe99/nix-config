@@ -24,5 +24,11 @@
        allowedUDPPorts = [ 8472 ];
      };
 
+     fileSystems."/mnt/nas" = {
+       device = "/dev/disk/by-uuid/1695981b-578d-4122-8c8b-746f549fc0c3";
+       fsType = "xfs";
+       options = [ "defaults" ];
+     };
+
      age.secrets.k3s-token.file = ../../secrets/k3s-token.age;
    }
