@@ -1,17 +1,25 @@
-# hosts/asusserver/configuration.nix
 { config, pkgs, inputs, ... }:
+   {
+     imports = [
+       ./hardware-configuration.nix
+       ../../templates/server-configuration.nix
+       ../../configs/k3s.nix
+     ];
 
-{
-  imports = [
-    ./hardware-configuration.nix
-    ../../templates/server-configuration.nix  # Include directly as a module
-    ../../configs/k3s.nix
-  ];
+     services.k3s = {
+       role = "agent";
+       serverAddr = "https://10.1.1.249:6443";
+       tokenFile = "/run/agenix/k3s-token";
+       extraFlags = toString [
+         "--node-ip=10.1.1.64"
+       ];
+     };
 
-  services.k3s = {
-    role = "agent";
-    serverAddr = "https://100.64.65.24:6443";  # whiteserver’s IP
-      tokenFile = "/run/agenix/k3s-token";       # Same token as servers
-  };
-  age.secrets.k3s-token.file = ../../secrets/k3s-token.age;
-}
+     networking.firewall = {
+       enable = true;
+       allowedTCPPorts = [ 6443 10250 ];
+       allowedUDPPorts = [ 8472 ];
+     };
+
+     age.secrets.k3s-token.file = ../../secrets/k3s-token.age;
+   }

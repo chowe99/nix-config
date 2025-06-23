@@ -1,23 +1,30 @@
-# hosts/blackserver/configuration.nix
 { config, pkgs, inputs, ... }:
+   {
+     imports = [
+       ./hardware-configuration.nix
+       ../../templates/server-configuration.nix
+       ../../configs/caddy.nix
+       ../../configs/docker.nix
+       ../../configs/k3s.nix
+     ];
 
-{
-  imports = [
-    ./hardware-configuration.nix
-      ../../templates/server-configuration.nix  # Include directly as a module
-      ../../configs/k3s.nix
-  ];
+     services.k3s = {
+       role = "server";
+       tokenFile = "/run/agenix/k3s-token";
+       extraFlags = toString [
+         "--disable=traefik"
+         "--server https://10.1.1.249:6443"
+         "--advertise-address=10.1.1.250"
+         "--node-ip=10.1.1.250"
+         "--tls-san=10.1.1.250"
+       ];
+     };
 
-  services.k3s = {
-    role = "server";
-    tokenFile = "/run/agenix/k3s-token";  # Shared secret for cluster joining
-      extraFlags = toString [
-      "--disable=traefik"  # Disable Traefik ingress (you’re using Caddy)
-        "--server https://100.64.65.24:6443" # Join whiteserver’s cluster
+     networking.firewall = {
+       enable = true;
+       allowedTCPPorts = [ 6443 2379 2380 10250 ];
+       allowedUDPPorts = [ 8472 ];
+     };
 
-      ];
-  };
-
-# Ensure the token file is accessible (assuming agenix is set up)
-  age.secrets.k3s-token.file = ../../secrets/k3s-token.age;
-}
+     age.secrets.k3s-token.file = ../../secrets/k3s-token.age;
+   }

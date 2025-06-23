@@ -131,7 +131,7 @@
       reverse_proxy localhost:5121
     '';
     virtualHosts."k3s.howse.top".extraConfig = ''
-      reverse_proxy localhost:6443
+      reverse_proxy https://127.0.0.1:6443
     '';
   };
 }
