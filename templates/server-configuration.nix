@@ -3,6 +3,17 @@
 # Shared configuration template for all servers
 { config, pkgs, inputs, hostname, username, ... }:
 
+
+let
+  allServers = {
+    "whiteserver" = "10.1.1.249";
+    "blackserver" = "10.1.1.250";
+    "asusserver" = "10.1.1.64";
+  };
+  thisServer = config.networking.hostName; # Must match "whiteserver", "blackserver", or "asusserver"
+  peerServers = builtins.filter (s -> s != thisServer) (builtins.attrNames allServers);
+  peerIPs = builtins.map (s -> allServers.${s}) peerServers;
+in
 {
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   imports = [
@@ -185,12 +196,25 @@
     '';
   };
 
-  # Enable GlusterFS
-  # services.glusterfs = {
-  #   enable = true;
-  #   servers = [ "100.64.65.24" "100.73.187.60" ]; # Whiteserver-ip blackserver-ip (tailscale)
-  # };
+  # Enable GlusterFS on all servers
+  services.glusterfs.enable = true;
 
+  # Service to probe peers
+  systemd.services.glusterfs-peer-probe = {
+    description = "GlusterFS Peer Probe";
+    after = [ "glusterd.service" ];
+    wantedBy = [ "multi-user.target" ];
+    serviceConfig = {
+      Type = "oneshot";
+      ExecStart = builtins.map (peer: "${pkgs.glusterfs}/bin/gluster peer probe ${peer}") peerIPs;
+      RemainAfterExit = true; # Ensures the service is considered "active" after running
+    };
+  };
+
+  # Create the brick directory for GlusterFS
+  systemd.tmpfiles.rules = [
+    "d /var/lib/glusterfs/nextcloud 0755 root root -"
+  ];
 
   # Ensure volume directories exist
   system.activationScripts = {
