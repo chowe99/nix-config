@@ -3,8 +3,6 @@
      imports = [
        ./hardware-configuration.nix
        ../../templates/server-configuration.nix
-       ../../configs/caddy.nix
-       ../../configs/docker.nix
        ../../configs/k3s.nix
      ];
 
@@ -25,6 +23,12 @@
        enable = true;
        allowedTCPPorts = [ 6443 2379 2380 10250 ];
        allowedUDPPorts = [ 8472 ];
+     };
+
+     fileSystems."/mnt/nas" = {
+       device = "/dev/disk/by-uuid/1695981b-578d-4122-8c8b-746f549fc0c3";
+       fsType = "xfs";
+       options = [ "defaults" ];
      };
 
      age.secrets.k3s-token.file = ../../secrets/k3s-token.age;
