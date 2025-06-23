@@ -27,18 +27,6 @@
   };
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
-  boot.swraid.enable = true;
-  boot.swraid.mdadmConf = ''
-    ARRAY /dev/md127 UUID=e22f6488:83684aca:f30ec314:f49242d1
-    MAILADDR c0dred@tutamail.com
-  '';
-
-  # Filesystem configuration for RAID
-  fileSystems."/mnt/nas" = {
-    device = "/dev/md127";
-    fsType = "ext4";
-    options = [ "defaults" "nofail" ];
-  };
   # Networking
   networking.hostName = hostname;
   networking.networkmanager.enable = true;
