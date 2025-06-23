@@ -23,5 +23,6 @@
   environment.systemPackages = with pkgs; [
     kubectl  # CLI for managing the cluster
     k3s      # Ensure k3s CLI is available
+    etcd
   ];
 }
