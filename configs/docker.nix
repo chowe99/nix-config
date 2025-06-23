@@ -115,6 +115,7 @@
         APACHE_IP_BINDING = "0.0.0.0";
         NEXTCLOUD_MEMORY_LIMIT = "2048M";
         NEXTCLOUD_DATADIR="/mnt/nas/nextcloud"; 
+        SKIP_DOMAIN_VALIDATION = "true";
       };
       volumes = [
         "nextcloud_aio_mastercontainer:/mnt/docker-aio-config"
