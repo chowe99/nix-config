@@ -40,29 +40,25 @@
        allowedUDPPorts = [ 8472 ];
      };
 
-       systemd.services.glusterfs-volume-setup = {
+# GlusterFS Volume Setup
+  systemd.services.glusterfs-volume-setup = {
     description = "GlusterFS Volume Setup for Nextcloud";
     after = [ "glusterd.service" "glusterfs-peer-probe.service" ];
     wantedBy = [ "multi-user.target" ];
     serviceConfig = {
       Type = "oneshot";
-      ExecStart = "/etc/glusterfs-setup.sh";
+      ExecStart = "${pkgs.writeShellScriptBin "glusterfs-volume-setup" ''
+        #!/bin/sh
+        if ! ${pkgs.glusterfs}/bin/gluster volume info nextcloud-vol > /dev/null 2>&1; then
+          ${pkgs.glusterfs}/bin/gluster volume create nextcloud-vol replica 3 \
+            10.1.1.249:/var/lib/glusterfs/nextcloud \
+            10.1.1.250:/var/lib/glusterfs/nextcloud \
+            10.1.1.64:/var/lib/glusterfs/nextcloud force
+          ${pkgs.glusterfs}/bin/gluster volume start nextcloud-vol
+        fi
+      ''}/bin/glusterfs-volume-setup";
       RemainAfterExit = true;
     };
-  };
-
-  environment.etc."glusterfs-setup.sh" = {
-    text = ''
-      #!/bin/sh
-      if ! ${pkgs.glusterfs}/bin/gluster volume info nextcloud-vol > /dev/null 2>&1; then
-        ${pkgs.glusterfs}/bin/gluster volume create nextcloud-vol replica 3 \
-          10.1.1.249:/var/lib/glusterfs/nextcloud \
-          10.1.1.250:/var/lib/glusterfs/nextcloud \
-          10.1.1.64:/var/lib/glusterfs/nextcloud force
-        ${pkgs.glusterfs}/bin/gluster volume start nextcloud-vol
-      fi
-    '';
-    mode = "0755";
   };
 
      age.secrets.k3s-token.file = ../../secrets/k3s-token.age;
