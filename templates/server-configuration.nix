@@ -169,6 +169,7 @@
     lsof
     nssTools
     caddy
+    parted
   ];
 
   # security.pki.certificateFiles = [
