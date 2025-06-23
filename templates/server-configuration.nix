@@ -3,16 +3,19 @@
 # Shared configuration template for all servers
 { config, pkgs, inputs, hostname, username, ... }:
 
-
 let
   allServers = {
-    "whiteserver" = "10.1.1.249";
-    "blackserver" = "10.1.1.250";
-    "asusserver" = "10.1.1.64";
+    whiteserver = "10.1.1.249";
+    blackserver = "10.1.1.250";
+    asusserver = "10.1.1.64";
   };
   thisServer = config.networking.hostName; # Must match "whiteserver", "blackserver", or "asusserver"
-  peerServers = builtins.filter (s -> s != thisServer) (builtins.attrNames allServers);
-  peerIPs = builtins.map (s -> allServers.${s}) peerServers;
+  peerServers = builtins.filter (s: s != thisServer) (builtins.attrNames allServers);
+  peerIPs = builtins.map (s: allServers.${s}) peerServers;
+  peerProbeScript = pkgs.writeShellScriptBin "glusterfs-peer-probe" ''
+    #!/bin/sh
+    ${builtins.concatStringsSep "\n" (builtins.map (peer: "${pkgs.glusterfs}/bin/gluster peer probe ${peer}") peerIPs)}
+  '';
 in
 {
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
@@ -206,8 +209,8 @@ in
     wantedBy = [ "multi-user.target" ];
     serviceConfig = {
       Type = "oneshot";
-      ExecStart = builtins.map (peer: "${pkgs.glusterfs}/bin/gluster peer probe ${peer}") peerIPs;
-      RemainAfterExit = true; # Ensures the service is considered "active" after running
+      ExecStart = "${peerProbeScript}/bin/glusterfs-peer-probe";
+      RemainAfterExit = true;
     };
   };
 
@@ -215,7 +218,6 @@ in
   systemd.tmpfiles.rules = [
     "d /var/lib/glusterfs/nextcloud 0755 root root -"
   ];
-
   # Ensure volume directories exist
   system.activationScripts = {
     createDockerVolumes = ''
