@@ -203,11 +203,6 @@ in
   # Enable GlusterFS on all servers
   services.glusterfs.enable = true;
 
-  # Create the brick directory for GlusterFS
-  systemd.tmpfiles.rules = [
-    "d /var/lib/glusterfs/nextcloud 0755 root root -"
-  ];
-
   # Ensure volume directories exist
   system.activationScripts = {
     createDockerVolumes = ''

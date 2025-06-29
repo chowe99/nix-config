@@ -26,5 +26,11 @@
        "10.1.1.250" = [ "blackserver" ];
      };
 
+     fileSystems."/mnt/nas" = {
+       device = "/dev/disk/by-uuid/50c0aea4-ebb4-4e24-8ddc-4f8df5bf3323";
+       fsType = "ext4";
+       options = [ "defaults" ];
+     };
+
      age.secrets.k3s-token.file = ../../secrets/k3s-token.age;
    }
