@@ -21,5 +21,10 @@
        allowedUDPPorts = [ 8472 ];
      };
 
+     networking.hosts = {
+       "10.1.1.249" = [ "whiteserver" ];
+       "10.1.1.250" = [ "blackserver" ];
+     };
+
      age.secrets.k3s-token.file = ../../secrets/k3s-token.age;
    }

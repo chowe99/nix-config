@@ -39,6 +39,10 @@
        allowedTCPPorts = [ 6443 2379 2380 10250 ];
        allowedUDPPorts = [ 8472 ];
      };
+      networking.hosts = {
+        "10.1.1.250" = [ "blackserver" ];
+        "10.1.1.64" = [ "asusserver" ];
+      };
 
 # GlusterFS Volume Setup
   systemd.services.glusterfs-volume-setup = {

@@ -210,7 +210,11 @@ in
     wantedBy = [ "multi-user.target" ];
     serviceConfig = {
       Type = "oneshot";
-      ExecStart = "${peerProbeScript}/bin/glusterfs-peer-probe";
+      ExecStart = "${pkgs.writeShellScriptBin "glusterfs-peer-probe" ''
+        #!/bin/sh
+        sleep 10
+        ${builtins.concatStringsSep "\n" (builtins.map (peer: "${pkgs.glusterfs}/bin/gluster peer probe ${peer}") peerIPs)}
+      ''}/bin/glusterfs-peer-probe";
       RemainAfterExit = true;
     };
   };
