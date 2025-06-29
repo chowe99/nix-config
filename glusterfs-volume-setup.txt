@@ -1,0 +1,12 @@
+Jun 29 09:11:11 whiteserver systemd[1]: Starting GlusterFS Volume Setup for Nextcloud...
+Jun 29 09:11:11 whiteserver glusterfs-volume-setup[2583658]: volume create: nextcloud-vol: failed: Host 10.1.1.250 is not in 'Peer in Cluster' state
+Jun 29 09:11:11 whiteserver glusterfs-volume-setup[2583664]: volume start: nextcloud-vol: failed: Volume nextcloud-vol does not exist
+Jun 29 09:11:11 whiteserver systemd[1]: glusterfs-volume-setup.service: Main process exited, code=exited, status=1/FAILURE
+Jun 29 09:11:11 whiteserver systemd[1]: glusterfs-volume-setup.service: Failed with result 'exit-code'.
+Jun 29 09:11:11 whiteserver systemd[1]: Failed to start GlusterFS Volume Setup for Nextcloud.
+Jun 29 09:14:14 whiteserver systemd[1]: Starting GlusterFS Volume Setup for Nextcloud...
+Jun 29 09:14:14 whiteserver glusterfs-volume-setup[2590107]: volume create: nextcloud-vol: failed: Host 10.1.1.250 is not in 'Peer in Cluster' state
+Jun 29 09:14:15 whiteserver glusterfs-volume-setup[2590236]: volume start: nextcloud-vol: failed: Volume nextcloud-vol does not exist
+Jun 29 09:14:15 whiteserver systemd[1]: glusterfs-volume-setup.service: Main process exited, code=exited, status=1/FAILURE
+Jun 29 09:14:15 whiteserver systemd[1]: glusterfs-volume-setup.service: Failed with result 'exit-code'.
+Jun 29 09:14:15 whiteserver systemd[1]: Failed to start GlusterFS Volume Setup for Nextcloud.
