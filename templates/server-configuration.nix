@@ -203,33 +203,6 @@ in
   # Enable GlusterFS on all servers
   services.glusterfs.enable = true;
 
-  # Service to probe peers
-  systemd.services.glusterfs-volume-setup = {
-    description = "GlusterFS Volume Setup for Nextcloud";
-    after = [ "glusterd.service" "glusterfs-peer-probe.service" "network-online.target" ];
-    wantedBy = [ "multi-user.target" ];
-    serviceConfig = {
-      Type = "oneshot";
-      ExecStart = "${pkgs.writeShellScriptBin "glusterfs-volume-setup" ''
-        #!/bin/sh
-        # Wait for peers to be connected
-        for peer in 10.1.1.250 10.1.1.64; do
-          until ${pkgs.glusterfs}/bin/gluster peer status | grep -q "$peer.*Connected"; do
-            echo "Waiting for peer $peer to connect..."
-            sleep 5
-          done
-        done
-        if ! ${pkgs.glusterfs}/bin/gluster volume info nextcloud-vol > /dev/null 2>&1; then
-          ${pkgs.glusterfs}/bin/gluster volume create nextcloud-vol replica 3 \
-            10.1.1.249:/var/lib/glusterfs/nextcloud \
-            10.1.1.250:/var/lib/glusterfs/nextcloud \
-            10.1.1.64:/var/lib/glusterfs/nextcloud
-          ${pkgs.glusterfs}/bin/gluster volume start nextcloud-vol
-        fi
-      ''}/bin/glusterfs-volume-setup";
-      RemainAfterExit = true;
-    };
-  };
   # Create the brick directory for GlusterFS
   systemd.tmpfiles.rules = [
     "d /var/lib/glusterfs/nextcloud 0755 root root -"
