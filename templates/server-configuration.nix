@@ -204,6 +204,7 @@ in
   services.glusterfs.enable = true;
 
   users.groups.gluster = {}; # Create gluster group
+  users.users.${username}.extraGroups = [ "gluster" ];
 
   systemd.tmpfiles.rules = [
     "d /mnt/nas/glusterfs/nextcloud 0755 ${username} root -"  # For whiteserver, blackserver
