@@ -218,6 +218,8 @@ in
     "d /mnt/nas/glusterfs/nextcloud 0755 ${username} root -"  # For whiteserver, blackserver
       "d /mnt/nas/glusterfs/nextcloud_arbiter 0755 ${username} root -"  # For asusserver
       "d /var/log/glusterfs 0755 root root -"  # Ensure log directory exists
+      "d /var/log/glusterfs 0775 root gluster -"
+      "f /var/run/glusterd.socket 0660 root gluster -"  # Set socket permissions
   ];
 
 
