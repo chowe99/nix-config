@@ -65,7 +65,7 @@ in
   users.users.${username} = {
     isNormalUser = true;
     description = username;
-    extraGroups = [ "networkmanager" "wheel" "video" "docker" ];
+    extraGroups = [ "networkmanager" "wheel" "video" "docker" "gluster" ];
     shell = pkgs.zsh;
   };
 
@@ -204,7 +204,6 @@ in
   services.glusterfs.enable = true;
 
   users.groups.gluster = {}; # Create gluster group
-  users.users.${username}.extraGroups = [ "gluster" ];
 
   systemd.tmpfiles.rules = [
     "d /mnt/nas/glusterfs/nextcloud 0755 ${username} root -"  # For whiteserver, blackserver
