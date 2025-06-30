@@ -209,11 +209,14 @@ in
 
   users.groups.gluster = {}; # Create gluster group
 
-  systemd.services.glusterd = {
-    after = [ "network.target" ];
+  systemd.services.glusterd-socket-permissions = {
+    description = "Set permissions for GlusterFS socket";
+    after = [ "glusterd.service" ];
+    wantedBy = [ "multi-user.target" ];
     serviceConfig = {
-      ExecStartPost = "${pkgs.bash}/bin/bash -c 'while [ ! -S /var/run/glusterd.socket ]; do sleep 1; done; chown root:gluster /var/run/glusterd.socket; chmod 660 /var/run/glusterd.socket'";
-      Restart = "on-failure";
+      Type = "oneshot";
+      ExecStart = "${pkgs.bash}/bin/bash -c 'while [ ! -S /var/run/glusterd.socket ]; do sleep 1; done; chown root:gluster /var/run/glusterd.socket; chmod 660 /var/run/glusterd.socket'";
+      RemainAfterExit = true;
     };
   };
 
