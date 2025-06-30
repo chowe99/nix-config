@@ -31,7 +31,7 @@
      };
 
      fileSystems."/mnt/nas" = {
-       device = "/dev/disk/by-uuid/1695981b-578d-4122-8c8b-746f549fc0c3";
+       device = "/dev/disk/by-uuid/e19aca63-e0cc-4e98-af16-4eb9000c55fc";
        fsType = "ext4";
        options = [ "defaults" ];
      };
