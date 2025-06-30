@@ -172,6 +172,10 @@ in
     nssTools
     caddy
     parted
+    
+    # hostname command
+    coreutils
+    inetutils
   ];
 
   # security.pki.certificateFiles = [
