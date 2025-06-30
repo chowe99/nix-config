@@ -97,15 +97,15 @@
       autoStart = true;
     };
 
-    ytmd = {
-      image = "yt-dlp-downloader";
-      ports = [ "5121:5121" ];
-      volumes = [
-        "/mnt/nas/music:/music"
-        "/home/${username}/ytm-downloader/test:/app/test"
-      ];
-      autoStart = true;
-    };
+    # ytmd = {
+    #   image = "yt-dlp-downloader";
+    #   ports = [ "5121:5121" ];
+    #   volumes = [
+    #     "/mnt/nas/music:/music"
+    #     "/home/${username}/ytm-downloader/test:/app/test"
+    #   ];
+    #   autoStart = true;
+    # };
 
     nextcloud-aio-mastercontainer = {
       image = "nextcloud/all-in-one:latest";
