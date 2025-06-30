@@ -130,8 +130,15 @@
     virtualHosts."ytmd.howse.top".extraConfig = ''
       reverse_proxy localhost:5121
     '';
+    virtualHosts."dashboard.howse.top".extraConfig = ''
+      reverse_proxy http://localhost:30000  # Use your NodePort
+    '';
     virtualHosts."k3s.howse.top".extraConfig = ''
-      reverse_proxy https://127.0.0.1:6443
+      reverse_proxy https://localhost:6443 {
+        transport http {
+          tls_insecure_skip_verify  # Skip verification for self-signed cert
+        }
+      }
     '';
   };
 }
