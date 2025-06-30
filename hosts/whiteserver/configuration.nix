@@ -54,10 +54,10 @@
       ExecStart = "${pkgs.writeShellScriptBin "glusterfs-volume-setup" ''
         #!/bin/sh
         if ! ${pkgs.glusterfs}/bin/gluster volume info nextcloud-vol > /dev/null 2>&1; then
-          ${pkgs.glusterfs}/bin/gluster volume create nextcloud-vol replica 3 \
+          ${pkgs.glusterfs}/bin/gluster volume create nextcloud-vol replica 3 arbiter 1 \
             whiteserver:/mnt/nas/glusterfs/nextcloud \
             blackserver:/mnt/nas/glusterfs/nextcloud \
-            asusserver:/mnt/nas/glusterfs/nextcloud_arbiter force
+            asusserver:/mnt/nas/glusterfs/nextcloud_arbiter
             ${pkgs.glusterfs}/bin/gluster volume start nextcloud-vol
             fi
             ''}/bin/glusterfs-volume-setup";
