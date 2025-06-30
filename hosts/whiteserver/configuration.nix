@@ -18,6 +18,8 @@
         "--node-ip=10.1.1.249"
         "--tls-san=10.1.1.249"
         "--tls-san=127.0.0.1"
+        "--tls-san=k3s.howse.top"
+        "--tls-san=dashboad.howse.top"
     ];
   };
 
