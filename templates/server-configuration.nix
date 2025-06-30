@@ -203,6 +203,12 @@ in
   # Enable GlusterFS on all servers
   services.glusterfs.enable = true;
 
+  systemd.tmpfiles.rules = [
+    "d /mnt/nas/glusterfs/nextcloud 0755 ${username} root -"  # For whiteserver, blackserver
+      "d /mnt/nas/glusterfs/nextcloud_arbiter 0755 ${username} root -"  # For asusserver
+      "d /var/log/glusterfs 0755 root root -"  # Ensure log directory exists
+  ];
+
   # Ensure volume directories exist
   system.activationScripts = {
     createDockerVolumes = ''
