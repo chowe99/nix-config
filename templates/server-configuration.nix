@@ -5,9 +5,9 @@
 
 let
   allServers = {
-    whiteserver = "10.1.1.249";
-    blackserver = "10.1.1.250";
-    asusserver = "10.1.1.64";
+    whiteserver = "whiteserver";
+    blackserver = "blackserver";
+    asusserver = "asusserver";
   };
   thisServer = config.networking.hostName; # Must match "whiteserver", "blackserver", or "asusserver"
   peerServers = builtins.filter (s: s != thisServer) (builtins.attrNames allServers);
