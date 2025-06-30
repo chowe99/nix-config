@@ -208,9 +208,10 @@ in
   services.glusterfs.enable = true;
 
   users.groups.gluster = {}; # Create gluster group
+
   systemd.services.glusterd = {
     serviceConfig = {
-      ExecStartPost = "${pkgs.bash}/bin/bash -c 'chown root:gluster /var/run/glusterd.socket; chmod 660 /var/run/glusterd.socket'";
+      ExecStartPost = "${pkgs.bash}/bin/bash -c 'while [ ! -S /var/run/glusterd.socket ]; do sleep 1; done; chown root:gluster /var/run/glusterd.socket; chmod 660 /var/run/glusterd.socket'";
     };
   };
 
