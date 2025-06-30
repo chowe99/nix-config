@@ -208,6 +208,11 @@ in
   services.glusterfs.enable = true;
 
   users.groups.gluster = {}; # Create gluster group
+  systemd.services.glusterd = {
+    serviceConfig = {
+      ExecStartPost = "${pkgs.bash}/bin/bash -c 'chown root:gluster /var/run/glusterd.socket; chmod 660 /var/run/glusterd.socket'";
+    };
+  };
 
   systemd.tmpfiles.rules = [
     "d /mnt/nas/glusterfs/nextcloud 0755 ${username} root -"  # For whiteserver, blackserver
