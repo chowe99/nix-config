@@ -218,6 +218,13 @@ in
     };
   };
 
+  systemd.tmpfiles.rules = [
+      "d /var/log/glusterfs 0755 root root -"  # Ensure log directory exists
+      "d /var/log/glusterfs 0775 root gluster -"
+      "f /var/run/glusterd.socket 0660 root gluster -"  # Set socket permissions
+  ];
+
+
   # Ensure volume directories exist
   system.activationScripts = {
     createDockerVolumes = ''
