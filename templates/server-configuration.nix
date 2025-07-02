@@ -42,7 +42,7 @@ in
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
   # Networking
-  # networking.hostName = hostname;
+  networking.hostName = hostname;
   networking.networkmanager.enable = true;
   services.tailscale.enable = true;
 
