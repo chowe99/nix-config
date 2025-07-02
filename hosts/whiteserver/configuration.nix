@@ -30,12 +30,11 @@
     MAILADDR c0dred@tutamail.com
     '';
 
-# Filesystem configuration for RAID
-  # fileSystems."/mnt/nas" = {
-  #   device = "/dev/md127";
-  #   fsType = "ext4";
-  #   options = [ "defaults" "nofail" ];
-  # };
+  fileSystems."/mnt/nas" = {
+    device = "/dev/disk/by-uuid/e19aca63-e0cc-4e98-af16-4eb9000c55fc";
+    fsType = "ext4";
+    options = [ "defaults" ];
+  };
 
   networking.firewall = {
     enable = true;
