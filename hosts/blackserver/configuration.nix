@@ -12,8 +12,9 @@
        extraFlags = toString [
          # "--disable=traefik"
          "--server https://10.1.1.249:6443"
-         "--advertise-address=10.1.1.250"
+         # "--advertise-address=10.1.1.250"
          "--node-ip=10.1.1.250"
+         "--node-name=blackserver"
          # "--tls-san=10.1.1.250"
          # "--tls-san=127.0.0.1"
        ];
