@@ -33,6 +33,7 @@ in
 
 
     home.packages = with config.packageSet; [
+      (pkgs.writeShellScriptBin "cat-files" (builtins.readFile ../scripts/cat-files.sh))
       btop
         tree
         docker

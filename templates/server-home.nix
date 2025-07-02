@@ -26,6 +26,7 @@ in
     home.homeDirectory = "/home/${username}";
 
     home.packages = with pkgs; [
+      (pkgs.writeShellScriptBin "cat-files" (builtins.readFile ../scripts/cat-files.sh))
       htop fastfetch btop tree home-manager lsd
     ];
 
