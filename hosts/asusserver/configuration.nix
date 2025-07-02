@@ -24,6 +24,7 @@
      networking.hosts = {
        "10.1.1.249" = [ "whiteserver" ];
        "10.1.1.250" = [ "blackserver" ];
+       "10.1.1.64" = [ "asusserver" ];
      };
 
      fileSystems."/mnt/nas" = {
