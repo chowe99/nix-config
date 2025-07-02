@@ -182,9 +182,8 @@
 
   services.displayManager.sddm.theme = "sddm-astronaut";
   fonts.packages = with pkgs; [
-    (nerdfonts.override { fonts = [ "JetBrainsMono" "FiraCode" ]; })
-    jetbrains-mono
-    fira-code
+    pkgs.nerd-fonts.jetbrains-mono
+    pkgs.nerd-fonts.fira-code
   ];
 
   xdg.portal.enable = true;
