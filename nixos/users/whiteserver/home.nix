@@ -1,5 +1,4 @@
 # nixos/users/whiteserver/home.nix
-# nixos/users/whiteserver/home.nix
 { inputs, pkgs, ... }:
 
 {
