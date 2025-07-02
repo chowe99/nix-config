@@ -31,11 +31,11 @@
     '';
 
 # Filesystem configuration for RAID
-  fileSystems."/mnt/nas" = {
-    device = "/dev/md127";
-    fsType = "ext4";
-    options = [ "defaults" "nofail" ];
-  };
+  # fileSystems."/mnt/nas" = {
+  #   device = "/dev/md127";
+  #   fsType = "ext4";
+  #   options = [ "defaults" "nofail" ];
+  # };
 
   networking.firewall = {
     enable = true;

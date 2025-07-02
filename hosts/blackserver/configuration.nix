@@ -32,11 +32,11 @@
        "10.1.1.64" = [ "asusserver" ];
      };
 
-     fileSystems."/mnt/nas" = {
-       device = "/dev/disk/by-uuid/e19aca63-e0cc-4e98-af16-4eb9000c55fc";
-       fsType = "ext4";
-       options = [ "defaults" ];
-     };
+     # fileSystems."/mnt/nas" = {
+     #   device = "/dev/disk/by-uuid/e19aca63-e0cc-4e98-af16-4eb9000c55fc";
+     #   fsType = "ext4";
+     #   options = [ "defaults" ];
+     # };
 
      systemd.tmpfiles.rules = [
        "d /mnt/nas/glusterfs/nextcloud 0755 ${username} root -"  # For whiteserver, blackserver
