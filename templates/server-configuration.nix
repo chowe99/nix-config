@@ -42,7 +42,7 @@ in
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
   # Networking
-  networking.hostName = hostname;
+  # networking.hostName = hostname;
   networking.networkmanager.enable = true;
   services.tailscale.enable = true;
 
@@ -111,7 +111,6 @@ in
       group = "users";
     mode = "600";
   };
-
 
   # Auto-login
   services.getty.autologinUser = username;
