@@ -184,9 +184,8 @@ in
   # services.caddy.configFile = "/etc/caddy/Caddyfile";
 
   fonts.packages = with pkgs; [
-    (nerdfonts.override { fonts = [ "JetBrainsMono" "FiraCode" ]; })
-    jetbrains-mono
-    fira-code
+    pkgs.nerd-fonts.jetbrains-mono
+    pkgs.nerd-fonts.fira-code
   ];
 
   services.openssh.enable = true;
