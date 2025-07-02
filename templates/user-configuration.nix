@@ -193,7 +193,7 @@
   services.openssh.enable = true;
   networking.firewall.enable = true;
   networking.firewall.allowedTCPPorts = [ 22 ];
-  system.stateVersion = "24.11";
+  system.stateVersion = "25.05";
   security.sudo.enable = true;
   security.sudo.extraConfig = ''
     Defaults timestamp_timeout = 180

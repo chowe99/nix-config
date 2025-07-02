@@ -26,7 +26,7 @@ in
       then inputs.nixpkgs-unstable.legacyPackages.${pkgs.system} 
     else pkgs;
 
-    home.stateVersion = "24.11";
+    home.stateVersion = "25.05";
     home.username = username;
     home.homeDirectory = "/home/${username}";
     nix.settings.experimental-features = [ "nix-command" "flakes" ];
