@@ -20,11 +20,11 @@
        ];
      };
 
-     networking.firewall = {
-       enable = true;
-       allowedTCPPorts = [ 6443 2379 2380 10250 ];
-       allowedUDPPorts = [ 8472 ];
-     };
+    networking.firewall = {
+      enable = true;
+      allowedTCPPorts = [ 6443 2379 2380 10250 24007 24008 49152 49153 49154 ];
+      allowedUDPPorts = [ 8472 24007 24008 ];
+    };
 
      networking.hosts = {
        "10.1.1.249" = [ "whiteserver" ];
