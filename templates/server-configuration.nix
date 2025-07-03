@@ -175,6 +175,9 @@ in
     # hostname command
     coreutils
     inetutils
+
+    # SSL cert
+    cacert
   ];
 
   # security.pki.certificateFiles = [
