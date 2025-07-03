@@ -3,8 +3,8 @@
 
 {
   imports = [
-    inputs.nixvim.homeManagerModules.nixvim
-    ../../../configs/nixvim.nix
+    # inputs.nixvim.homeManagerModules.nixvim
+    # ../../../configs/nixvim.nix
     ../../../templates/server-home.nix  # Include directly as a module
   ];
 }
