@@ -2,17 +2,17 @@
   description = "Flake-based NixOS + Home Manager config";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
+    # nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
 
     home-manager = {
-      url = "github:nix-community/home-manager/release-25.05";
-      inputs.nixpkgs.follows = "nixpkgs";
+      url = "github:nix-community/home-manager/master";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
 
     agenix = {
       url = "github:ryantm/agenix";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
 
     dotfiles = {
@@ -28,7 +28,7 @@
   outputs = { self, nixpkgs, home-manager, agenix, ... }@inputs:
   let
     system = "x86_64-linux";
-    pkgs = nixpkgs.legacyPackages.${system};
+    pkgs = inputs.nixpkgs-unstable.legacyPackages.${system};
 
     nixosSystem = { system, hostname, username, modules }: nixpkgs.lib.nixosSystem {
       inherit system;
@@ -40,7 +40,7 @@
     };
 
     homeManagerConfig = { username, system, hostname, modules }: home-manager.lib.homeManagerConfiguration {
-      pkgs = nixpkgs.legacyPackages.${system};
+      pkgs = inputs.nixpkgs-unstable.legacyPackages.${system};
       extraSpecialArgs = { 
         inherit inputs; 
         inherit username hostname; 
