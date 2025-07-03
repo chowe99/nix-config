@@ -9,21 +9,21 @@
       # (import ../../configs/nixvim.nix { inherit inputs; })
   ];
 
-  services.k3s = {
-    role = "server";
-    tokenFile = "/run/agenix/k3s-token";
-    extraFlags = toString [
-      "--disable=traefik"
-        "--cluster-init"
-        "--advertise-address=10.1.1.249"
-        "--node-ip=10.1.1.249"
-        "--node-name=whiteserver"
-        # "--tls-san=10.1.1.249"
-        # "--tls-san=127.0.0.1"
-        # "--tls-san=k3s.howse.top"
-        # "--tls-san=dashboad.howse.top"
-    ];
-  };
+  # services.k3s = {
+  #   role = "server";
+  #   tokenFile = "/run/agenix/k3s-token";
+  #   extraFlags = toString [
+  #     "--disable=traefik"
+  #       "--cluster-init"
+  #       "--advertise-address=10.1.1.249"
+  #       "--node-ip=10.1.1.249"
+  #       "--node-name=whiteserver"
+  #       # "--tls-san=10.1.1.249"
+  #       # "--tls-san=127.0.0.1"
+  #       # "--tls-san=k3s.howse.top"
+  #       # "--tls-san=dashboad.howse.top"
+  #   ];
+  # };
 
 
   fileSystems."/mnt/nas" = {
