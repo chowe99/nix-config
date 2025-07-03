@@ -1,5 +1,4 @@
 { inputs, config, pkgs, lib, ... }:
-
 let
   # Use unstable for aarch64-linux, stable for x86_64-linux
   pkgSource = if pkgs.system == "aarch64-linux" then inputs.nixpkgs-unstable else inputs.nixpkgs;
@@ -46,10 +45,11 @@ in
     };
     globals = {
       mapleader = " ";
+      python3_host_prog = "~/.pyenv/shims/python";
     };
     opts = {
       undofile = true;
-      undodir = "${config.home.homeDirectory}/.local/share/nvim/undo";
+      undodir = "~/.local/share/nvim/undo";
       encoding = "utf-8";
       fileencoding = "utf-8";
       number = true;
@@ -144,6 +144,7 @@ in
             enable = true;
             filetypes = [ "html" "css" "javascript" "javascriptreact" "typescriptreact" ];
           };
+          eslint.enable = true;
           # Removed clangd due to installation issues
         };
       };
@@ -218,14 +219,60 @@ in
       avante-nvim
       nvim-ts-autotag
       hologram-nvim
-      # nvim-web-devicons
+      (pkgs.vimUtils.buildVimPlugin {
+        name = "harpoon-nvim";
+        src = pkgs.fetchFromGitHub {
+          owner = "ThePrimeagen";
+          repo = "harpoon";
+          rev = "harpoon2";
+          sha256 = "sha256-L7FvOV6KvD58BnY3no5IudiKTdgkGqhpS85RoSxtl7U="; # Replace with the correct hash
+        };
+      })
+      (pkgs.vimUtils.buildVimPlugin {
+        name = "rainbow_csv-nvim";
+        src = pkgs.fetchFromGitHub {
+          owner = "cameron-wags";
+          repo = "rainbow_csv.nvim";
+          rev = "main";
+          sha256 = "sha256-gj1SmcTBIW2fkgOzYkCeltZcsyHKniS8iEiPKhYJgmY="; # Replace with the correct hash
+        };
+      })
+      (pkgs.vimUtils.buildVimPlugin {
+        name = "mini-hipatterns-nvim";
+        src = pkgs.fetchFromGitHub {
+          owner = "echasnovski";
+          repo = "mini.hipatterns";
+          rev = "main";
+          sha256 = "sha256-WrFM7XdzruKWVPuhZiT0nvwYaKDTFsyqGMDEJWdbE74="; # Replace with the correct hash
+        };
+      })
+      (pkgs.vimUtils.buildVimPlugin {
+        name = "vscode-es7-javascript-react-snippets";
+        src = pkgs.fetchFromGitHub {
+          owner = "dsznajder";
+          repo = "vscode-es7-javascript-react-snippets";
+          rev = "master";
+          sha256 = "sha256-VLRkj1rd53W3b9Ep2FAd+vs7B8CzKH2O3EE1Lw6vnTs="; # Replace with the correct hash
+        };
+      })
+      (pkgs.vimUtils.buildVimPlugin {
+        name = "tailwindcss-colorizer-cmp-nvim";
+        src = pkgs.fetchFromGitHub {
+          owner = "roobert";
+          repo = "tailwindcss-colorizer-cmp.nvim";
+          rev = "main";
+          sha256 = "sha256-PIkfJzLt001TojAnE/rdRhgVEwSvCvUJm/vNPLSWjpY="; # Replace with the correct hash
+        };
+      })
+      copilot-vim
+      null-ls-nvim
       (pkgs.vimUtils.buildVimPlugin {
         name = "which-key-nvim";
         src = pkgs.fetchFromGitHub {
           owner = "folke";
           repo = "which-key.nvim";
           rev = "v2.1.0";
-          hash = "sha256-gc/WJJ1s4s+hh8Mx8MTDg8pGGNOXxgKqBMwudJtpO4Y="; # Correct hash
+          hash = "sha256-gc/WJJ1s4s+hh8Mx8MTDg8pGGNOXxgKqBMwudJtpO4Y=";
         };
       })
       mason-nvim
@@ -249,13 +296,24 @@ in
       { mode = "n"; key = "<leader>eh"; action = "<cmd>Noice all<CR>"; }
       { mode = "n"; key = "<leader>rn"; action = "vim.lsp.buf.rename"; }
       { mode = "n"; key = "<leader>u"; action = ":UndotreeToggle<CR>:UndotreeFocus<CR>"; }
+      { mode = "n"; key = "<CR>"; action = "require('neo-tree').open"; }
+      { mode = "n"; key = "<Esc>"; action = "require('neo-tree').cancel"; }
+      { mode = "n"; key = "<Space>"; action = "require('neo-tree').toggle_node"; }
+      { mode = "n"; key = "<leader>ha"; action = "require('harpoon'):list():add"; }
+      { mode = "n"; key = "<leader>hm"; action = "require('harpoon').ui:toggle_quick_menu(require('harpoon'):list())"; }
+      { mode = "n"; key = "<leader>h1"; action = "require('harpoon'):list():select(1)"; }
+      { mode = "n"; key = "<leader>h2"; action = "require('harpoon'):list():select(2)"; }
+      { mode = "n"; key = "<leader>h3"; action = "require('harpoon'):list():select(3)"; }
+      { mode = "n"; key = "<leader>h4"; action = "require('harpoon'):list():select(4)"; }
+      { mode = "n"; key = "<leader>hp"; action = "require('harpoon'):list():prev"; }
+      { mode = "n"; key = "<leader>hn"; action = "require('harpoon'):list():next"; }
     ];
     extraConfigLua = ''
       require("mason").setup()
       require("mason-lspconfig").setup({
         ensure_installed = {
           "ts_ls", "pyright", "lua_ls", "tailwindcss", "html", "cssls",
-          "jsonls", "yamlls", "dockerls", "graphql", "bashls", "emmet_ls"
+          "jsonls", "yamlls", "dockerls", "graphql", "bashls", "emmet_ls", "eslint"
         },
         automatic_installation = true,
       })
@@ -281,7 +339,7 @@ in
         { "<leader>t", group = "Terminals" },
         { "<leader>t0", "<cmd>ToggleTerm 10<CR>", desc = "Terminal 10" },
         { "<leader>t1", "<cmd>ToggleTerm 1<CR>", desc = "Terminal 1" },
-        { "<leader>t2", "<cmd>ToggleTerm 2<CR>", desc = "Terminal 2" },
+        { "<leader>t2", "<cmd>ToggleTerm 2<CR>", desc = "Termin        al 2" },
         { "<leader>t3", "<cmd>ToggleTerm 3<CR>", desc = "Terminal 3" },
         { "<leader>t4", "<cmd>ToggleTerm 4<CR>", desc = "Terminal 4" },
         { "<leader>t5", "<cmd>ToggleTerm 5<CR>", desc = "Terminal 5" },
@@ -289,7 +347,7 @@ in
         { "<leader>t7", "<cmd>ToggleTerm 7<CR>", desc = "Terminal 7" },
         { "<leader>t8", "<cmd>ToggleTerm 8<CR>", desc = "Terminal 8" },
         { "<leader>t9", "<cmd>ToggleTerm 9<CR>", desc = "Terminal 9" },
-    })
+      })
 
       require("neo-tree").setup({
         close_if_last_window = true,
@@ -360,9 +418,116 @@ in
           vim.lsp.buf.format()
         end,
       })
+
+      -- Harpoon setup
+      local harpoon = require("harpoon")
+      harpoon:setup()
+
+      -- Rainbow CSV setup
+      require("rainbow_csv").setup()
+      vim.api.nvim_create_autocmd("BufWinEnter", {
+        pattern = {
+          "*.csv", "*.tsv", "*.csv_semicolon", "*.csv_whitespace", "*.csv_pipe", "*.rfc_csv", "*.rfc_semicolon"
+        },
+        callback = function()
+          vim.cmd("RainbowAlign")
+        end,
+      })
+
+      -- Copilot setup
+      vim.g.copilot_no_tab_map = true
+      vim.api.nvim_set_keymap("i", "<Right>", 'copilot#Accept("<CR>")', { expr = true, silent = true })
+      vim.api.nvim_set_keymap("i", "<Left>", 'copilot#Next()', { expr = true, silent = true })
+
+      -- Mini Hipatterns setup
+      require('mini.hipatterns').setup({})
+
+      -- Null LS setup
+      local null_ls = require("null-ls")
+      null_ls.setup({
+        sources = {
+          null_ls.builtins.formatting.prettierd.with({
+            filetypes = { "javascript", "typescript", "typescriptreact", "javascriptreact", "vue", "html", "css", "json", "yaml" },
+          }),
+          null_ls.builtins.formatting.black.with({ filetypes = { "python" } }),
+          null_ls.builtins.diagnostics.eslint_d.with({ filetypes = { "javascript", "typescript", "typescriptreact", "javascriptreact", "vue" } }),
+          null_ls.builtins.diagnostics.pylint.with({ filetypes = { "python" } }),
+          null_ls.builtins.diagnostics.stylelint.with({ filetypes = { "css", "scss", "sass", "less" } }),
+          null_ls.builtins.diagnostics.shellcheck.with({ filetypes = { "sh", "bash" } }),
+        },
+      })
+
+      -- VSCode Snippets setup
+      require('luasnip.loaders.from_vscode').lazy_load({ paths = { "./vscode-es7-javascript-react-snippets" } })
+
+      -- Tailwind CSS Colorizer setup
+      require("tailwindcss-colorizer-cmp").setup()
+
+      -- Avante setup
+      require("avante").setup({
+        providers = {
+          gemini = {
+            model = "gemini-2.5-flash-preview-04-17",
+            temperature = 0,
+            timeout = 30000,
+          },
+        },
+        behaviour = {
+          auto_suggestions = false,
+          auto_set_highlight_group = true,
+          auto_set_keymaps = true,
+          auto_apply_diff_after_generation = false,
+          support_paste_from_clipboard = true,
+        },
+        mappings = {
+          diff = {
+            ours = 'co',
+            theirs = 'ct',
+            all_theirs = '<C-a>',
+            both = 'cb',
+            cursor = 'cc',
+            next = ']x',
+            prev = '[x',
+          },
+          suggestion = {
+            accept = '<M-l>',
+            next = '<M-]>',
+            prev = '<M-[>',
+            dismiss = '<C-]>',
+          },
+          jump = {
+            next = ']]',
+            prev = '[[',
+          },
+          submit = {
+            normal = '<CR>',
+            insert = '<C-s>',
+          },
+        },
+        hints = { enabled = true },
+        windows = {
+          position = 'bottom',
+          wrap = true,
+          width = 100,
+          sidebar_header = {
+            align = 'center',
+            rounded = true,
+          },
+        },
+        highlights = {
+          diff = {
+            current = 'DiffText',
+            incoming = 'DiffAdd',
+          },
+        },
+        diff = {
+          autojump = true,
+          list_opener = 'copen',
+        },
+      })
+
       print("Lua package.path: " .. vim.inspect(package.path))
       print("Lua package.cpath: " .. vim.inspect(package.cpath))
-
     '';
   };
 }
