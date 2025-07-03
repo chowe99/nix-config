@@ -6,6 +6,7 @@
       ../../configs/caddy.nix
       ../../configs/docker.nix
       ../../configs/k3s.nix
+      ../../configs/nixvim.nix
   ];
 
   services.k3s = {
@@ -24,11 +25,6 @@
     ];
   };
 
-  boot.swraid.enable = true;
-  boot.swraid.mdadmConf = ''
-    ARRAY /dev/md127 UUID=e22f6488:83684aca:f30ec314:f49242d1
-    MAILADDR c0dred@tutamail.com
-    '';
 
   fileSystems."/mnt/nas" = {
     device = "/dev/disk/by-uuid/e19aca63-e0cc-4e98-af16-4eb9000c55fc";
