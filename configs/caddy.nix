@@ -43,6 +43,8 @@
       header {
         Host {host}
         X-Real-IP {remote}
+        X-Forwarded-For {remote}
+        X-Forwarded-Proto {scheme}
       }
       encode gzip
     '';
