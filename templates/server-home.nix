@@ -79,8 +79,11 @@ in
 
     programs.git = {
       enable = true;
-      userName = "chowe99";
-      userEmail = "chowej99@gmail.com";
+      config = {
+        user.name = "chowe99";
+        user.email = "chowej99@gmail.com";
+        pull.rebase = false;
+      };
     };
 
     home.file.".zshrc" = {
