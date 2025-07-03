@@ -6,14 +6,14 @@
       ../../configs/caddy.nix
       ../../configs/docker.nix
       ../../configs/k3s.nix
-      ../../configs/nixvim.nix
+      # (import ../../configs/nixvim.nix { inherit inputs; })
   ];
 
   services.k3s = {
     role = "server";
     tokenFile = "/run/agenix/k3s-token";
     extraFlags = toString [
-      #"--disable=traefik"
+      "--disable=traefik"
         "--cluster-init"
         "--advertise-address=10.1.1.249"
         "--node-ip=10.1.1.249"
