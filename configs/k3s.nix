@@ -1,9 +1,9 @@
 { inputs, config, pkgs, ... }:
 {
-  services.k3s = {
-    enable = true;
-    # No need for extraFlags here; host-specific flags go in host configs
-  };
+  # services.k3s = {
+  #   enable = true;
+  #   # No need for extraFlags here; host-specific flags go in host configs
+  # };
 
   # Firewall rules for k3s
   # networking.firewall = {
