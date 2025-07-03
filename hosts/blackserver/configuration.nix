@@ -33,11 +33,11 @@
      };
 
     # Filesystem configuration for RAID
-    # fileSystems."/mnt/nas" = {
-    #   device = "/dev/md127";
-    #   fsType = "ext4";
-    #   options = [ "defaults" "nofail" ];
-    # };
+    fileSystems."/mnt/nas" = {
+      device = "/dev/md127";
+      fsType = "ext4";
+      options = [ "defaults" "nofail" ];
+    };
 
      systemd.tmpfiles.rules = [
        "d /mnt/nas/glusterfs/nextcloud 0755 ${username} root -"  # For whiteserver, blackserver
