@@ -6,7 +6,6 @@
       ../../configs/caddy.nix
       ../../configs/docker.nix
       ../../configs/k3s.nix
-      # (import ../../configs/nixvim.nix { inherit inputs; })
   ];
 
   # services.k3s = {
