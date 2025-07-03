@@ -4,7 +4,7 @@
     enable = true;
 
     virtualHosts."*.howse.top".extraConfig = ''
-      tls /etc/ssl/certs/cert.pem /etc/ssl/certs/howse.top.key
+      tls /etc/ssl/certs/fullchain.pem /etc/ssl/certs/howse.top.key
       encode gzip
     '';
 
