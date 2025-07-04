@@ -1,20 +1,33 @@
 { inputs, config, pkgs, lib, ... }:
 let
-  # Use unstable for aarch64-linux, stable for x86_64-linux
   pkgSource = if pkgs.system == "aarch64-linux" then inputs.nixpkgs-unstable else inputs.nixpkgs;
   pkgSet = import pkgSource {
     system = pkgs.system;
     config = {
-      allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
-        "copilot.vim"
-      ];
+      allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [ "copilot.vim" ];
     };
   };
 in
 {
   programs.nixvim = {
     enable = true;
+
+    # Core Settings
     extraPackages = with pkgSet; [
+      # LSP Servers (for mason fallback or manual use)
+      nil
+      lua-language-server
+      typescript-language-server
+      pyright
+      tailwindcss-language-server
+      vscode-lsp # For html, cssls, jsonls
+      yaml-language-server
+      dockerfile-language-server
+      graphql-language-server
+      bash-language-server
+      emmet-ls
+      eslint
+      # Linters and Formatters for none-ls
       eslint_d
       pylint
       stylelint
@@ -22,22 +35,21 @@ in
       prettierd
       black
       shfmt
+      # Utilities
       ripgrep
       fd
-      gnumake
-      gcc
-      nodejs
-      yarn
-      cargo
-      perl
-      openssl
-      libnotify
-      nodePackages.graphql-language-service-cli  
-      go
-      php
-      luarocks
-      openjdk
-      julia
+      nodePackages.graphql-language-service-cli
+      nodejs # For DAP and Copilot
+      libnotify # For notify plugin
+      # (pkgs.vimUtils.buildVimPlugin {
+      #   name = "mini-hipatterns-nvim";
+      #   src = pkgs.fetchFromGitHub {
+      #     owner = "echasnovski";
+      #     repo = "mini.hipatterns";
+      #     rev = "main";
+      #     sha256 = "sha256-WrFM7XdzruKWVPuhZiT0nvwYaKDTFsyqGMDEJWdbE74="; # Replace with the correct hash
+      #   };
+      # })
     ];
     clipboard = {
       register = "unnamedplus";
@@ -49,7 +61,7 @@ in
     };
     opts = {
       undofile = true;
-      undodir = "~/.local/share/nvim/undo";
+      undodir = "${config.home.homeDirectory}/.local/share/nvim/undo";
       encoding = "utf-8";
       fileencoding = "utf-8";
       number = true;
@@ -85,21 +97,15 @@ in
       foldlevel = 0;
       foldlevelstart = 0;
     };
+
+    # Plugins
     plugins = {
-      harpoon = {
-        enable = true;
-      };
+      harpoon.enable = true;
       comment = {
         enable = true;
         settings = {
-          toggler = {
-            line = "<leader>/"; # Replace <gcc>
-            block = "<leader>cb"; # Replace <gbc>
-          };
-          opleader = {
-            line = "<leader>c"; # Replace <gc>
-            block = "<leader>b"; # Replace <gb>
-          };
+          toggler = { line = "<leader>/"; block = "<leader>cb"; };
+          opleader = { line = "<leader>c"; block = "<leader>b"; };
         };
       };
       lsp = {
@@ -138,19 +144,91 @@ in
           jsonls.enable = true;
           yamlls.enable = true;
           dockerls.enable = true;
-          graphql = {
-            enable = true;
-            package = null;
-          };
+          graphql = { enable = true; package = null; };
           bashls.enable = true;
           emmet_ls = {
             enable = true;
             filetypes = [ "html" "css" "javascript" "javascriptreact" "typescriptreact" ];
           };
           eslint.enable = true;
-          # Removed clangd due to installation issues
         };
       };
+      none-ls = {
+        enable = true;
+        settings = {
+          debounce = 250;
+          diagnostics_format = "[#{c}] #{m} (#{s})";
+          on_attach = ''
+            function(client, bufnr)
+              vim.api.nvim_buf_set_option(bufnr, 'formatexpr', 'v:lua.vim.lsp.formatexpr()')
+            end
+          '';
+        };
+        sources = {
+          formatting = {
+            black = {
+              enable = true;
+              package = pkgSet.black;
+              settings = {
+                extra_args = [ "--line-length=88" ];
+              };
+            };
+            prettierd = {
+              enable = true;
+              package = pkgSet.prettierd;
+              settings = {
+                filetypes = [ "javascript" "javascriptreact" "typescript" "typescriptreact" "css" "scss" "json" "yaml" ];
+              };
+            };
+            shfmt = {
+              enable = true;
+              package = pkgSet.shfmt;
+              settings = {
+                extra_args = [ "-i" "2" ];
+              };
+            };
+          };
+          diagnostics = {
+            eslint_d = {
+              enable = true;
+              package = pkgSet.eslint_d;
+              settings = {
+                filetypes = [ "javascript" "javascriptreact" "typescript" "typescriptreact" ];
+              };
+            };
+            pylint = {
+              enable = true;
+              package = pkgSet.pylint;
+              settings = {
+                filetypes = [ "python" ];
+              };
+            };
+            stylelint = {
+              enable = true;
+              package = pkgSet.stylelint;
+              settings = {
+                filetypes = [ "css" "scss" ];
+              };
+            };
+            shellcheck = {
+              enable = true;
+              package = pkgSet.shellcheck;
+              settings = {
+                filetypes = [ "sh" ];
+              };
+            };
+          };
+        };
+      };
+      # rainbow_csv = {
+      #   enable = true;
+      #   settings = {
+      #     delimiters = [ ", " ";" "|" " " ];
+      #     highlight = true;
+      #     auto_align = true;
+      #     auto_preview = true;
+      #   };
+      # };
       notify = {
         enable = true;
         settings = { background_colour = "#000000"; };
@@ -166,26 +244,44 @@ in
           ];
         };
       };
-      # telescope.enable = true;
       telescope = {
         enable = true;
-
         extensions = {
           file-browser.enable = true;
           fzy-native.enable = true;
           ui-select.enable = true;
-
           frecency = {
             enable = true;
-
             settings = { db_safe_mode = false; };
           };
+       施
+
         };
       };
-
-      dap.enable = true;
+      dap = {
+        enable = true;
+        adapters = {
+          node2 = {
+            type = "executable";
+            command = "${pkgSet.nodejs}/bin/node";
+            args = [ "${pkgSet.vimPlugins.nvim-dap}/out/src/nodeDebug.js" ];
+          };
+        };
+        configurations = {
+          javascript = [
+            {
+              name = "Launch";
+              type = "node2";
+              request = "launch";
+              program = "\${file}";
+              cwd = "\${workspaceFolder}";
+              sourceMaps = true;
+              protocol = "inspector";
+            }
+          ];
+        };
+      };
       bufferline.enable = true;
-
       toggleterm = {
         enable = true;
         settings = {
@@ -199,10 +295,7 @@ in
       noice = {
         enable = true;
         settings.routes = [
-          {
-            filter = { event = "msg_show"; kind = "search_count"; };
-            opts = { skip = true; };
-          }
+          { filter = { event = "msg_show"; kind = "search_count"; }; opts = { skip = true; }; }
         ];
       };
       transparent.enable = true;
@@ -216,6 +309,17 @@ in
             { name = "path"; }
             { name = "luasnip"; }
           ];
+          mapping = {
+            __raw = ''
+            {
+              ["<Up>"] = cmp.mapping.select_prev_item(),
+              ["<Down>"] = cmp.mapping.select_next_item(),
+              ["<CR>"] = cmp.mapping.confirm({ select = true }),
+              ["<Tab>"] = cmp.mapping.select_next_item(),
+              ["<S-Tab>"] = cmp.mapping.select_prev_item(),
+            }
+            '';
+          };
         };
       };
       luasnip.enable = true;
@@ -225,32 +329,8 @@ in
         enable = true;
         theme = "dashboard";
       };
-      # rainbow_csv = {
-      #   enable = true;
-      #   settings = {
-      #     delimiters = [ ", " ";" "|" " " ];
-      #     highlight = true;
-      #     auto_align = true;
-      #     auto_preview = true;
-      #   };
-      # };
       nvim-autopairs.enable = true;
       nvim-surround.enable = true;
-      # neo-tree = {
-      #   enable = true;
-      #   settings = {
-      #     close_if_last_window = true;
-      #     enableRefreshOnWrite = true;
-      #     filesystem = {
-      #       hijack_netrw_behavior = "open_current";
-      #       window = {
-      #         position = "right";
-      #         width = 25;
-      #         mapping_options = { noremap = true; nowait = true; };
-      #       };
-      #     };
-      #   };
-      # };
       neo-tree = {
         enable = true;
         enableDiagnostics = true;
@@ -258,106 +338,55 @@ in
         enableModifiedMarkers = true;
         enableRefreshOnWrite = true;
         closeIfLastWindow = true;
-        popupBorderStyle = "rounded"; # Type: null or one of “NC”, “double”, “none”, “rounded”, “shadow”, “single”, “solid” or raw lua code
-          buffers = {
-            bindToCwd = false;
-            followCurrentFile = {
-              enabled = true;
-            };
-          };
+        popupBorderStyle = "rounded";
+        buffers = {
+          bindToCwd = false;
+          followCurrentFile = { enabled = true; };
+        };
         window = {
           position = "right";
           width = 25;
           autoExpandWidth = false;
-          mappings = {
-            "<space>" = "none";
-          };
+          mappings = { "<space>" = "none"; };
         };
       };
-
       avante = {
         enable = true;
-
         settings = {
           provider = "copilot";
-
-          behaviour = {
-            use_absolute_path = true;
-          };
-
-          providers = {
-            # gemini = {
-            #   api_key_name = [
-            #     "op" "item" "get" "Gemini API Key" "--fields" "label=password" "--reveal"
-            #   ];
-            # };
-            gemini = {
-              model = "gemini-2.5-flash-preview-04-17";
-              temperature = 0;
-              timeout = 30000;
-            };
-          };
-        };
-
-        lazyLoad = {
-          settings = {
-            cmd = [
-              "AvanteAsk"
-                "AvanteBuild"
-                "AvanteChat"
-                "AvanteChatNew"
-                "AvanteHistory"
-                "AvanteClear"
-                "AvanteEdit"
-                "AvanteFocus"
-                "AvanteRefresh"
-                "AvanteStop"
-                "AvanteSwitchProvider"
-                "AvanteShowRepoMap"
-                "AvanteToggle"
-                "AvanteModels"
-                "AvanteSwitchSelectorProvider"
-            ];
-          };
+          behaviour = { use_absolute_path = true; };
+          # providers = {
+          #   gemini = {
+          #     model = "gemini-2.5-flash-preview-04-17";
+          #     temperature = 0;
+          #     timeout = 30000;
+          #   };
+          # };
+          debug = true; # For troubleshooting
         };
       };
       which-key = {
         enable = true;
-        settings = {
-          debug = true;
-        };
+        settings = { debug = true; };
       };
-      lz-n = {
-        enable = true;
-      };
+      lz-n.enable = true;
     };
-    extraPlugins = with pkgs.vimPlugins; [
-      mini-icons
-      nui-nvim
-      plenary-nvim
-      nvim-dap
-      undotree
-      nvim-spectre
-      vim-visual-multi
-      nvim-ts-autotag
-      hologram-nvim
 
-      # (pkgs.vimUtils.buildVimPlugin {
-      #   name = "mini-hipatterns-nvim";
-      #   src = pkgs.fetchFromGitHub {
-      #     owner = "echasnovski";
-      #     repo = "mini.hipatterns";
-      #     rev = "main";
-      #     sha256 = "sha256-WrFM7XdzruKWVPuhZiT0nvwYaKDTFsyqGMDEJWdbE74="; # Replace with the correct hash
-      #   };
-      # })
+    # Extra Plugins
+    extraPlugins = with pkgs.vimPlugins; [
+      mini-icons nui-nvim plenary-nvim nvim-dap undotree nvim-spectre
+      vim-visual-multi nvim-ts-autotag hologram-nvim
+      copilot-vim mason-nvim mason-lspconfig-nvim nvim-navic
+      nvim-ts-context-commentstring bigfile-nvim friendly-snippets
+      tokyonight-nvim render-markdown-nvim dressing-nvim
+      none-ls-nvim
       (pkgs.vimUtils.buildVimPlugin {
         name = "vscode-es7-javascript-react-snippets";
         src = pkgs.fetchFromGitHub {
           owner = "dsznajder";
           repo = "vscode-es7-javascript-react-snippets";
           rev = "master";
-          sha256 = "sha256-VLRkj1rd53W3b9Ep2FAd+vs7B8CzKH2O3EE1Lw6vnTs="; # Replace with the correct hash
+          sha256 = "sha256-VLRkj1rd53W3b9Ep2FAd+vs7B8CzKH2O3EE1Lw6vnTs=";
         };
       })
       (pkgs.vimUtils.buildVimPlugin {
@@ -366,42 +395,30 @@ in
           owner = "roobert";
           repo = "tailwindcss-colorizer-cmp.nvim";
           rev = "main";
-          sha256 = "sha256-PIkfJzLt001TojAnE/rdRhgVEwSvCvUJm/vNPLSWjpY="; # Replace with the correct hash
+          sha256 = "sha256-PIkfJzLt001TojAnE/rdRhgVEwSvCvUJm/vNPLSWjpY=";
         };
       })
-      copilot-vim
-      # null-ls-nvim
-      mason-nvim
-      mason-lspconfig-nvim
-      nvim-navic
-      nvim-ts-context-commentstring
-      bigfile-nvim
-      friendly-snippets
-      tokyonight-nvim
-      render-markdown-nvim
-      dressing-nvim
     ];
+
+    # Keymaps
     keymaps = [
       { mode = "n"; key = "<leader>sf"; action = "<cmd>Telescope find_files<CR>"; }
       { mode = "n"; key = "<leader>sg"; action = "<cmd>Telescope live_grep<CR>"; }
       { mode = "n"; key = "<C-t>"; action = "<cmd>Neotree toggle<CR>"; }
       { mode = "n"; key = "x"; action = "\"_x"; }
       { mode = "v"; key = "d"; action = "\"_d"; }
-      # { mode = "n"; key = "<leader>ee"; action = "vim.diagnostic.open_float"; }
       { mode = "n"; key = "<leader>ed"; action = "<cmd>Telescope diagnostics<CR>"; }
       { mode = "n"; key = "<leader>eh"; action = "<cmd>Noice all<CR>"; }
-      # { mode = "n"; key = "<leader>rn"; action = "vim.lsp.buf.rename"; }
       { mode = "n"; key = "<leader>u"; action = "<cmd>UndotreeToggle<CR><cmd>UndotreeFocus<CR>"; }
-      # { mode = "n"; key = "<leader>ha"; action = "require('harpoon'):list():add"; }
-      # { mode = "n"; key = "<leader>hm"; action = "require('harpoon').ui:toggle_quick_menu(require('harpoon'):list())"; }
-      # { mode = "n"; key = "<leader>h1"; action = "require('harpoon'):list():select(1)"; }
-      # { mode = "n"; key = "<leader>h2"; action = "require('harpoon'):list():select(2)"; }
-      # { mode = "n"; key = "<leader>h3"; action = "require('harpoon'):list():select(3)"; }
-      # { mode = "n"; key = "<leader>h4"; action = "require('harpoon'):list():select(4)"; }
-      # { mode = "n"; key = "<leader>hp"; action = "require('harpoon'):list():prev"; }
-      # { mode = "n"; key = "<leader>hn"; action = "require('harpoon'):list():next"; }
     ];
+
+    # Extra Lua Configuration
     extraConfigLua = ''
+      vim.g.loaded_netrw = 1
+      vim.g.loaded_netrwPlugin = 1
+      require("nvim-autopairs").setup()
+
+      -- Mason Setup
       require("mason").setup()
       require("mason-lspconfig").setup({
         ensure_installed = {
@@ -411,28 +428,25 @@ in
         automatic_installation = true,
       })
 
-      vim.g.loaded_netrw = 1
-      vim.g.loaded_netrwPlugin = 1
-
-      require("nvim-autopairs").setup()
-
-
       -- DAP Configuration
       local dap = require('dap')
       dap.adapters.node2 = {
         type = 'executable',
-        command = 'node',
-        args = { "${pkgSet.vimPlugins.nvim-dap}/out/src/nodeDebug.js" },
+        command = '${pkgSet.nodejs}/bin/node',
+        args = { vim.fn.expand("${pkgSet.vimPlugins.nvim-dap}/out/src/nodeDebug.js") },
       }
       dap.configurations.javascript = {
         {
           name = 'Launch',
           type = 'node2',
           request = 'launch',
-          program = "$\{file}",
+          program = "${file}",
           cwd = vim.fn.getcwd(),
           sourceMaps = true,
           protocol = 'inspector',
+          on_error = function(err)
+            vim.notify("DAP Node2 adapter failed: " .. tostring(err), vim.log.levels.ERROR)
+          end,
         },
       }
 
@@ -445,35 +459,14 @@ in
 
       -- Copilot setup
       vim.g.copilot_no_tab_map = true
-      vim.api.nvim_set_keymap("i", "<Right>", 'copilot#Accept("<CR>")', { expr = true, silent = true })
-      vim.api.nvim_set_keymap("i", "<Left>", 'copilot#Next()', { expr = true, silent = true })
-
-      -- Mini Hipatterns setup
-      -- require('mini.hipatterns').setup({})
-
-      -- Null LS setup
-      --local null_ls = require("null-ls")
-      --null_ls.setup({
-      --  sources = {
-      --    null_ls.builtins.formatting.prettierd.with({
-      --      filetypes = { "javascript", "typescript", "typescriptreact", "javascriptreact", "vue", "html", "css", "json", "yaml" },
-      --    }),
-      --    null_ls.builtins.formatting.black.with({ filetypes = { "python" } }),
-      --    null_ls.builtins.diagnostics.eslint_d.with({ filetypes = { "javascript", "typescript", "typescriptreact", "javascriptreact", "vue" } }),
-      --    null_ls.builtins.diagnostics.pylint.with({ filetypes = { "python" } }),
-      --    null_ls.builtins.diagnostics.stylelint.with({ filetypes = { "css", "scss", "sass", "less" } }),
-      --    null_ls.builtins.diagnostics.shellcheck.with({ filetypes = { "sh", "bash" } }),
-      --  },
-      --})
+      vim.api.nvim_set_keymap("i", "<C-l>", 'copilot#Accept("<CR>")', { expr = true, silent = true })
+      vim.api.nvim_set_keymap("i", "<C-h>", 'copilot#Next()', { expr = true, silent = true })
 
       -- VSCode Snippets setup
       require('luasnip.loaders.from_vscode').lazy_load({ paths = { "./vscode-es7-javascript-react-snippets" } })
 
       -- Tailwind CSS Colorizer setup
       require("tailwindcss-colorizer-cmp").setup()
-
-      print("Lua package.path: " .. vim.inspect(package.path))
-      print("Lua package.cpath: " .. vim.inspect(package.cpath))
     '';
   };
 }
