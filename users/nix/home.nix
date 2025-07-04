@@ -4,7 +4,7 @@
 {
   imports = [
     inputs.nixvim.homeManagerModules.nixvim
-    ../../../configs/nixvim.nix
-    ../../../templates/user-home.nix  # Include directly as a module
+    ../../configs/nixvim.nix
+    ../../templates/user-home.nix  # Include directly as a module
   ];
 }

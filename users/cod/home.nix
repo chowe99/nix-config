@@ -4,8 +4,8 @@
   # Import the base configuration
   imports = [
     inputs.nixvim.homeManagerModules.nixvim
-    ../../../configs/nixvim.nix
-    ../../../templates/user-home.nix
+    ../../configs/nixvim.nix
+    ../../templates/user-home.nix
   ];
 
   # Set nix package (exclusive to cod)

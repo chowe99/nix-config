@@ -64,7 +64,7 @@
               ];
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
-              home-manager.users.nix = import ./nixos/users/nix/home.nix;
+              home-manager.users.nix = import ./users/nix/home.nix;
               home-manager.extraSpecialArgs = { 
                 inherit inputs; 
                 hostname = "nix"; 
@@ -88,7 +88,7 @@
               ];
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
-              home-manager.users.whiteserver = import ./nixos/users/whiteserver/home.nix;
+              home-manager.users.whiteserver = import ./users/whiteserver/home.nix;
               home-manager.extraSpecialArgs = { 
                 inherit inputs; 
                 hostname = "whiteserver"; 
@@ -112,7 +112,7 @@
               ];
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
-              home-manager.users.blackserver = import ./nixos/users/blackserver/home.nix;
+              home-manager.users.blackserver = import ./users/blackserver/home.nix;
               home-manager.extraSpecialArgs = { 
                 inherit inputs; 
                 hostname = "blackserver"; 
@@ -136,7 +136,7 @@
               ];
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
-              home-manager.users.asusserver = import ./nixos/users/asusserver/home.nix;
+              home-manager.users.asusserver = import ./users/asusserver/home.nix;
               home-manager.extraSpecialArgs = { 
                 inherit inputs; 
                 hostname = "asusserver"; 
@@ -155,7 +155,7 @@
         modules = [
 # Note: nix-flatpak is not in inputs, so this line is commented out to avoid errors
 # nix-flatpak.homeManagerModules.nix-flatpak
-          ./nixos/users/cod/home.nix
+          ./users/cod/home.nix
         ];
       };
     };
