@@ -298,8 +298,8 @@
       avante = {
         enable = true;
         settings = {
-          # provider = "copilot";
-          provider = "openai";
+          provider = "copilot";
+          # provider = "openai";
           behaviour = { use_absolute_path = true; };
           providers = {
             openai = {
