@@ -99,7 +99,6 @@ in
     plugins = {
       render-markdown.enble = true;
       visual-multi.enable = true;
-      toggleterm.enable = true;
       spectre.enable = true;
       harpoon.enable = true;
       comment = {
