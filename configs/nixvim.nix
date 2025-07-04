@@ -272,7 +272,6 @@ in
           mappings = {
             "<space>" = "none";
           };
-          mapping_options = { noremap = true; nowait = true; };
         };
       };
 
