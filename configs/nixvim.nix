@@ -106,7 +106,7 @@
           keymap = {
             accept = "<Right>";
             next = "<Left>";
-          }
+          };
         };
       };
       render-markdown.enable = true;
