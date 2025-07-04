@@ -338,6 +338,7 @@ in
     { mode = "v"; key = "d"; action = "\"_d"; }
     { mode = "n"; key = "<leader>ed"; action = "<cmd>Telescope diagnostics<CR>"; }
     { mode = "n"; key = "<leader>eh"; action = "<cmd>Noice all<CR>"; }
+    { mode = "n"; key = "<leader>ee"; action = "<cmd>lua vim.diagnostic.open_float()<CR>"; }
     { mode = "n"; key = "<leader>u"; action = "<cmd>UndotreeToggle<CR><cmd>UndotreeFocus<CR>"; }
     ];
 
