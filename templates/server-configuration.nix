@@ -180,12 +180,6 @@ in
     cacert
   ];
 
-  # security.pki.certificateFiles = [
-  #   "/var/lib/caddy/.local/share/caddy/pki/authorities/local/root.crt"
-  # ];
-  # services.caddy.enable = true;
-  # services.caddy.configFile = "/etc/caddy/Caddyfile";
-
   fonts.packages = with pkgs; [
     pkgs.nerd-fonts.jetbrains-mono
     pkgs.nerd-fonts.fira-code
