@@ -16,28 +16,28 @@ in
     extraPackages = with pkgSet; [
 # LSP Servers (for mason fallback or manual use)
       nil
-        lua-language-server
-        typescript-language-server
-        pyright
-        tailwindcss-language-server
-        yaml-language-server
-        bash-language-server
-        emmet-ls
-        eslint
+      lua-language-server
+      typescript-language-server
+      pyright
+      tailwindcss-language-server
+      yaml-language-server
+      bash-language-server
+      emmet-ls
+      eslint
 # Linters and Formatters for none-ls
-        eslint_d
-        pylint
-        stylelint
-        shellcheck
-        prettierd
-        black
-        shfmt
+      eslint_d
+      pylint
+      stylelint
+      shellcheck
+      prettierd
+      black
+      shfmt
 # Utilities
-        ripgrep
-        fd
-        nodePackages.graphql-language-service-cli
-        nodejs # For DAP and Copilot
-        libnotify # For notify plugin
+      ripgrep
+      fd
+      nodePackages.graphql-language-service-cli
+      nodejs # For DAP and Copilot
+      libnotify # For notify plugin
 # (pkgs.vimUtils.buildVimPlugin {
 #   name = "mini-hipatterns-nvim";
 #   src = pkgs.fetchFromGitHub {
@@ -160,15 +160,15 @@ in
             vim.api.nvim_buf_set_option(bufnr, "formatexpr", "v:lua.vim.lsp.formatexpr()")
             end
             '';
-          # sources = [
-          #   ''require("null-ls").builtins.formatting.black.with({ extra_args = { "--line-length=88" } })''
-          #     ''require("null-ls").builtins.formatting.prettierd.with({ filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact", "css", "scss", "json", "yaml" } })''
-          #     ''require("null-ls").builtins.formatting.shfmt.with({ extra_args = { "-i", "2" } })''
-          #     ''require("null-ls").builtins.diagnostics.eslint_d.with({ filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact" } })''
-          #     ''require("null-ls").builtins.diagnostics.pylint.with({ filetypes = { "python" } })''
-          #     ''require("null-ls").builtins.diagnostics.stylelint.with({ filetypes = { "css", "scss" } })''
-          #     ''require("null-ls").builtins.diagnostics.shellcheck.with({ filetypes = { "sh" } })''
-          # ];
+# sources = [
+#   ''require("null-ls").builtins.formatting.black.with({ extra_args = { "--line-length=88" } })''
+#     ''require("null-ls").builtins.formatting.prettierd.with({ filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact", "css", "scss", "json", "yaml" } })''
+#     ''require("null-ls").builtins.formatting.shfmt.with({ extra_args = { "-i", "2" } })''
+#     ''require("null-ls").builtins.diagnostics.eslint_d.with({ filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact" } })''
+#     ''require("null-ls").builtins.diagnostics.pylint.with({ filetypes = { "python" } })''
+#     ''require("null-ls").builtins.diagnostics.stylelint.with({ filetypes = { "css", "scss" } })''
+#     ''require("null-ls").builtins.diagnostics.shellcheck.with({ filetypes = { "sh" } })''
+# ];
         };
       };
 # rainbow_csv = {
@@ -297,7 +297,6 @@ in
       };
       which-key = {
         enable = true;
-        settings = { debug = true; };
       };
       lz-n.enable = true;
     };
