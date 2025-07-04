@@ -307,15 +307,18 @@
               model = "gpt-4.1";
               extra_request_body = {
                 temperature = 0;
-                # max_tokens = 8000;
+                max_tokens = 8000;
                 timeout = 30000; # Timeout in milliseconds
               };
               # disable_tools = true;
             };
             gemini = {
               model = "gemini-2.5-flash-preview-04-17";
-              temperature = 0;
-              timeout = 30000;
+              extra_request_body = {
+                temperature = 0;
+                max_tokens = 8000;
+                timeout = 30000; # Timeout in milliseconds
+              };
             };
             ollama = {
               endpoint = "http://127.0.0.1:11434";         # Note that there is no /v1 at the end.
@@ -324,9 +327,11 @@
             claude = {
               endpoint = "https://api.anthropic.com";
               model = "claude-3-5-sonnet-20241022";
-              temperature = 0;
-              max_tokens = 8000;
-              timeout = 30000; # Timeout in milliseconds
+              extra_request_body = {
+                temperature = 0;
+                max_tokens = 8000;
+                timeout = 30000; # Timeout in milliseconds
+              };
             };
           };
           debug = true; # For troubleshooting
