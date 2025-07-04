@@ -5,7 +5,7 @@
     # No need for extraFlags here; host-specific flags go in host configs
   };
 
-  Firewall rules for k3s
+  # Firewall rules for k3s
   networking.firewall = {
     enable = true;
     allowedTCPPorts = [
