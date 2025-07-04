@@ -85,7 +85,7 @@ in
 
     home.file.".zshrc" = {
       text = ''
-        alias vim=lvim
+        alias vim=nvim
         '';
       force = true;
     };
