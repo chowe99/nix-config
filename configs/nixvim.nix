@@ -86,6 +86,9 @@ in
       foldlevelstart = 0;
     };
     plugins = {
+      harpoon = {
+        enable = true;
+      };
       comment = {
         enable = true;
         settings = {
@@ -164,7 +167,22 @@ in
           ];
         };
       };
-      telescope.enable = true;
+      # telescope.enable = true;
+      telescope = {
+        enable = true;
+
+        extensions = {
+          file-browser.enable = true;
+          fzy-native.enable = true;
+          ui-select.enable = true;
+
+          frecency = {
+            enable = true;
+
+            settings = { db_safe_mode = false; };
+          };
+        };
+      };
       dap.enable = true;
       bufferline.enable = true;
       toggleterm = {
@@ -206,6 +224,109 @@ in
         enable = true;
         theme = "dashboard";
       };
+      rainbow_csv = {
+        enable = true;
+        settings = {
+          delimiters = [ ", " ";" "|" " " ];
+          highlight = true;
+          auto_align = true;
+          auto_preview = true;
+        };
+      };
+      nvim-autopairs.enable = true;
+      nvim-surround.enable = true;
+      # neo-tree = {
+      #   enable = true;
+      #   settings = {
+      #     close_if_last_window = true;
+      #     enableRefreshOnWrite = true;
+      #     filesystem = {
+      #       hijack_netrw_behavior = "open_current";
+      #       window = {
+      #         position = "right";
+      #         width = 25;
+      #         mapping_options = { noremap = true; nowait = true; };
+      #       };
+      #     };
+      #   };
+      # };
+      neo-tree = {
+        enable = true;
+        enableDiagnostics = true;
+        enableGitStatus = true;
+        enableModifiedMarkers = true;
+        enableRefreshOnWrite = true;
+        closeIfLastWindow = true;
+        popupBorderStyle = "rounded"; # Type: null or one of “NC”, “double”, “none”, “rounded”, “shadow”, “single”, “solid” or raw lua code
+          buffers = {
+            bindToCwd = false;
+            followCurrentFile = {
+              enabled = true;
+            };
+          };
+        window = {
+          width = 40;
+          height = 15;
+          autoExpandWidth = false;
+          mappings = {
+            "<space>" = "none";
+          };
+        };
+      };
+
+      avante = {
+        enable = true;
+
+        settings = {
+          provider = "copilot";
+
+          behaviour = {
+            use_absolute_path = true;
+          };
+
+          providers = {
+            # gemini = {
+            #   api_key_name = [
+            #     "op" "item" "get" "Gemini API Key" "--fields" "label=password" "--reveal"
+            #   ];
+            # };
+            gemini = {
+              model = "gemini-2.5-flash-preview-04-17",
+              temperature = 0,
+              timeout = 30000,
+            },
+          };
+        };
+
+        lazyLoad = {
+          settings = {
+            cmd = [
+              "AvanteAsk"
+                "AvanteBuild"
+                "AvanteChat"
+                "AvanteChatNew"
+                "AvanteHistory"
+                "AvanteClear"
+                "AvanteEdit"
+                "AvanteFocus"
+                "AvanteRefresh"
+                "AvanteStop"
+                "AvanteSwitchProvider"
+                "AvanteShowRepoMap"
+                "AvanteToggle"
+                "AvanteModels"
+                "AvanteSwitchSelectorProvider"
+            ];
+          };
+        };
+      };
+      which-key = {
+        enable = true;
+        settings = {
+          triggers = [ "<leader>" ];
+          debug = true;
+        };
+      };
     };
     extraPlugins = with pkgs.vimPlugins; [
       mini-icons
@@ -215,37 +336,18 @@ in
       undotree
       nvim-spectre
       vim-visual-multi
-      nvim-autopairs
-      avante-nvim
       nvim-ts-autotag
       hologram-nvim
-      (pkgs.vimUtils.buildVimPlugin {
-        name = "harpoon-nvim";
-        src = pkgs.fetchFromGitHub {
-          owner = "ThePrimeagen";
-          repo = "harpoon";
-          rev = "harpoon2";
-          sha256 = "sha256-L7FvOV6KvD58BnY3no5IudiKTdgkGqhpS85RoSxtl7U="; # Replace with the correct hash
-        };
-      })
-      (pkgs.vimUtils.buildVimPlugin {
-        name = "rainbow_csv-nvim";
-        src = pkgs.fetchFromGitHub {
-          owner = "cameron-wags";
-          repo = "rainbow_csv.nvim";
-          rev = "main";
-          sha256 = "sha256-gj1SmcTBIW2fkgOzYkCeltZcsyHKniS8iEiPKhYJgmY="; # Replace with the correct hash
-        };
-      })
-      (pkgs.vimUtils.buildVimPlugin {
-        name = "mini-hipatterns-nvim";
-        src = pkgs.fetchFromGitHub {
-          owner = "echasnovski";
-          repo = "mini.hipatterns";
-          rev = "main";
-          sha256 = "sha256-WrFM7XdzruKWVPuhZiT0nvwYaKDTFsyqGMDEJWdbE74="; # Replace with the correct hash
-        };
-      })
+
+      # (pkgs.vimUtils.buildVimPlugin {
+      #   name = "mini-hipatterns-nvim";
+      #   src = pkgs.fetchFromGitHub {
+      #     owner = "echasnovski";
+      #     repo = "mini.hipatterns";
+      #     rev = "main";
+      #     sha256 = "sha256-WrFM7XdzruKWVPuhZiT0nvwYaKDTFsyqGMDEJWdbE74="; # Replace with the correct hash
+      #   };
+      # })
       (pkgs.vimUtils.buildVimPlugin {
         name = "vscode-es7-javascript-react-snippets";
         src = pkgs.fetchFromGitHub {
@@ -265,16 +367,7 @@ in
         };
       })
       copilot-vim
-      null-ls-nvim
-      (pkgs.vimUtils.buildVimPlugin {
-        name = "which-key-nvim";
-        src = pkgs.fetchFromGitHub {
-          owner = "folke";
-          repo = "which-key.nvim";
-          rev = "v2.1.0";
-          hash = "sha256-gc/WJJ1s4s+hh8Mx8MTDg8pGGNOXxgKqBMwudJtpO4Y=";
-        };
-      })
+      # null-ls-nvim
       mason-nvim
       mason-lspconfig-nvim
       nvim-navic
@@ -349,50 +442,6 @@ in
         { "<leader>t9", "<cmd>ToggleTerm 9<CR>", desc = "Terminal 9" },
       })
 
-      require("neo-tree").setup({
-        close_if_last_window = true,
-        filesystem = {
-          hijack_netrw_behavior = "open_current",
-          window = {
-            position = "right",
-            width = 25,
-            mapping_options = {
-              noremap = true,
-              nowait = true,
-            },
-            mappings = {
-              ["<leader>p"] = "image_preview"
-            }
-          },
-          commands = {
-            image_preview = function(state)
-              local node = state.tree:get_node()
-              if node.type == "file" then
-                local hologram = require("hologram")
-                hologram.setup {
-                  auto_display = false,
-                }
-                local buf = vim.api.nvim_create_buf(false, true)
-                local width = vim.o.columns * 0.5
-                local height = vim.o.lines * 0.5
-                vim.api.nvim_open_win(buf, true, {
-                  relative = "editor",
-                  width = math.floor(width),
-                  height = math.floor(height),
-                  row = math.floor((vim.o.lines - height) / 2),
-                  col = math.floor((vim.o.columns - width) / 2),
-                  style = "minimal",
-                  border = "rounded",
-                })
-                require('hologram.image'):new(node.path):display(1, 1, buf, {})
-              else
-                vim.notify("Not a valid image file!", vim.log.levels.WARN)
-              end
-            end,
-          },
-        },
-      })
-
       -- DAP Configuration
       local dap = require('dap')
       dap.adapters.node2 = {
@@ -416,21 +465,6 @@ in
       vim.api.nvim_create_autocmd("BufWritePre", {
         callback = function()
           vim.lsp.buf.format()
-        end,
-      })
-
-      -- Harpoon setup
-      local harpoon = require("harpoon")
-      harpoon:setup()
-
-      -- Rainbow CSV setup
-      require("rainbow_csv").setup()
-      vim.api.nvim_create_autocmd("BufWinEnter", {
-        pattern = {
-          "*.csv", "*.tsv", "*.csv_semicolon", "*.csv_whitespace", "*.csv_pipe", "*.rfc_csv", "*.rfc_semicolon"
-        },
-        callback = function()
-          vim.cmd("RainbowAlign")
         end,
       })
 
