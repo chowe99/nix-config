@@ -24,6 +24,31 @@
   #   ];
   # };
 
+  virtualisation.oci-containers.containers = {
+    nextcloud-aio-mastercontainer = {
+      image = "nextcloud/all-in-one:latest";
+      ports = [ "8080:8080" ];
+      environment = {
+        APACHE_PORT = "11000";
+        APACHE_IP_BINDING = "0.0.0.0";
+        NEXTCLOUD_MEMORY_LIMIT = "2048M";
+        NEXTCLOUD_DATADIR="/mnt/nas/nextcloud"; 
+        SKIP_DOMAIN_VALIDATION = "true";
+      };
+      volumes = [
+        "nextcloud_aio_mastercontainer:/mnt/docker-aio-config"
+          "/var/run/docker.sock:/var/run/docker.sock:ro"
+          "/mnt/nas/nextcloud:/mnt/ncdata"
+      ];
+      extraOptions = [
+        "--init"
+          "--sig-proxy=false"
+          "--name=nextcloud-aio-mastercontainer"
+          "--add-host=host.docker.internal:host-gateway"
+      ];
+      autoStart = true;
+    };
+  };
 
   fileSystems."/mnt/nas" = {
     device = "/dev/disk/by-uuid/e19aca63-e0cc-4e98-af16-4eb9000c55fc";

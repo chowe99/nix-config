@@ -35,7 +35,7 @@
     '';
 
     virtualHosts."git.howse.top".extraConfig = ''
-      reverse_proxy localhost:1480
+      reverse_proxy 10.1.1.250:1480
     '';
 
     virtualHosts."cloud.howse.top".extraConfig = ''
