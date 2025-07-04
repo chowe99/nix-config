@@ -298,15 +298,18 @@
       avante = {
         enable = true;
         settings = {
-          provider = "copilot";
+          # provider = "copilot";
+          provider = "openai";
           behaviour = { use_absolute_path = true; };
           providers = {
             openai = {
               endpoint = "https://api.openai.com/v1";
               model = "gpt-4.1";
-              temperature = 0;
-              # max_tokens = 8000;
-              timeout = 30000; # Timeout in milliseconds
+              extra_request_body = {
+                temperature = 0;
+                # max_tokens = 8000;
+                timeout = 30000; # Timeout in milliseconds
+              };
               # disable_tools = true;
             };
             #   gemini = {
