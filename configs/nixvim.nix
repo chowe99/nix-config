@@ -1,32 +1,24 @@
 { inputs, config, pkgs, lib, ... }:
-let
-pkgSource = if pkgs.system == "aarch64-linux" then inputs.nixpkgs-unstable else inputs.nixpkgs;
-pkgSet = import pkgSource {
-  system = pkgs.system;
-  config = {
-    allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [ "copilot.vim" ];
-  };
-};
-in
 {
+   
   programs.nixvim = {
     enable = true;
 
-    # colorschemes.catppuccin = {
-    #   enable = true;
-    #   flavour = "mocha"; # Options: latte, frappe, macchiato, mocha
-    # };
+# colorschemes.catppuccin = {
+#   enable = true;
+#   flavour = "mocha"; # Options: latte, frappe, macchiato, mocha
+# };
+
 
     colorschemes.kanagawa = {
       enable = true;
       settings = {
-        # theme = "lotus"; # Options: wave, dragon, lotus, all
+# theme = "lotus"; # Options: wave, dragon, lotus, all
         background.dark = "wave"; 
       };
     };
 
-# Core Settings
-    extraPackages = with pkgSet; [
+    extraPackages = with pkgs; [
 # LSP Servers (for mason fallback or manual use)
       nil
       lua-language-server
@@ -60,7 +52,7 @@ in
 #     sha256 = "sha256-WrFM7XdzruKWVPuhZiT0nvwYaKDTFsyqGMDEJWdbE74="; # Replace with the correct hash
 #   };
 # })
-        ];
+    ];
     clipboard = {
       register = "unnamedplus";
       providers.wl-copy.enable = true;
@@ -110,6 +102,12 @@ in
 
 # Plugins
     plugins = {
+      copilot-lua = {
+        enable = true;
+        settings.suggestion = {
+          auto_trigger = true;
+        };
+      };
       render-markdown.enable = true;
       visual-multi.enable = true;
       spectre.enable = true;
@@ -321,7 +319,7 @@ in
     extraPlugins = with pkgs.vimPlugins; [
       mini-icons nui-nvim plenary-nvim nvim-dap undotree nvim-spectre
         vim-visual-multi nvim-ts-autotag hologram-nvim
-        copilot-vim mason-nvim mason-lspconfig-nvim nvim-navic
+        copilot-lua mason-nvim mason-lspconfig-nvim nvim-navic
         nvim-ts-context-commentstring bigfile-nvim friendly-snippets
         tokyonight-nvim dressing-nvim
         none-ls-nvim
@@ -347,7 +345,7 @@ in
 
 # Keymaps
     keymaps = [
-    # Telescope
+# Telescope
     { mode = "n"; key = "<leader>s"; action = ""; options = { desc = "Search Mappings"; }; }
     { mode = "n"; key = "<leader>sb"; action = "<cmd>Telescope buffers<CR>"; options = { desc = "Search buffers"; }; }
     { mode = "n"; key = "<leader>sh"; action = "<cmd>Telescope help_tags<CR>"; options = { desc = "Search help tags"; }; }
@@ -358,7 +356,7 @@ in
     { mode = "n"; key = "x"; action = "\"_x"; options = { desc = "Delete character without yank"; }; }
     { mode = "v"; key = "d"; action = "\"_d"; options = { desc = "Delete selection without yank"; }; }
 
-    # error handling
+# error handling
     { mode = "n"; key = "<leader>e"; action = ""; options = { desc = "Error handling"; }; }
     { mode = "n"; key = "<leader>ee"; action = "<cmd>lua vim.diagnostic.open_float()<CR>"; options = { desc = "Show diagnostics float"; }; }
     { mode = "n"; key = "<leader>en"; action = "<cmd>lua vim.diagnostic.goto_next()<CR>"; options = { desc = "Go to next diagnostic"; }; }
@@ -366,7 +364,7 @@ in
     { mode = "n"; key = "<leader>el"; action = "<cmd>Telescope diagnostics bufnr=0<CR>"; options = { desc = "List buffer diagnostics"; }; }
     { mode = "n"; key = "<leader>ed"; action = "<cmd>Telescope diagnostics<CR>"; options = { desc = "List all diagnostics"; }; }
     { mode = "n"; key = "<leader>eh"; action = "<cmd>Noice all<CR>"; options = { desc = "Show all messages"; }; }
-    # quickfix
+# quickfix
     {
       mode = "n";
       key = "<leader>eq";
@@ -425,6 +423,7 @@ in
         desc = "Toggle Spectre";
       };
     }
+# 
     {
       mode = "n";
       key = "<leader>Sw";
@@ -454,7 +453,7 @@ in
       };
     }
 
-    # avante
+# avante
     { mode = "n"; key = "<leader>a"; action = ""; options = { desc = "Avante"; }; }
 
     ];
@@ -479,8 +478,8 @@ in
       local dap = require('dap')
       dap.adapters.node2 = {
         type = 'executable',
-        command = '${pkgSet.nodejs}/bin/node',
-        args = { vim.fn.expand("${pkgSet.vimPlugins.nvim-dap}/out/src/nodeDebug.js") },
+        command = '${pkgs.nodejs}/bin/node',
+        args = { vim.fn.expand("${pkgs.vimPlugins.nvim-dap}/out/src/nodeDebug.js") },
       }
     dap.configurations.javascript = {
       {
