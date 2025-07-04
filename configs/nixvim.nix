@@ -12,6 +12,19 @@ in
   programs.nixvim = {
     enable = true;
 
+    # colorschemes.catppuccin = {
+    #   enable = true;
+    #   flavour = "mocha"; # Options: latte, frappe, macchiato, mocha
+    # };
+
+    colorschemes.kanagawa = {
+      enable = true;
+      settings = {
+        # theme = "lotus"; # Options: wave, dragon, lotus, all
+        background.dark = "wave"; 
+      };
+    };
+
 # Core Settings
     extraPackages = with pkgSet; [
 # LSP Servers (for mason fallback or manual use)
