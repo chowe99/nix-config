@@ -340,8 +340,6 @@ in
     { mode = "n"; key = "<leader>eh"; action = "<cmd>Noice all<CR>"; }
     { mode = "n"; key = "<leader>ee"; action = "<cmd>lua vim.diagnostic.open_float()<CR>"; }
     { mode = "n"; key = "<leader>u"; action = "<cmd>UndotreeToggle<CR><cmd>UndotreeFocus<CR>"; }
-    { mode = "i"; key = "<Right>"; action = "copilot#Accept('<CR>')"; expr = true; silent = true; }
-    { mode = "i"; key = "<Left>"; action = "copilot#Next()"; expr = true; silent = true; }
 
     ];
 
@@ -392,8 +390,9 @@ in
 
     -- Copilot setup
       vim.g.copilot_no_tab_map = true
-      vim.api.nvim_set_keymap("i", "<C-l>", 'copilot#Accept("<CR>")', { expr = true, silent = true })
-      vim.api.nvim_set_keymap("i", "<C-h>", 'copilot#Next()', { expr = true, silent = true })
+      vim.api.nvim_set_keymap("i", "<Right>", 'copilot#Accept("<CR>")', { expr = true, silent = true })
+      vim.api.nvim_set_keymap("i", "<Left>", 'copilot#Next()', { expr = true, silent = true })
+
 
       -- VSCode Snippets setup
       require('luasnip.loaders.from_vscode').lazy_load({ paths = { "./vscode-es7-javascript-react-snippets" } })
