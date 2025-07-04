@@ -312,22 +312,22 @@
               };
               # disable_tools = true;
             };
-            #   gemini = {
-            #     model = "gemini-2.5-flash-preview-04-17";
-            #     temperature = 0;
-            #     timeout = 30000;
-            #   };
-            # ollama = {
-            #   endpoint = "http://127.0.0.1:11434";         # Note that there is no /v1 at the end.
-            #   model = "qwen3.5-coder:32b-instruct-q4_K_M"; # change to your desired model if necessary
-            # };
-            # claude = {
-            #   endpoint = "https://api.anthropic.com";
-            #   model = "claude-3-5-sonnet-20241022";
-            #   temperature = 0;
-            #   max_tokens = 8000;
-            #   timeout = 30000; # Timeout in milliseconds
-            # };
+            gemini = {
+              model = "gemini-2.5-flash-preview-04-17";
+              temperature = 0;
+              timeout = 30000;
+            };
+            ollama = {
+              endpoint = "http://127.0.0.1:11434";         # Note that there is no /v1 at the end.
+                model = "qwen3.5-coder:32b-instruct-q4_K_M"; # change to your desired model if necessary
+            };
+            claude = {
+              endpoint = "https://api.anthropic.com";
+              model = "claude-3-5-sonnet-20241022";
+              temperature = 0;
+              max_tokens = 8000;
+              timeout = 30000; # Timeout in milliseconds
+            };
           };
           debug = true; # For troubleshooting
         };
