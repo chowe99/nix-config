@@ -151,7 +151,6 @@ in
           # Removed clangd due to installation issues
         };
       };
-      # neo-tree.enable = true;
       notify = {
         enable = true;
         settings = { background_colour = "#000000"; };
@@ -183,8 +182,10 @@ in
           };
         };
       };
+
       dap.enable = true;
       bufferline.enable = true;
+
       toggleterm = {
         enable = true;
         settings = {
@@ -265,8 +266,8 @@ in
             };
           };
         window = {
-          width = 40;
-          height = 15;
+          position = "right";
+          width = 25;
           autoExpandWidth = false;
           mappings = {
             "<space>" = "none";
