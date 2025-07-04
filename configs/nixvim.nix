@@ -340,6 +340,9 @@ in
     { mode = "n"; key = "<leader>eh"; action = "<cmd>Noice all<CR>"; }
     { mode = "n"; key = "<leader>ee"; action = "<cmd>lua vim.diagnostic.open_float()<CR>"; }
     { mode = "n"; key = "<leader>u"; action = "<cmd>UndotreeToggle<CR><cmd>UndotreeFocus<CR>"; }
+    { mode = "i"; key = "<Right>"; action = "copilot#Accept('<CR>')"; expr = true; silent = true; }
+    { mode = "i"; key = "<Left>"; action = "copilot#Next()"; expr = true; silent = true; }
+
     ];
 
 # Extra Lua Configuration
