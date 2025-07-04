@@ -94,10 +94,6 @@ in
       source = "${inputs.dotfiles}/rofi";
       recursive = true;
     };
-    home.file.".config/lvim" = {
-      source = "${inputs.dotfiles}/lvim";
-      recursive = true;
-    };
     home.file.".config/waybar" = {
       source = "${inputs.dotfiles}/waybar";
       recursive = true;

@@ -155,8 +155,6 @@ in
 # File imports and other settings unchanged
     home.file.".config/rofi".source = "${inputs.dotfiles}/rofi";
     home.file.".config/rofi".recursive = true;
-    home.file.".config/lvim".source = "${inputs.dotfiles}/lvim";
-    home.file.".config/lvim".recursive = true;
     home.file.".config/waybar".source = "${inputs.dotfiles}/waybar";
     home.file.".config/waybar".recursive = true;
     home.file.".config/hypr".source = "${inputs.dotfiles}/hypr";
