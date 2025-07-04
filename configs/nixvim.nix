@@ -98,10 +98,15 @@
     };
 
     plugins = {
+      # vim.g.copilot_no_tab_map = true
       copilot-lua = {
         enable = true;
         settings.suggestion = {
           auto_trigger = true;
+          keymap = {
+            accept = "<Right>";
+            next = "<Left>";
+          }
         };
       };
       render-markdown.enable = true;
@@ -496,10 +501,6 @@
           end,
           })
 
-    -- Copilot setup
-      vim.g.copilot_no_tab_map = true
-      vim.api.nvim_set_keymap("i", "<Right>", 'Copilot#Accept("<CR>")', { expr = true, silent = true })
-      vim.api.nvim_set_keymap("i", "<Left>", 'Copilot#Next()', { expr = true, silent = true })
 
       -- VSCode Snippets setup
       require('luasnip.loaders.from_vscode').lazy_load({ paths = { "./vscode-es7-javascript-react-snippets" } })
