@@ -1,6 +1,5 @@
 { inputs, config, pkgs, lib, ... }:
 {
-   
   programs.nixvim = {
     enable = true;
 
@@ -8,18 +7,16 @@
 #   enable = true;
 #   flavour = "mocha"; # Options: latte, frappe, macchiato, mocha
 # };
-
-
     colorschemes.kanagawa = {
       enable = true;
       settings = {
-# theme = "lotus"; # Options: wave, dragon, lotus, all
+        # theme = "lotus"; # Options: wave, dragon, lotus, all
         background.dark = "wave"; 
       };
     };
 
     extraPackages = with pkgs; [
-# LSP Servers (for mason fallback or manual use)
+      # LSP Servers (for mason fallback or manual use)
       nil
       lua-language-server
       typescript-language-server
@@ -29,7 +26,7 @@
       bash-language-server
       emmet-ls
       eslint
-# Linters and Formatters for none-ls
+      # Linters and Formatters for none-ls
       eslint_d
       pylint
       stylelint
@@ -37,7 +34,7 @@
       prettierd
       black
       shfmt
-# Utilities
+      # Utilities
       ripgrep
       fd
       nodePackages.graphql-language-service-cli
@@ -100,7 +97,6 @@
       foldlevelstart = 0;
     };
 
-# Plugins
     plugins = {
       copilot-lua = {
         enable = true;
@@ -343,9 +339,8 @@
      })
     ];
 
-# Keymaps
     keymaps = [
-# Telescope
+    # Telescope
     { mode = "n"; key = "<leader>s"; action = ""; options = { desc = "Search Mappings"; }; }
     { mode = "n"; key = "<leader>sb"; action = "<cmd>Telescope buffers<CR>"; options = { desc = "Search buffers"; }; }
     { mode = "n"; key = "<leader>sh"; action = "<cmd>Telescope help_tags<CR>"; options = { desc = "Search help tags"; }; }
@@ -356,7 +351,7 @@
     { mode = "n"; key = "x"; action = "\"_x"; options = { desc = "Delete character without yank"; }; }
     { mode = "v"; key = "d"; action = "\"_d"; options = { desc = "Delete selection without yank"; }; }
 
-# error handling
+    # error handling
     { mode = "n"; key = "<leader>e"; action = ""; options = { desc = "Error handling"; }; }
     { mode = "n"; key = "<leader>ee"; action = "<cmd>lua vim.diagnostic.open_float()<CR>"; options = { desc = "Show diagnostics float"; }; }
     { mode = "n"; key = "<leader>en"; action = "<cmd>lua vim.diagnostic.goto_next()<CR>"; options = { desc = "Go to next diagnostic"; }; }
@@ -364,7 +359,7 @@
     { mode = "n"; key = "<leader>el"; action = "<cmd>Telescope diagnostics bufnr=0<CR>"; options = { desc = "List buffer diagnostics"; }; }
     { mode = "n"; key = "<leader>ed"; action = "<cmd>Telescope diagnostics<CR>"; options = { desc = "List all diagnostics"; }; }
     { mode = "n"; key = "<leader>eh"; action = "<cmd>Noice all<CR>"; options = { desc = "Show all messages"; }; }
-# quickfix
+    # quickfix
     {
       mode = "n";
       key = "<leader>eq";
@@ -387,7 +382,7 @@
     }
     { mode = "n"; key = "<leader>u"; action = "<cmd>UndotreeToggle<CR><cmd>UndotreeFocus<CR>"; options = { desc = "Toggle and focus Undotree window"; }; }
 
-# ToggleTerm mappings
+    # ToggleTerm mappings
     { mode = "n"; key = "<leader>t"; action = ""; options = { desc = "Toggle terminal"; }; }
     { mode = "n"; key = "<leader>t1"; action = "<cmd>ToggleTerm 1<CR>"; options = { desc = "Toggle terminal 1"; }; }
     { mode = "n"; key = "<leader>t2"; action = "<cmd>ToggleTerm 2<CR>"; options = { desc = "Toggle terminal 2"; }; }
@@ -400,13 +395,13 @@
     { mode = "n"; key = "<leader>t9"; action = "<cmd>ToggleTerm 9<CR>"; options = { desc = "Toggle terminal 9"; }; }
     { mode = "n"; key = "<leader>t0"; action = "<cmd>ToggleTerm 10<CR>"; options = { desc = "Toggle terminal 10"; }; }
 
-# vim-visual-multi mappings
+    # vim-visual-multi mappings
     { mode = "n"; key = "<leader><C-a>"; action = "<Plug>(VM-Select-All)"; options = { desc = "Select all occurrences"; }; }
     { mode = "n"; key = "<C-n>"; action = "<Plug>(VM-Find-Under)"; options = { desc = "Find under cursor"; }; }
     { mode = "n"; key = "<C-M-Down>"; action = "<Plug>(VM-Add-Cursor-Down)"; options = { desc = "Add cursor down"; }; }
     { mode = "n"; key = "<C-M-Up>"; action = "<Plug>(VM-Add-Cursor-Up)"; options = { desc = "Add cursor up"; }; }
 
-# Spectre mappings
+    # Spectre mappings
     {
       mode = "n";
       key = "<leader>S";
@@ -423,7 +418,6 @@
         desc = "Toggle Spectre";
       };
     }
-# 
     {
       mode = "n";
       key = "<leader>Sw";
@@ -440,8 +434,7 @@
         desc = "Search in file with Spectre";
       };
     }
-
-# rename
+    # rename
     {
       mode = "n";
       key = "<leader>rn";
@@ -453,7 +446,7 @@
       };
     }
 
-# avante
+    # avante
     { mode = "n"; key = "<leader>a"; action = ""; options = { desc = "Avante"; }; }
 
     ];
@@ -507,7 +500,6 @@
       vim.g.copilot_no_tab_map = true
       vim.api.nvim_set_keymap("i", "<Right>", 'copilot#Accept("<CR>")', { expr = true, silent = true })
       vim.api.nvim_set_keymap("i", "<Left>", 'copilot#Next()', { expr = true, silent = true })
-
 
       -- VSCode Snippets setup
       require('luasnip.loaders.from_vscode').lazy_load({ paths = { "./vscode-es7-javascript-react-snippets" } })
