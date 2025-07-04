@@ -345,22 +345,22 @@ in
     { mode = "n"; key = "<leader>u"; action = "<cmd>UndotreeToggle<CR><cmd>UndotreeFocus<CR>"; }
 
 # ToggleTerm mappings
-    { mode = "n"; key = "<leader>t1"; action = "<cmd>ToggleTerm 1<CR>"; desc = "Terminal 1"; }
-    { mode = "n"; key = "<leader>t2"; action = "<cmd>ToggleTerm 2<CR>"; desc = "Terminal 2"; }
-    { mode = "n"; key = "<leader>t3"; action = "<cmd>ToggleTerm 3<CR>"; desc = "Terminal 3"; }
-    { mode = "n"; key = "<leader>t4"; action = "<cmd>ToggleTerm 4<CR>"; desc = "Terminal 4"; }
-    { mode = "n"; key = "<leader>t5"; action = "<cmd>ToggleTerm 5<CR>"; desc = "Terminal 5"; }
-    { mode = "n"; key = "<leader>t6"; action = "<cmd>ToggleTerm 6<CR>"; desc = "Terminal 6"; }
-    { mode = "n"; key = "<leader>t7"; action = "<cmd>ToggleTerm 7<CR>"; desc = "Terminal 7"; }
-    { mode = "n"; key = "<leader>t8"; action = "<cmd>ToggleTerm 8<CR>"; desc = "Terminal 8"; }
-    { mode = "n"; key = "<leader>t9"; action = "<cmd>ToggleTerm 9<CR>"; desc = "Terminal 9"; }
-    { mode = "n"; key = "<leader>t0"; action = "<cmd>ToggleTerm 10<CR>"; desc = "Terminal 10"; }
+    { mode = "n"; key = "<leader>t1"; action = "<cmd>ToggleTerm 1<CR>"; }
+    { mode = "n"; key = "<leader>t2"; action = "<cmd>ToggleTerm 2<CR>"; }
+    { mode = "n"; key = "<leader>t3"; action = "<cmd>ToggleTerm 3<CR>"; }
+    { mode = "n"; key = "<leader>t4"; action = "<cmd>ToggleTerm 4<CR>"; }
+    { mode = "n"; key = "<leader>t5"; action = "<cmd>ToggleTerm 5<CR>"; }
+    { mode = "n"; key = "<leader>t6"; action = "<cmd>ToggleTerm 6<CR>"; }
+    { mode = "n"; key = "<leader>t7"; action = "<cmd>ToggleTerm 7<CR>"; }
+    { mode = "n"; key = "<leader>t8"; action = "<cmd>ToggleTerm 8<CR>"; }
+    { mode = "n"; key = "<leader>t9"; action = "<cmd>ToggleTerm 9<CR>"; }
+    { mode = "n"; key = "<leader>t0"; action = "<cmd>ToggleTerm 10<CR>"; }
 
 # vim-visual-multi mappings
-    { mode = "n"; key = "<leader><C-a>"; action = "<Plug>(VM-Select-All)"; desc = "Select All"; }
-    { mode = "n"; key = "<C-n>"; action = "<Plug>(VM-Find-Under)"; desc = "Find Under"; }
-    { mode = "n"; key = "<C-M-Down>"; action = "<Plug>(VM-Add-Cursor-Down)"; desc = "Add Cursor Down"; }
-    { mode = "n"; key = "<C-M-Up>"; action = "<Plug>(VM-Add-Cursor-Up)"; desc = "Add Cursor Up"; }
+    { mode = "n"; key = "<leader><C-a>"; action = "<Plug>(VM-Select-All)"; }
+    { mode = "n"; key = "<C-n>"; action = "<Plug>(VM-Find-Under)"; }
+    { mode = "n"; key = "<C-M-Down>"; action = "<Plug>(VM-Add-Cursor-Down)"; }
+    { mode = "n"; key = "<C-M-Up>"; action = "<Plug>(VM-Add-Cursor-Up)"; }
 
     ];
 
