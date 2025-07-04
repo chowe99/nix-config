@@ -151,7 +151,7 @@ in
           # Removed clangd due to installation issues
         };
       };
-      neo-tree.enable = true;
+      # neo-tree.enable = true;
       notify = {
         enable = true;
         settings = { background_colour = "#000000"; };
@@ -224,15 +224,15 @@ in
         enable = true;
         theme = "dashboard";
       };
-      rainbow_csv = {
-        enable = true;
-        settings = {
-          delimiters = [ ", " ";" "|" " " ];
-          highlight = true;
-          auto_align = true;
-          auto_preview = true;
-        };
-      };
+      # rainbow_csv = {
+      #   enable = true;
+      #   settings = {
+      #     delimiters = [ ", " ";" "|" " " ];
+      #     highlight = true;
+      #     auto_align = true;
+      #     auto_preview = true;
+      #   };
+      # };
       nvim-autopairs.enable = true;
       nvim-surround.enable = true;
       # neo-tree = {
@@ -291,10 +291,10 @@ in
             #   ];
             # };
             gemini = {
-              model = "gemini-2.5-flash-preview-04-17",
-              temperature = 0,
-              timeout = 30000,
-            },
+              model = "gemini-2.5-flash-preview-04-17";
+              temperature = 0;
+              timeout = 30000;
+            };
           };
         };
 
@@ -323,9 +323,11 @@ in
       which-key = {
         enable = true;
         settings = {
-          triggers = [ "<leader>" ];
           debug = true;
         };
+      };
+      lz-n = {
+        enable = true;
       };
     };
     extraPlugins = with pkgs.vimPlugins; [
@@ -379,27 +381,24 @@ in
       dressing-nvim
     ];
     keymaps = [
-      { mode = "n"; key = "<leader>sf"; action = "require('telescope.builtin').find_files"; }
-      { mode = "n"; key = "<leader>sg"; action = "require('telescope.builtin').live_grep"; }
-      { mode = "n"; key = "<C-t>"; action = ":Neotree toggle<CR>"; }
+      { mode = "n"; key = "<leader>sf"; action = "<cmd>Telescope find_files<CR>"; }
+      { mode = "n"; key = "<leader>sg"; action = "<cmd>Telescope live_grep<CR>"; }
+      { mode = "n"; key = "<C-t>"; action = "<cmd>Neotree toggle<CR>"; }
       { mode = "n"; key = "x"; action = "\"_x"; }
       { mode = "v"; key = "d"; action = "\"_d"; }
-      { mode = "n"; key = "<leader>ee"; action = "vim.diagnostic.open_float"; }
+      # { mode = "n"; key = "<leader>ee"; action = "vim.diagnostic.open_float"; }
       { mode = "n"; key = "<leader>ed"; action = "<cmd>Telescope diagnostics<CR>"; }
       { mode = "n"; key = "<leader>eh"; action = "<cmd>Noice all<CR>"; }
-      { mode = "n"; key = "<leader>rn"; action = "vim.lsp.buf.rename"; }
-      { mode = "n"; key = "<leader>u"; action = ":UndotreeToggle<CR>:UndotreeFocus<CR>"; }
-      { mode = "n"; key = "<CR>"; action = "require('neo-tree').open"; }
-      { mode = "n"; key = "<Esc>"; action = "require('neo-tree').cancel"; }
-      { mode = "n"; key = "<Space>"; action = "require('neo-tree').toggle_node"; }
-      { mode = "n"; key = "<leader>ha"; action = "require('harpoon'):list():add"; }
-      { mode = "n"; key = "<leader>hm"; action = "require('harpoon').ui:toggle_quick_menu(require('harpoon'):list())"; }
-      { mode = "n"; key = "<leader>h1"; action = "require('harpoon'):list():select(1)"; }
-      { mode = "n"; key = "<leader>h2"; action = "require('harpoon'):list():select(2)"; }
-      { mode = "n"; key = "<leader>h3"; action = "require('harpoon'):list():select(3)"; }
-      { mode = "n"; key = "<leader>h4"; action = "require('harpoon'):list():select(4)"; }
-      { mode = "n"; key = "<leader>hp"; action = "require('harpoon'):list():prev"; }
-      { mode = "n"; key = "<leader>hn"; action = "require('harpoon'):list():next"; }
+      # { mode = "n"; key = "<leader>rn"; action = "vim.lsp.buf.rename"; }
+      { mode = "n"; key = "<leader>u"; action = "<cmd>UndotreeToggle<CR><cmd>UndotreeFocus<CR>"; }
+      # { mode = "n"; key = "<leader>ha"; action = "require('harpoon'):list():add"; }
+      # { mode = "n"; key = "<leader>hm"; action = "require('harpoon').ui:toggle_quick_menu(require('harpoon'):list())"; }
+      # { mode = "n"; key = "<leader>h1"; action = "require('harpoon'):list():select(1)"; }
+      # { mode = "n"; key = "<leader>h2"; action = "require('harpoon'):list():select(2)"; }
+      # { mode = "n"; key = "<leader>h3"; action = "require('harpoon'):list():select(3)"; }
+      # { mode = "n"; key = "<leader>h4"; action = "require('harpoon'):list():select(4)"; }
+      # { mode = "n"; key = "<leader>hp"; action = "require('harpoon'):list():prev"; }
+      # { mode = "n"; key = "<leader>hn"; action = "require('harpoon'):list():next"; }
     ];
     extraConfigLua = ''
       require("mason").setup()
@@ -413,34 +412,9 @@ in
 
       vim.g.loaded_netrw = 1
       vim.g.loaded_netrwPlugin = 1
-      require("which-key").setup({
-        triggers = { "<leader>" },
-        debug = true,
-      })
 
       require("nvim-autopairs").setup()
 
-      local wk = require("which-key")
-      wk.register({
-        { "<leader>e", group = "Diagnostics" },
-        { "<leader>ed", "<cmd>Telescope diagnostics<CR>", desc = "Error Diagnostics" },
-        { "<leader>ee", "<cmd>lua vim.diagnostic.open_float()<CR>", desc = "Open Error Float" },
-        { "<leader>eh", "<cmd>Noice all<CR>", desc = "Noice All" },
-      })
-
-      wk.register({
-        { "<leader>t", group = "Terminals" },
-        { "<leader>t0", "<cmd>ToggleTerm 10<CR>", desc = "Terminal 10" },
-        { "<leader>t1", "<cmd>ToggleTerm 1<CR>", desc = "Terminal 1" },
-        { "<leader>t2", "<cmd>ToggleTerm 2<CR>", desc = "Termin        al 2" },
-        { "<leader>t3", "<cmd>ToggleTerm 3<CR>", desc = "Terminal 3" },
-        { "<leader>t4", "<cmd>ToggleTerm 4<CR>", desc = "Terminal 4" },
-        { "<leader>t5", "<cmd>ToggleTerm 5<CR>", desc = "Terminal 5" },
-        { "<leader>t6", "<cmd>ToggleTerm 6<CR>", desc = "Terminal 6" },
-        { "<leader>t7", "<cmd>ToggleTerm 7<CR>", desc = "Terminal 7" },
-        { "<leader>t8", "<cmd>ToggleTerm 8<CR>", desc = "Terminal 8" },
-        { "<leader>t9", "<cmd>ToggleTerm 9<CR>", desc = "Terminal 9" },
-      })
 
       -- DAP Configuration
       local dap = require('dap')
@@ -474,91 +448,28 @@ in
       vim.api.nvim_set_keymap("i", "<Left>", 'copilot#Next()', { expr = true, silent = true })
 
       -- Mini Hipatterns setup
-      require('mini.hipatterns').setup({})
+      -- require('mini.hipatterns').setup({})
 
       -- Null LS setup
-      local null_ls = require("null-ls")
-      null_ls.setup({
-        sources = {
-          null_ls.builtins.formatting.prettierd.with({
-            filetypes = { "javascript", "typescript", "typescriptreact", "javascriptreact", "vue", "html", "css", "json", "yaml" },
-          }),
-          null_ls.builtins.formatting.black.with({ filetypes = { "python" } }),
-          null_ls.builtins.diagnostics.eslint_d.with({ filetypes = { "javascript", "typescript", "typescriptreact", "javascriptreact", "vue" } }),
-          null_ls.builtins.diagnostics.pylint.with({ filetypes = { "python" } }),
-          null_ls.builtins.diagnostics.stylelint.with({ filetypes = { "css", "scss", "sass", "less" } }),
-          null_ls.builtins.diagnostics.shellcheck.with({ filetypes = { "sh", "bash" } }),
-        },
-      })
+      --local null_ls = require("null-ls")
+      --null_ls.setup({
+      --  sources = {
+      --    null_ls.builtins.formatting.prettierd.with({
+      --      filetypes = { "javascript", "typescript", "typescriptreact", "javascriptreact", "vue", "html", "css", "json", "yaml" },
+      --    }),
+      --    null_ls.builtins.formatting.black.with({ filetypes = { "python" } }),
+      --    null_ls.builtins.diagnostics.eslint_d.with({ filetypes = { "javascript", "typescript", "typescriptreact", "javascriptreact", "vue" } }),
+      --    null_ls.builtins.diagnostics.pylint.with({ filetypes = { "python" } }),
+      --    null_ls.builtins.diagnostics.stylelint.with({ filetypes = { "css", "scss", "sass", "less" } }),
+      --    null_ls.builtins.diagnostics.shellcheck.with({ filetypes = { "sh", "bash" } }),
+      --  },
+      --})
 
       -- VSCode Snippets setup
       require('luasnip.loaders.from_vscode').lazy_load({ paths = { "./vscode-es7-javascript-react-snippets" } })
 
       -- Tailwind CSS Colorizer setup
       require("tailwindcss-colorizer-cmp").setup()
-
-      -- Avante setup
-      require("avante").setup({
-        providers = {
-          gemini = {
-            model = "gemini-2.5-flash-preview-04-17",
-            temperature = 0,
-            timeout = 30000,
-          },
-        },
-        behaviour = {
-          auto_suggestions = false,
-          auto_set_highlight_group = true,
-          auto_set_keymaps = true,
-          auto_apply_diff_after_generation = false,
-          support_paste_from_clipboard = true,
-        },
-        mappings = {
-          diff = {
-            ours = 'co',
-            theirs = 'ct',
-            all_theirs = '<C-a>',
-            both = 'cb',
-            cursor = 'cc',
-            next = ']x',
-            prev = '[x',
-          },
-          suggestion = {
-            accept = '<M-l>',
-            next = '<M-]>',
-            prev = '<M-[>',
-            dismiss = '<C-]>',
-          },
-          jump = {
-            next = ']]',
-            prev = '[[',
-          },
-          submit = {
-            normal = '<CR>',
-            insert = '<C-s>',
-          },
-        },
-        hints = { enabled = true },
-        windows = {
-          position = 'bottom',
-          wrap = true,
-          width = 100,
-          sidebar_header = {
-            align = 'center',
-            rounded = true,
-          },
-        },
-        highlights = {
-          diff = {
-            current = 'DiffText',
-            incoming = 'DiffAdd',
-          },
-        },
-        diff = {
-          autojump = true,
-          list_opener = 'copen',
-        },
-      })
 
       print("Lua package.path: " .. vim.inspect(package.path))
       print("Lua package.cpath: " .. vim.inspect(package.cpath))
