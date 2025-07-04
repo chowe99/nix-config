@@ -334,33 +334,98 @@ in
 
 # Keymaps
     keymaps = [
-    { mode = "n"; key = "<leader>sf"; action = "<cmd>Telescope find_files<CR>"; }
-    { mode = "n"; key = "<leader>sg"; action = "<cmd>Telescope live_grep<CR>"; }
-    { mode = "n"; key = "<C-t>"; action = "<cmd>Neotree toggle<CR>"; }
-    { mode = "n"; key = "x"; action = "\"_x"; }
-    { mode = "v"; key = "d"; action = "\"_d"; }
-    { mode = "n"; key = "<leader>ed"; action = "<cmd>Telescope diagnostics<CR>"; }
-    { mode = "n"; key = "<leader>eh"; action = "<cmd>Noice all<CR>"; }
-    { mode = "n"; key = "<leader>ee"; action = "<cmd>lua vim.diagnostic.open_float()<CR>"; }
-    { mode = "n"; key = "<leader>u"; action = "<cmd>UndotreeToggle<CR><cmd>UndotreeFocus<CR>"; }
+    { mode = "n"; key = "<leader>sf"; action = "<cmd>Telescope find_files<CR>"; options = { desc = "Find files"; }; }
+    { mode = "n"; key = "<leader>sg"; action = "<cmd>Telescope live_grep<CR>"; options = { desc = "Live grep"; }; }
+    { mode = "n"; key = "<C-t>"; action = "<cmd>Neotree toggle<CR>"; options = { desc = "Toggle Neotree"; }; }
+    { mode = "n"; key = "x"; action = "\"_x"; options = { desc = "Delete character without yank"; }; }
+    { mode = "v"; key = "d"; action = "\"_d"; options = { desc = "Delete selection without yank"; }; }
+
+    # error handling
+    { mode = "n"; key = "<leader>ee"; action = "<cmd>lua vim.diagnostic.open_float()<CR>"; options = { desc = "Show diagnostics float"; }; }
+    { mode = "n"; key = "<leader>en"; action = "<cmd>lua vim.diagnostic.goto_next()<CR>"; options = { desc = "Go to next diagnostic"; }; }
+    { mode = "n"; key = "<leader>ep"; action = "<cmd>lua vim.diagnostic.goto_prev()<CR>"; options = { desc = "Go to previous diagnostic"; }; }
+    { mode = "n"; key = "<leader>el"; action = "<cmd>Telescope diagnostics bufnr=0<CR>"; options = { desc = "List buffer diagnostics"; }; }
+    { mode = "n"; key = "<leader>ed"; action = "<cmd>Telescope diagnostics<CR>"; options = { desc = "List all diagnostics"; }; }
+    { mode = "n"; key = "<leader>eh"; action = "<cmd>Noice all<CR>"; options = { desc = "Show all messages"; }; }
+    # quickfix
+    {
+      mode = "n";
+      key = "<leader>eq";
+      action = ''
+        lua << EOF
+        local function quickfix()
+        vim.lsp.buf.code_action({
+            filter = function(a) return a.isPreferred end,
+            apply = true
+            })
+      end
+        quickfix()
+        EOF
+        '';
+      options = {
+        desc = "Apply preferred LSP quickfix";
+        noremap = true;
+        silent = true;
+      };
+    }
+    { mode = "n"; key = "<leader>u"; action = "<cmd>UndotreeToggle<CR><cmd>UndotreeFocus<CR>"; options = { desc = "Toggle and focus Undotree window"; }; }
 
 # ToggleTerm mappings
-    { mode = "n"; key = "<leader>t1"; action = "<cmd>ToggleTerm 1<CR>"; }
-    { mode = "n"; key = "<leader>t2"; action = "<cmd>ToggleTerm 2<CR>"; }
-    { mode = "n"; key = "<leader>t3"; action = "<cmd>ToggleTerm 3<CR>"; }
-    { mode = "n"; key = "<leader>t4"; action = "<cmd>ToggleTerm 4<CR>"; }
-    { mode = "n"; key = "<leader>t5"; action = "<cmd>ToggleTerm 5<CR>"; }
-    { mode = "n"; key = "<leader>t6"; action = "<cmd>ToggleTerm 6<CR>"; }
-    { mode = "n"; key = "<leader>t7"; action = "<cmd>ToggleTerm 7<CR>"; }
-    { mode = "n"; key = "<leader>t8"; action = "<cmd>ToggleTerm 8<CR>"; }
-    { mode = "n"; key = "<leader>t9"; action = "<cmd>ToggleTerm 9<CR>"; }
-    { mode = "n"; key = "<leader>t0"; action = "<cmd>ToggleTerm 10<CR>"; }
+    { mode = "n"; key = "<leader>t1"; action = "<cmd>ToggleTerm 1<CR>"; options = { desc = "Toggle terminal 1"; }; }
+    { mode = "n"; key = "<leader>t2"; action = "<cmd>ToggleTerm 2<CR>"; options = { desc = "Toggle terminal 2"; }; }
+    { mode = "n"; key = "<leader>t3"; action = "<cmd>ToggleTerm 3<CR>"; options = { desc = "Toggle terminal 3"; }; }
+    { mode = "n"; key = "<leader>t4"; action = "<cmd>ToggleTerm 4<CR>"; options = { desc = "Toggle terminal 4"; }; }
+    { mode = "n"; key = "<leader>t5"; action = "<cmd>ToggleTerm 5<CR>"; options = { desc = "Toggle terminal 5"; }; }
+    { mode = "n"; key = "<leader>t6"; action = "<cmd>ToggleTerm 6<CR>"; options = { desc = "Toggle terminal 6"; }; }
+    { mode = "n"; key = "<leader>t7"; action = "<cmd>ToggleTerm 7<CR>"; options = { desc = "Toggle terminal 7"; }; }
+    { mode = "n"; key = "<leader>t8"; action = "<cmd>ToggleTerm 8<CR>"; options = { desc = "Toggle terminal 8"; }; }
+    { mode = "n"; key = "<leader>t9"; action = "<cmd>ToggleTerm 9<CR>"; options = { desc = "Toggle terminal 9"; }; }
+    { mode = "n"; key = "<leader>t0"; action = "<cmd>ToggleTerm 10<CR>"; options = { desc = "Toggle terminal 10"; }; }
 
 # vim-visual-multi mappings
-    { mode = "n"; key = "<leader><C-a>"; action = "<Plug>(VM-Select-All)"; }
-    { mode = "n"; key = "<C-n>"; action = "<Plug>(VM-Find-Under)"; }
-    { mode = "n"; key = "<C-M-Down>"; action = "<Plug>(VM-Add-Cursor-Down)"; }
-    { mode = "n"; key = "<C-M-Up>"; action = "<Plug>(VM-Add-Cursor-Up)"; }
+    { mode = "n"; key = "<leader><C-a>"; action = "<Plug>(VM-Select-All)"; options = { desc = "Select all occurrences"; }; }
+    { mode = "n"; key = "<C-n>"; action = "<Plug>(VM-Find-Under)"; options = { desc = "Find under cursor"; }; }
+    { mode = "n"; key = "<C-M-Down>"; action = "<Plug>(VM-Add-Cursor-Down)"; options = { desc = "Add cursor down"; }; }
+    { mode = "n"; key = "<C-M-Up>"; action = "<Plug>(VM-Add-Cursor-Up)"; options = { desc = "Add cursor up"; }; }
+
+# Spectre mappings
+    {
+      mode = "n";
+      key = "<leader>Ss";
+      action = "<cmd>lua require('spectre').toggle()<CR>";
+      options = {
+        desc = "Toggle Spectre";
+      };
+    }
+    {
+      mode = "n";
+      key = "<leader>Sw";
+      action = "<cmd>lua require('spectre').open_visual({select_word=true})<CR>";
+      options = {
+        desc = "Search word with Spectre";
+      };
+    }
+    {
+      mode = "n";
+      key = "<leader>Sp";
+      action = "<cmd>lua require('spectre').open_file_search({select_word=true})<CR>";
+      options = {
+        desc = "Search in file with Spectre";
+      };
+    }
+
+# rename
+    {
+      mode = "n";
+      key = "<leader>rn";
+      action = "<cmd>lua vim.lsp.buf.rename()<CR>";
+      options = {
+        desc = "Rename symbol";
+        noremap = true;
+        silent = true;
+      };
+    }
+
 
     ];
 
