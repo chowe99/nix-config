@@ -97,7 +97,7 @@ in
 
 # Plugins
     plugins = {
-      render-markdown.enble = true;
+      render-markdown.enable = true;
       visual-multi.enable = true;
       spectre.enable = true;
       harpoon.enable = true;
