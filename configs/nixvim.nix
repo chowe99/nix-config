@@ -335,7 +335,7 @@ in
 # Keymaps
     keymaps = [
     # Telescope
-    { mode = "n"; key = "<leader>s"; action = nil; options = { desc = "Search Mappings"; }; }
+    { mode = "n"; key = "<leader>s"; action = ""; options = { desc = "Search Mappings"; }; }
     { mode = "n"; key = "<leader>sb"; action = "<cmd>Telescope buffers<CR>"; options = { desc = "Search buffers"; }; }
     { mode = "n"; key = "<leader>sh"; action = "<cmd>Telescope help_tags<CR>"; options = { desc = "Search help tags"; }; }
     { mode = "n"; key = "<leader>sf"; action = "<cmd>Telescope find_files<CR>"; options = { desc = "Find files"; }; }
@@ -346,7 +346,7 @@ in
     { mode = "v"; key = "d"; action = "\"_d"; options = { desc = "Delete selection without yank"; }; }
 
     # error handling
-    { mode = "n"; key = "<leader>e"; action = nil; options = { desc = "Error handling"; }; }
+    { mode = "n"; key = "<leader>e"; action = ""; options = { desc = "Error handling"; }; }
     { mode = "n"; key = "<leader>ee"; action = "<cmd>lua vim.diagnostic.open_float()<CR>"; options = { desc = "Show diagnostics float"; }; }
     { mode = "n"; key = "<leader>en"; action = "<cmd>lua vim.diagnostic.goto_next()<CR>"; options = { desc = "Go to next diagnostic"; }; }
     { mode = "n"; key = "<leader>ep"; action = "<cmd>lua vim.diagnostic.goto_prev()<CR>"; options = { desc = "Go to previous diagnostic"; }; }
@@ -377,7 +377,7 @@ in
     { mode = "n"; key = "<leader>u"; action = "<cmd>UndotreeToggle<CR><cmd>UndotreeFocus<CR>"; options = { desc = "Toggle and focus Undotree window"; }; }
 
 # ToggleTerm mappings
-    { mode = "n"; key = "<leader>t"; action = nil; options = { desc = "Toggle terminal"; }; }
+    { mode = "n"; key = "<leader>t"; action = ""; options = { desc = "Toggle terminal"; }; }
     { mode = "n"; key = "<leader>t1"; action = "<cmd>ToggleTerm 1<CR>"; options = { desc = "Toggle terminal 1"; }; }
     { mode = "n"; key = "<leader>t2"; action = "<cmd>ToggleTerm 2<CR>"; options = { desc = "Toggle terminal 2"; }; }
     { mode = "n"; key = "<leader>t3"; action = "<cmd>ToggleTerm 3<CR>"; options = { desc = "Toggle terminal 3"; }; }
@@ -399,7 +399,7 @@ in
     {
       mode = "n";
       key = "<leader>S";
-      action = nil;
+      action = "";
       options = {
         desc = "Spectre Mappings";
       };
@@ -441,6 +441,8 @@ in
       };
     }
 
+    # avante
+    { mode = "n"; key = "<leader>a"; action = ""; options = { desc = "Avante"; }; }
 
     ];
 
