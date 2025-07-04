@@ -55,7 +55,7 @@
         hostname = "nix";
         username = "nix";
         modules = [
-          ./hosts/nix/configuration.nix
+          ./hosts/lemur/configuration.nix
             inputs.agenix.nixosModules.default
             inputs.home-manager.nixosModules.home-manager
             {

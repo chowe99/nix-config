@@ -1,4 +1,4 @@
-# hosts/nixos/configuration.nix
+# hosts/lemur/configuration.nix
 { config, pkgs, inputs, ... }:
 
 {
