@@ -44,7 +44,6 @@
         "/mnt/nas/gitlab/config:/etc/gitlab"
           "/mnt/nas/gitlab/logs:/var/log/gitlab"
           "/mnt/nas/gitlab/data:/var/opt/gitlab"
-          "/mnt/nas/gitlab/authorized_keys:/var/opt/gitlab/.ssh/authorized_keys"
       ];
       extraOptions = [
         "--network=server_network"
