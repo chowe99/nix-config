@@ -21,6 +21,17 @@
     ];
   };
 
+  users.users.git = {
+    isSystemUser = true;  # Marks git as a system user (no login shell by default)
+      uid = 998;           # Specify the UID
+      group = "git";       # Assign to a group named "git"
+      description = "GitLab user";
+  };
+
+  users.groups.git = {
+    gid = 998;  # Specify the GID to match UID
+  };
+
   virtualisation.oci-containers.containers = {
     gitlab = {
       image = "gitlab/gitlab-ce:latest";
@@ -33,6 +44,7 @@
         "/mnt/nas/gitlab/config:/etc/gitlab"
           "/mnt/nas/gitlab/logs:/var/log/gitlab"
           "/mnt/nas/gitlab/data:/var/opt/gitlab"
+          "/mnt/nas/gitlab/authorized_keys:/var/opt/gitlab/.ssh/authorized_keys"
       ];
       extraOptions = [
         "--network=server_network"
