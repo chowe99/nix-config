@@ -47,4 +47,5 @@ spec:
         hostPath:
           path: /var/run/docker.sock
       nodeSelector:
-        kubernetes.io/hostname: "whiteserver" | "blackserver"  # Restrict to worker nodes
+        # Restrict to worker nodes
+        kubernetes.io/hostname: "whiteserver" # | "blackserver" 
