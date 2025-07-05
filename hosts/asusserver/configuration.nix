@@ -28,16 +28,16 @@
       "--node-name=asusserver"
     ];
   };
-  systemd.services.apply-k8s-yamls = {
-    description = "Apply Kubernetes YAML configurations";
-    after = [ "k3s.service" ];
-    requires = [ "k3s.service" ];
-    wantedBy = [ "multi-user.target" ];
-    serviceConfig = {
-      Type = "oneshot";
-      ExecStart = "/home/${username}/nix-config/scripts/apply-yamls.sh";
-    };
-  };
+  # systemd.services.apply-k8s-yamls = {
+  #   description = "Apply Kubernetes YAML configurations";
+  #   after = [ "k3s.service" ];
+  #   requires = [ "k3s.service" ];
+  #   wantedBy = [ "multi-user.target" ];
+  #   serviceConfig = {
+  #     Type = "oneshot";
+  #     ExecStart = "/home/${username}/nix-config/scripts/apply-yamls.sh";
+  #   };
+  # };
 
   networking.firewall = {
     enable = true;
