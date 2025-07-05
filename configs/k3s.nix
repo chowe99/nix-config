@@ -14,6 +14,9 @@
       2380  # etcd peer
       10250 # Kubelet
     ];
+    allowedTCPPortRanges = [
+      { from = 49152; to = 65535; }
+    ];
     allowedUDPPorts = [
       8472  # Flannel VXLAN (default k3s networking)
     ];
