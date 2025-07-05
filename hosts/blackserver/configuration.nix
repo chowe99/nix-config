@@ -11,7 +11,7 @@
     role = "server";
     tokenFile = "/run/agenix/k3s-token";
     extraFlags = toString [
-# "--disable=traefik"
+      "--disable=traefik"
       "--server https://10.1.1.249:6443"
 # "--advertise-address=10.1.1.250"
         "--node-ip=10.1.1.250"
