@@ -32,13 +32,13 @@
   #   ];
   # };
 
-  systemd.mounts = [
-    {
-      what = "10.1.1.249:/nextcloud-vol";
-      where = "/var/lib/nextcloud/data";
-      type = "glusterfs";
-      options = "defaults,acl,_netdev,log-level=WARNING,log-file=/var/log/gluster.log";
-    }
-  ];
+  # systemd.mounts = [
+  #   {
+  #     what = "10.1.1.249:/nextcloud-vol";
+  #     where = "/var/lib/nextcloud/data";
+  #     type = "glusterfs";
+  #     options = "defaults,acl,_netdev,log-level=WARNING,log-file=/var/log/gluster.log";
+  #   }
+  # ];
 }
 
