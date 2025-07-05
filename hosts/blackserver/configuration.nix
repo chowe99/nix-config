@@ -8,17 +8,27 @@
       ../../configs/glusterfs-mount.nix
   ];
 
+#   services.k3s = {
+#     role = "server";
+#     tokenFile = "/run/agenix/k3s-token";
+#     extraFlags = toString [
+#       "--disable=traefik"
+#       "--server https://10.1.1.249:6443"
+# # "--advertise-address=10.1.1.250"
+#         "--node-ip=10.1.1.250"
+#         "--node-name=blackserver"
+# # "--tls-san=10.1.1.250"
+# # "--tls-san=127.0.0.1"
+#     ];
+#   };
+
   services.k3s = {
-    role = "server";
+    enable = true;
+    role = "agent";
     tokenFile = "/run/agenix/k3s-token";
     extraFlags = toString [
-      "--disable=traefik"
-      "--server https://10.1.1.249:6443"
-# "--advertise-address=10.1.1.250"
-        "--node-ip=10.1.1.250"
-        "--node-name=blackserver"
-# "--tls-san=10.1.1.250"
-# "--tls-san=127.0.0.1"
+      "--server https://10.1.1.64:6443"  # Point to asusserver
+      "--node-ip=10.1.1.250"
     ];
   };
 
