@@ -6,6 +6,7 @@
       ../../configs/caddy.nix
       ../../configs/docker.nix
       ../../configs/k3s.nix
+      ../../configs/gitlab.nix
       # ../../configs/glusterfs-mount.nix
   ];
 
