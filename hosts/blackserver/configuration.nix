@@ -8,6 +8,27 @@
       # ../../configs/glusterfs-mount.nix
   ];
 
+  environment.systemPackages = with pkgs; [
+    nodejs_22
+  ];
+
+  systemd.services.keebs = {
+    description = "Keebs Next.js Application";
+    after = [ "network.target" ];
+    wantedBy = [ "multi-user.target" ];
+    serviceConfig = {
+      ExecStart = "${pkgs.nodejs_22}/bin/npm run start";
+      WorkingDirectory = "/home/${username}/keebs";
+      Restart = "always";
+      User = "git";
+      Group = "git";
+      Environment = [
+        "PORT=3008"
+        "NODE_ENV=production"
+      ];
+    };
+  };
+
 #   services.k3s = {
 #     role = "server";
 #     tokenFile = "/run/agenix/k3s-token";
@@ -65,7 +86,7 @@
 
 networking.firewall = {
   enable = true;
-  allowedTCPPorts = [ 8080 11000 1480 52631 6443 2379 2380 10250 24007 24008 49152 49153 49154 ];
+  allowedTCPPorts = [ 3008 8080 11000 1480 52631 6443 2379 2380 10250 24007 24008 49152 49153 49154 ];
   allowedUDPPorts = [ 8472 24007 24008 ];
 };
 
