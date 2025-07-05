@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nextcloud-aio
+  labels:
+    app: nextcloud-aio
+spec:
+  replicas: 2  # Run 2 replicas for HA across whiteserver and blackserver
+  selector:
+    matchLabels:
+      app: nextcloud-aio
+  template:
+    metadata:
+      labels:
+        app: nextcloud-aio
+    spec:
+      containers:
+      - name: nextcloud-aio-mastercontainer
+        image: nextcloud/all-in-one:latest
+        ports:
+        - containerPort: 8080
+        env:
+        - name: APACHE_PORT
+          value: "11000"
+        - name: APACHE_IP_BINDING
+          value: "0.0.0.0"
+        - name: NEXTCLOUD_MEMORY_LIMIT
+          value: "2048M"
+        - name: NEXTCLOUD_DATADIR
+          value: "/mnt/ncdata"  # Internal container path
+        - name: SKIP_DOMAIN_VALIDATION
+          value: "true"
+        volumeMounts:
+        - name: config
+          mountPath: /mnt/docker-aio-config
+        - name: data
+          mountPath: /mnt/ncdata
+        - name: docker-sock
+          mountPath: /var/run/docker.sock
+      volumes:
+      - name: config
+        emptyDir: {}  # Config can be ephemeral or use another PVC if needed
+      - name: data
+        persistentVolumeClaim:
+          claimName: nextcloud-pvc
+      - name: docker-sock
+        hostPath:
+          path: /var/run/docker.sock
+      nodeSelector:
+        kubernetes.io/hostname: "whiteserver" | "blackserver"  # Restrict to worker nodes
