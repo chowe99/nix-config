@@ -26,7 +26,7 @@
       "defaults"
       "acl"
       "_netdev"
-      "backupvolfile-server=10.1.1.250"  # Use blackserver as backup
+      # "backupvolfile-server=10.1.1.250"  # Use blackserver as backup
       "log-level=WARNING"
       "log-file=/var/log/gluster.log"
     ];
