@@ -100,7 +100,7 @@
       image = "ghcr.io/open-webui/open-webui:latest";
       ports = [ "8081:8080" ];
       environment = {
-        OLLAMA_BASE_URL = "http://127.0.0.1:11434";
+        OLLAMA_BASE_URL = "http://10.1.1.250:11434";
       };
       volumes = [
         "open-webui:/app/backend/data"

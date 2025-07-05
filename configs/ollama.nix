@@ -5,7 +5,7 @@
     openFirewall = true;  # Automatically open firewall ports
     loadModels = [ "devstral:latest" ];  # Load the devstral model
     acceleration = "cuda";  # Use CUDA for acceleration if available
-    # host = "0.0.0.0";  # Listen on all interfaces
+    host = "0.0.0.0";  # Listen on all interfaces
   };
 
   # Firewall rules for ollama
