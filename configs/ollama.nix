@@ -1,15 +1,10 @@
 { inputs, config, pkgs, ... }:
 {
-  environment.systemPackages = [
-   (pkgs.ollama.override { 
-      acceleration = "cuda";
-    })
-  ];
-
   services.ollama = {
     enable = true;
     openFirewall = true;  # Automatically open firewall ports
     loadModels = [ "devstral:latest" ];  # Load the devstral model
+    acceleration = "cuda";  # Use CUDA for acceleration if available
     # host = "0.0.0.0";  # Listen on all interfaces
   };
 
