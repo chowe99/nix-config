@@ -5,6 +5,7 @@
       ../../templates/server-configuration.nix
       ../../configs/k3s.nix
       ../../configs/docker.nix
+      ../../configs/ollama.nix
       # ../../configs/glusterfs-mount.nix
   ];
 
