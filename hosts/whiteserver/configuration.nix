@@ -6,7 +6,7 @@
       ../../configs/caddy.nix
       ../../configs/docker.nix
       ../../configs/k3s.nix
-      ../../configs/glusterfs-mount.nix
+      # ../../configs/glusterfs-mount.nix
   ];
 
   # services.k3s = {
