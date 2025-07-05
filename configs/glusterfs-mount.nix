@@ -14,9 +14,9 @@
   users.groups.nextcloud = {};
 
   # Create the mount directory if it doesn't exist
-  systemd.tmpfiles.rules = [
-    "d /var/lib/nextcloud/data 0750 nextcloud nextcloud - -"
-  ];
+  # systemd.tmpfiles.rules = [
+  #   "d /var/lib/nextcloud/data 0750 nextcloud nextcloud - -"
+  # ];
 
   # # Configure the mount in fstab
   # fileSystems."/var/lib/nextcloud/data" = {
