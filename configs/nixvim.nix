@@ -298,7 +298,7 @@
       avante = {
         enable = true;
         settings = {
-          provider = "copilot";
+          provider = "ollama";
           # provider = "openai";
           behaviour = { use_absolute_path = true; };
           providers = {
@@ -320,8 +320,8 @@
               };
             };
             ollama = {
-              endpoint = "http://127.0.0.1:11434";         # Note that there is no /v1 at the end.
-                model = "qwen3.5-coder:32b-instruct-q4_K_M"; # change to your desired model if necessary
+              endpoint = "http://10.1.1.250:11434";         # Note that there is no /v1 at the end.
+                model = "devstral:latest"; # change to your desired model if necessary
             };
             claude = {
               endpoint = "https://api.anthropic.com";
