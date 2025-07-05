@@ -37,16 +37,11 @@
     syntaxHighlighting.enable = true;
     oh-my-zsh = {
       enable = true;
-      theme = "simple";
       plugins = [ "git" "common-aliases" "colored-man-pages" "z" "dnf" "docker" "npm" "fzf" ];
     };
-    plugins = [
-      {
-        name = "fast-syntax-highlighting";
-        src = config.packageSet.zsh-fast-syntax-highlighting;
-        file = "share/zsh/site-functions/fast-syntax-highlighting.plugin.zsh";
-      }
-    ];
+    initExtra = ''
+      ZSH_HIGHLIGHT_STYLES[path]=fg=#8A2BE2
+      '';
   };
 
   # Custom .zshrc (overrides base)
