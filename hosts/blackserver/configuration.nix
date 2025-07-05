@@ -9,7 +9,9 @@
   ];
 
   environment.systemPackages = with pkgs; [
-    nodejs_22
+    nodejs_24
+    yarn
+    bash
   ];
 
   systemd.services.keebs = {
@@ -17,13 +19,16 @@
     after = [ "network.target" ];
     wantedBy = [ "multi-user.target" ];
     serviceConfig = {
-      ExecStart = "$(which npm) run dev";
-      WorkingDirectory = "/home/${username}/keebs/";
+      ExecStart = "${pkgs.bash}/bin/bash /home/blackserver/keebs/start-keebs.sh";
+      WorkingDirectory = "/home/blackserver/keebs/";
       Restart = "always";
+      RestartSec = "5s";
       Environment = [
         "PORT=3008"
         "NODE_ENV=development"
       ];
+      User = "blackserver";
+      Group = "users";
     };
   };
 
