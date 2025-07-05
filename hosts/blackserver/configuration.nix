@@ -10,30 +10,6 @@
       # ../../configs/glusterfs-mount.nix
   ];
 
-  environment.systemPackages = with pkgs; [
-    nodejs_24
-    yarn
-    bash
-  ];
-
-  systemd.services.keebs = {
-    description = "Keebs Next.js Application";
-    after = [ "network.target" ];
-    wantedBy = [ "multi-user.target" ];
-    serviceConfig = {
-      ExecStart = "${pkgs.bash}/bin/bash /home/${username}/keebs/start-keebs.sh";
-      WorkingDirectory = "/home/${username}/keebs/";
-      Restart = "always";
-      RestartSec = "5s";
-      Environment = [
-        "PORT=3008"
-        "NODE_ENV=development"
-      ];
-      User = "${username}";
-      Group = "users";
-    };
-  };
-
 #   services.k3s = {
 #     role = "server";
 #     tokenFile = "/run/agenix/k3s-token";
