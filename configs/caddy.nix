@@ -35,7 +35,7 @@
     '';
 
     virtualHosts."git.howse.top".extraConfig = ''
-      reverse_proxy 10.1.1.250:1480
+      reverse_proxy 10.1.1.249:1480
     '';
 
     virtualHosts."cloud.howse.top".extraConfig = ''
@@ -58,7 +58,7 @@
     '';
 
     virtualHosts."ollama.howse.top".extraConfig = ''
-      reverse_proxy 10.1.1.249:11434
+      reverse_proxy 10.1.1.250:11434
     '';
 
     virtualHosts."searx.howse.top".extraConfig = ''
@@ -68,7 +68,7 @@
     '';
 
     virtualHosts."shop.howse.top".extraConfig = ''
-      reverse_proxy 10.1.1.249:3008
+      reverse_proxy 10.1.1.250:3008
     '';
 
     # virtualHosts."http://ho.howse.top:80".extraConfig = ''
