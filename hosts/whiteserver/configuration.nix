@@ -103,7 +103,7 @@
         OLLAMA_BASE_URL = "http://10.1.1.250:11434";
       };
       volumes = [
-        "open-webui:/app/backend/data"
+        "/mnt/nas/open-webui:/app/backend/data"
       ];
       extraOptions = [
         "--network=server_network"
