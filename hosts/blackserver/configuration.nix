@@ -17,7 +17,7 @@
     after = [ "network.target" ];
     wantedBy = [ "multi-user.target" ];
     serviceConfig = {
-      ExecStart = "${pkgs.nodejs_22}/bin/npm run dev";
+      ExecStart = "$(which npm) run dev";
       WorkingDirectory = "/home/${username}/keebs/";
       Restart = "always";
       Environment = [
