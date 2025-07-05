@@ -6,6 +6,7 @@
       ../../configs/k3s.nix
       ../../configs/docker.nix
       ../../configs/ollama.nix
+      ../../configs/nvidia.nix
       # ../../configs/glusterfs-mount.nix
   ];
 
