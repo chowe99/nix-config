@@ -68,7 +68,7 @@
     '';
 
     virtualHosts."shop.howse.top".extraConfig = ''
-      reverse_proxy 10.1.1.250:3008
+      reverse_proxy 10.1.1.249:3008
     '';
 
     # virtualHosts."http://ho.howse.top:80".extraConfig = ''
