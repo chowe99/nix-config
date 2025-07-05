@@ -75,6 +75,8 @@
     enable = true;
     xwayland.enable = true;
   };
+  programs.hyprlock.enable = true;
+
   # Enable the SDDM display manager.
   services.displayManager.sddm.enable = true;
   services.displayManager.sddm.wayland.enable = true;
@@ -145,7 +147,7 @@
     vim wget git
     waybar wofi swaylock swayidle
     hyprpolkitagent
-    xdg-desktop-portal-hyprland kitty hyprshot
+    xdg-desktop-portal-hyprland kitty hyprshot hyprlock
     iwgtk blueman pipewire wireplumber pavucontrol helvum
     lunarvim oh-my-posh wl-clipboard wl-clipboard-rs
     killall

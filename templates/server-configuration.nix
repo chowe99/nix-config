@@ -120,6 +120,8 @@ in
     xwayland.enable = true;
   };
 
+  programs.hyprlock.enable = true;
+
   services.displayManager.sddm.enable = true;
   services.displayManager.sddm.wayland.enable = true;
   services.displayManager.sddm.autoLogin.relogin = true;
@@ -150,7 +152,7 @@ in
   environment.systemPackages = with pkgs; [
     vim wget git
     wofi swaylock swayidle
-    kitty superfile hyprshot
+    kitty superfile hyprshot 
     iwgtk blueman pipewire wireplumber pavucontrol helvum
     lunarvim oh-my-posh wl-clipboard wl-clipboard-rs
     killall
