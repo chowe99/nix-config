@@ -164,7 +164,7 @@
 
   networking.firewall = {
     enable = true;
-    allowedTCPPorts = [ 55028 6443 2379 2380 10250 24007 24008 49152 49153 49154 ];
+    allowedTCPPorts = [ 8080 11000 55028 6443 2379 2380 10250 24007 24008 49152 49153 49154 ];
     allowedUDPPorts = [ 8472 24007 24008 ];
   };
   networking.hosts = {
