@@ -4,6 +4,7 @@
        ./hardware-configuration.nix
        ../../templates/server-configuration.nix
        ../../configs/k3s.nix
+      ../../configs/glusterfs-mount.nix
      ];
 
      services.k3s = {
