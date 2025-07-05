@@ -126,14 +126,14 @@ in
         file = "share/zsh-autosuggestions/zsh-autosuggestions.zsh";
       }
       {
-        name = "zsh-syntax-highlighting";
-        src = config.packageSet.zsh-syntax-highlighting;
-        file = "share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh";
-      }
-      {
         name = "fast-syntax-highlighting";
         src = config.packageSet.zsh-fast-syntax-highlighting;
         file = "share/zsh/site-functions/fast-syntax-highlighting.plugin.zsh";
+      }
+      {
+        name = "zsh-syntax-highlighting";
+        src = config.packageSet.zsh-syntax-highlighting;
+        file = "share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh";
       }
       ];
     };
