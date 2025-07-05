@@ -20,8 +20,6 @@
       ExecStart = "${pkgs.nodejs_22}/bin/npm run dev";
       WorkingDirectory = "/home/${username}/keebs/";
       Restart = "always";
-      User = "git";
-      Group = "git";
       Environment = [
         "PORT=3008"
         "NODE_ENV=development"
