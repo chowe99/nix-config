@@ -37,4 +37,4 @@
     allowedTCPPorts = [ 1480 2222 ];
   };
 
-};
+}
