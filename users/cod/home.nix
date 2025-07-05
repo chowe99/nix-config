@@ -1,5 +1,4 @@
 { config, pkgs, lib, inputs, username, hostname, ... }:
-
 {
   # Import the base configuration
   imports = [
