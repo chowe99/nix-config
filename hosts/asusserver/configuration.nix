@@ -5,6 +5,7 @@
       ../../templates/server-configuration.nix
       ../../configs/k3s.nix
       ../../configs/caddy.nix
+      ../../configs/nvidia.nix
       # ../../configs/glusterfs-mount.nix
   ];
 
