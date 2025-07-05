@@ -27,7 +27,7 @@ in
 
     home.packages = with pkgs; [
       (pkgs.writeShellScriptBin "cat-files" (builtins.readFile ../scripts/cat-files.sh))
-      htop fastfetch btop tree home-manager lsd
+      htop fastfetch btop-cuda tree home-manager lsd
     ];
 
 
