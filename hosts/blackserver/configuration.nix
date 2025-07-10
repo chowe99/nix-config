@@ -7,7 +7,7 @@
       ../../configs/docker.nix
       ../../configs/ollama.nix
       ../../configs/nvidia.nix
-      ../../configs/stable-diffusion.nix
+      # ../../configs/stable-diffusion.nix
       # ../../configs/glusterfs-mount.nix
   ];
 
