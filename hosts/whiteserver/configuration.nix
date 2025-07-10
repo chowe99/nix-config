@@ -217,10 +217,10 @@
   networking.firewall = {
     enable = true;
     allowedTCPPorts = [ 
-      8080 
+      8080 # nextloud aio mastercontainer
       8081 
-      8082 
-      11000 
+      8082 # ntfy
+      # 11000 # nextcloud 
       55028 
       6443 
       2379 
