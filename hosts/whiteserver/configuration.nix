@@ -231,6 +231,7 @@
       49152 
       49153 
       49154 
+      3008 # Keebs website
     ];
     allowedUDPPorts = [ 
       8472 
