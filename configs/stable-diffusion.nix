@@ -8,11 +8,16 @@
 
     serviceConfig = {
       WorkingDirectory = "/home/${username}/stable-diffusion-webui";
-      ExecStart = "${pkgs.nix}/bin/nix-shell --run './webui.sh --listen --api --medvram '";
+      ExecStart = ["nix-shell /home/${username}/stable-diffusion-webui/shell.nix" "/home/${username}/stable-diffusion-webui/webui.sh --listen --api"];
       Restart = "always";
       RestartSec = 10;
-      User = "${username}";  # Run as the specified user
+      User = "${username}";
       Group = "users";
+      Environment = [
+        "CUDA_PATH=${pkgs.cudatoolkit}"
+        "CUDA_HOME=${pkgs.cudatoolkit}"
+        "NIXPKGS_ALLOW_UNFREE=1"
+      ];
     };
   };
 }
