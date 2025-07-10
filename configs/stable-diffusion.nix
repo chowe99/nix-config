@@ -8,7 +8,7 @@
 
     serviceConfig = {
       WorkingDirectory = "/home/${username}/stable-diffusion-webui";
-      ExecStart = ["nix-shell /home/${username}/stable-diffusion-webui/shell.nix" "/home/${username}/stable-diffusion-webui/webui.sh --listen --api"];
+      ExecStart = "${pkgs.nix}/bin/nix-shell /home/${username}/stable-diffusion-webui/shell.nix --command '/home/${username}/stable-diffusion-webui/webui.sh --listen --api'";
       Restart = "always";
       RestartSec = 10;
       User = "${username}";
@@ -17,6 +17,7 @@
         "CUDA_PATH=${pkgs.cudatoolkit}"
         "CUDA_HOME=${pkgs.cudatoolkit}"
         "NIXPKGS_ALLOW_UNFREE=1"
+        "NIX_PATH=nixpkgs=flake:nixpkgs:/nix/var/nix/profiles/per-user/root/channels"
       ];
     };
   };
