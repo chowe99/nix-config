@@ -40,6 +40,7 @@
 networking.firewall = {
   enable = true;
   allowedTCPPorts = [ 
+    7860 # Stable Diffusion WebUI
     8080 
     11000 
     52631 
