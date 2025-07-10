@@ -15,6 +15,12 @@
         alias la='ls -a'
         alias lla='ls -la'
         alias lt='ls --tree'
+        alias g='git'
+        alias gs='git status'
+        alias ga='git add'
+        alias gc='git commit -m'
+        alias gp='git push'
+
         fastfetch
         if [[ -f /run/agenix/openai-api-key ]]; then
           export OPENAI_API_KEY=$(cat /run/agenix/openai-api-key)
