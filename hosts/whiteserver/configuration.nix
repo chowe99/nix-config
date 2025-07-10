@@ -216,8 +216,27 @@
 
   networking.firewall = {
     enable = true;
-    allowedTCPPorts = [ 8080 8081 8082 11000 55028 6443 2379 2380 10250 24007 24008 49152 49153 49154 ];
-    allowedUDPPorts = [ 8472 24007 24008 ];
+    allowedTCPPorts = [ 
+      8080 
+      8081 
+      8082 
+      11000 
+      55028 
+      6443 
+      2379 
+      2380 
+      10250 
+      24007 
+      24008 
+      49152 
+      49153 
+      49154 
+    ];
+    allowedUDPPorts = [ 
+      8472 
+      24007 
+      24008 
+    ];
   };
   networking.hosts = {
     "10.1.1.250" = [ "blackserver" ];
