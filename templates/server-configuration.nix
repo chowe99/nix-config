@@ -188,11 +188,6 @@ in
   ];
 
   services.openssh.enable = true;
-  networking.firewall = {
-    enable = true;
-    allowedTCPPorts = [ 22 2222 80 443 3000 3030 24007 24008 49152 49153 49154 ];
-    allowedUDPPorts = [ 24007 24008 ];
-  };
 
   security.sudo = {
     enable = true;
